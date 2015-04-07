@@ -1,0 +1,30 @@
+<extend name="Common:base" />
+
+<block name="main">
+<div class="am-g">
+
+<div class="am-u-lg-6 am-u-md-8 am-u-sm-10 am-u-sm-centered">
+	<br />
+  <h3>登录</h3>
+  <hr>
+  <form method="post" class="am-form" data-am-validator>
+  	<fieldset>
+	    <label for="nickname">用户名:</label>
+	    <input type="text" name="nickname" id="nickname" value="{$Think.cookie.user_id|get_nickname}" minlength="2" maxlength="24">
+	    <br />
+	    <label for="passwd">密码:</label>
+	    <input type="password" name="password" id="passwd" value="" minlength="6" maxlength="16">
+	    <br />
+			<label for="remember-me">
+			<input id="remember-me" type="checkbox" name="remember-me" value="1"> 记住我 </label>
+	    <div class="am-cf">
+	      <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-fr">
+	      <a class="am-btn am-btn-default am-fl" href="{:U('Login/sign')}">没有帐号 ^_^?</a>
+	    </div>
+    </fieldset>
+  </form>
+  <hr>
+</div>
+
+</div>
+</block>

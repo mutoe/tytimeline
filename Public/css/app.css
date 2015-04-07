@@ -1,0 +1,136 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+html {
+  overflow-x: hidden;
+}
+footer {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+.am-topbar {
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+}
+ul.am-dropdown-content {
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+}
+ul.am-dropdown-content > li > a {
+  color: white;
+}
+ul.am-dropdown-content:after {
+  top: -7px;
+  border-bottom-color: rgba(0, 0, 0, 0.8);
+}
+.am-nav li a {
+  color: white;
+}
+.am-nav li a:hover,
+.am-nav li a:focus {
+  background-color: #222;
+}
+#returnTop {
+  _display: none;
+  position: fixed;
+  _position: absolute;
+  z-index: 99;
+  right: 35px;
+  bottom: -200px;
+  _bottom: auto;
+  width: 36px;
+  height: 65px;
+  text-indent: -999px;
+  overflow: hidden;
+  background-image: url(../img/gotoTop.png);
+  _background-image: url(../img/gotoTop.png);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  transition: bottom 0.9s;
+  -webkit-transition: bottom 0.9s;
+  -moz-transition: bottom 0.9s;
+  -o-transition: bottom 0.9s;
+}
+#returnTop:hover {
+  background-position: 0 -65px;
+}
+#pubu {
+  margin: 0 auto;
+  position: relative;
+}
+.box {
+  width: 260px;
+  height: auto;
+  float: left;
+}
+.box .pic {
+  position: relative;
+  height: auto;
+  margin: 15px 15px 0 0;
+  z-index: 10;
+}
+.box .pic img {
+  display: block;
+  width: 260px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.picbox {
+  padding: 10px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.picbox img {
+  vertical-align: top;
+}
+.pic-ctrl {
+  width: 100%;
+  display: none;
+  position: absolute;
+  top: 0px;
+  height: 0;
+}
+.pic-ctrl ul {
+  padding: 0;
+  margin: 0;
+}
+.pop_tit {
+  width: 100%;
+  padding: 10px 10px 5px 10px;
+  background: url(../img/zp_titbg.gif) no-repeat 0px 0px rgba(255, 255, 255, 0.8);
+  background-size: 100%;
+  display: none;
+  z-index: 15;
+  position: absolute;
+  top: 0px;
+}
+.p_tit1 {
+  line-height: 20px;
+  color: #ffffff;
+  font-size: 1.4rem;
+  padding-right: 18px;
+}
+.p_tit2 {
+  position: absolute;
+  top: 50px;
+  line-height: 15px;
+  color: #0D86C4;
+  font-size: 12px;
+}
+.p_author {
+  margin-top: 4px;
+}
+#top-banner {
+  position: relative;
+  margin-bottom: 0;
+}
+#top-banner p {
+  position: absolute;
+  bottom: 30px;
+  right: 50px;
+}
+.nav-welcome-info {
+  padding-top: 0.25rem;
+  padding-right: 0.4rem;
+}
+/*# sourceMappingURL=app.css.map */

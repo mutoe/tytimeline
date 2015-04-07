@@ -1,0 +1,44 @@
+<extend name="Common:base" />
+
+<block name='css'>
+<style type="text/css">
+	ul.am-thumbnails > li > .media {height: 200px;overflow: hidden;}
+	body{background-image: url(__PUBLIC__/img/tag.png);}
+</style>
+</block>
+
+<block name="main">
+<div class="am-g am-g-fixed">
+
+<br />
+<div class="am-u-sm-centered am-u-sm-12">
+	<ul class="am-avg-sm-1 am-avg-lg-2 am-thumbnails">
+	<foreach name="tag" item="vo" key="k" >
+		<li>
+			<div class="am-panel am-panel-secondary">
+  			<div class="am-panel-hd">{$vo.tag_id|get_tag} <span class="am-badge am-badge-primary am-text-xs">{$vo.total_share}</span></div>
+				<div class="am-panel-bd">
+					<ul class="am-avg-sm-2 am-thumbnails">
+					<volist name="share[$k]" id="s">
+						<li><div class="media"><img src="__PUBLIC__/{$s.savepath}t_{$s.savename}" width="200" /></div></li>
+					</volist>
+					</ul>
+				</div>
+			</div>
+		</li>
+	</foreach>
+	</ul>
+</div>
+
+</div>
+</block>
+
+<block name='js'>
+<script type="text/javascript">
+	var color = ["am-panel-secondary","am-panel-warning","am-panel-success","am-panel-danger",""];
+	$(".am-panel").each(function () {
+		var c = Math.floor(Math.random() * color.length + 1) - 1;
+		$(this).addClass(color[c]);
+	});
+</script>
+</block>

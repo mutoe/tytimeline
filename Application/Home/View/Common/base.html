@@ -1,0 +1,134 @@
+<!doctype html>
+<block name='html'>
+<html class="no-js">
+</block>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="天佑时光轴 - 天佑app">
+  <meta name="keywords" content="tianyou ty 天佑 时光轴">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{$page['title']|default="天佑时光轴 - 天佑app"}</title>
+
+  <link rel="icon" type="image/png" href="__PUBLIC__/i/favicon.png" />
+
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.css" />
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/app.css" />
+  <block name="css"></block>
+
+	<!--[if lte IE 9]>
+	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+	<![endif]-->
+	<!--[if (gte IE 9)|!(IE)]><!-->
+	<block name="jq">
+  <script src="__PUBLIC__/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</block>
+	<!--<![endif]-->
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a> 以获得更好的体验！</p>
+<![endif]-->
+
+<block name="banner"></block>
+
+<header id="head-topbar" class="am-topbar" <block name='top-fixed'>data-am-sticky</block> >
+  <h1 class="am-topbar-brand am-hide-md-only" style="color: white;">天佑时光轴</h1>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}">
+  	<span class="am-sr-only">导航切换</span>
+		<span class="am-icon-bars"></span>
+  </button>
+  <if condition="!session('?user_id')">
+		<a class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-primary am-show-sm-only" href="{:U('Login/index')}"><span class="am-icon-user" style="color: white;"></span></a>
+  <else />
+		<a class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-danger am-show-sm-only" href="{:U('Shard/add')}"><span class="am-icon-camera" style="color: white;"></span></a>
+  </if>
+
+  <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li class="header-Index am-hide-lg-only"><a href="{:U('Index/index')}"><i class="am-icon-home"></i> 天佑时光轴</a></li>
+      <li class="header-Index am-show-lg-only"><a href="{:U('Index/index')}"><i class="am-icon-home"></i> 首页</a></li>
+      <li class="header-Ground"><a href="{:U('Ground/index')}"><i class="am-icon-leaf"></i> 广场</a></li>
+      <li class="header-Tag"><a href="{:U('Tag/index')}"><i class="am-icon-tags"></i> 标签</a></li>
+      <li class="header-Time"><a href="{:U('Time/index')}"><i class="am-icon-clock-o"></i> 时光</a></li>
+    </ul>
+
+    <form class="am-topbar-form am-topbar-right am-form-inline am-show-lg-only" role="search" >
+      <div class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+      </div>
+    </form>
+
+    <div class="am-topbar-right am-form-inline">
+      <div class="am-dropdown am-hide-sm-only" data-am-dropdown="{boundary: '.am-topbar'}">
+        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-dropdown-toggle" data-am-dropdown-toggle>
+        	其他 <span class="am-icon-caret-down"></span>
+        </button>
+        <ul class="am-dropdown-content">
+        	<li><a href="{:U('Shard/random')}"><i class="am-icon-cube"></i> 试试手气</a></li>
+        <if condition="!session('?user_id')">
+        	<li><a href="{:U('Login/sign')}"><i class="am-icon-terminal"></i> 注册</a></li>
+        <else />
+        <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
+          <li><a href="{:U('Admin/index')}"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
+        </if>
+          <li><a href="{:U('User/index')}"><i class="am-icon-user"></i> 个人中心</a></li>
+          <li><a href="{:U('User/logout')}"><i class="am-icon-sign-out"></i> 安全退出</a></li>
+        </if>
+          <li><a href="http://ty.cqjtu.edu.cn/story/"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="am-topbar-right am-hide-sm-only" >
+    <if condition="session('?user_id')">
+    	<span class="am-topbar-btn am-btn-sm am-btn" style="color: white;">
+				<a style="color: #0D86C4;">{:get_usergroup(0,0)}</a> {:get_nickname()}
+    	</span>
+  	</if>
+  	<if condition="!session('?user_id')">
+    	<a class="am-btn am-btn-primary am-topbar-btn am-btn-sm" href="{:U('Login/index')}" style="color: white;"><i class="am-icon-sign-in"></i> 登录</a>
+  	<else />
+  		<a href="{:U('Shard/add')}" class="am-btn am-btn-danger am-topbar-btn am-btn-sm" style="color: white;"><i class="am-icon-camera"></i> 时光</a>
+  	</if>
+    </div>
+  </div>
+</header>
+
+
+<block name="main"></block>
+
+
+<a id="returnTop">回到顶部</a>
+
+<block name="footer">
+<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer style="margin-top: 3rem;">
+  <div class="am-footer-miscs">
+    <p>CopyRight©2015 <a href="http://ty.cqjtu.edu.cn/story/" title="天佑工作室" target="_blank" class="">TianYou Network Studio</a>.</p>
+    <!--<p>京ICP备13033158</p>-->
+  </div>
+</footer>
+</block>
+
+<!--[if lt IE 9]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="__PUBLIC__/js/amazeui.legacy.min.js"></script>
+<script src="__PUBLIC__/js/polyfill/rem.min.js"></script>
+<script src="__PUBLIC__/js/polyfill/respond.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/js/amazeui.js" type="text/javascript" charset="utf-8"></script>
+<!--<![endif]-->
+
+<script src="__PUBLIC__/js/app.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+(function($) {
+	$(".header-{$Think.CONTROLLER_NAME}").addClass('am-active');
+})(jQuery);
+</script>
+<block name="js"></block>
+
+</body>
+
+</html>

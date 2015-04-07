@@ -1,0 +1,112 @@
+<extend name="Common:base" />
+
+<block name="main">
+<div class="am-g">
+
+<br />
+<div class="am-cf am-padding am-u-sm-6 am-u-sm-centered">
+	<div class="am-fl am-cf">
+		<strong class="am-text-primary am-text-lg">注册会员</strong> / <small>Member Registration</small>
+	</div>
+</div>
+<hr/>
+<div class="am-u-sm-12 am-u-md-8 am-u-md-centered">
+	<form name="sign" class="am-form am-form-horizontal" id="form1" method="post" action='{:U("login/checkSign")}' data-am-validator>
+		<fieldset>
+
+	    <div class="am-form-group">
+	      <label for="doc-vld-email-2">邮箱：</label><label style="color: #DD514C;" id="emailAllow"></label>
+	      <input type="email" id="email" name="email" placeholder="输入邮箱" required/>
+	    </div>
+
+	    <div class="am-form-group">
+      	<label for="doc-vld-ajax-count">用户名：</label><label style="color: #DD514C;" id="nameAllow"></label>
+      	<input type="text"  name="nickname" minlength="1" maxlength="12" id="nickname" placeholder="输入用户名（ 1-12 个字符）"/>
+
+    	</div>
+
+			<div class="am-form-group">
+	      <label for="doc-vld-password-2">密码：</label>
+	      <input type="password" id="doc-vld-password-2" name="password" minlength="6" maxlength="16" required placeholder="( 6-16 个字符)"/>
+	    </div>
+
+			<div class="am-form-group">
+				<label for="remember-me">
+					<input id="remember-me" disabled type="checkbox" checked> 同意用户协议 </label>
+				<small>哪有用户协议。。。- -|| 不要干坏事</small>
+			</div>
+
+			<div class="am-form-group">
+				<button type="submit" class="am-btn am-btn-success" id="confirm" onclick="return checkSubmit()">确认注册</button>
+				<button type="button" class="am-btn">重填</button>
+			</div>
+	  </fieldset>
+	</form>
+</div>
+
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+	//焦点定在名称框
+	window.onload = function() {
+		$('#email').focus();
+	}
+	var nameAllow = 0;
+	var emailAllow = 0;
+	var checkName = function () {
+		//名称合法 检测重复
+		$.post('{:U("login/checkName")}', {
+			'nickname': $('#nickname').val()
+		}, function(data) {
+			console.log(data);
+			if (data.status == 1) {
+				nameAllow = 1;
+				$('#nameAllow').text('');
+			} else {
+				nameAllow = 0;
+				$('#nameAllow').text('用户名"' + $('#nickname').val() + '"被使用！');
+			}
+		}, 'json');
+	}
+	var checkEmail = function () {
+		//名称合法 检测重复
+		$.post('{:U("login/checkEmail")}', {
+			'email': $('#email').val()
+		}, function(data) {
+			console.log(data);
+			if (data.status == 1) {
+				emailAllow = 1;
+				$('#emailAllow').text('');
+			} else {
+				emailAllow = 0;
+				$('#emailAllow').text('邮箱"' + $('#email').val() + '"被使用！');
+			}
+		}, 'json');
+	}
+$(function() {
+	$("#nickname").blur(function() {
+		checkName();
+  });
+  $("#email").blur(function() {
+		checkEmail();
+  });
+});
+function checkSubmit () {
+	checkName();
+	if(nameAllow) {
+		checkEmail();
+		if(emailAllow){
+			return true;
+		} else {
+			$('#emailAllow').text('邮箱"' + $('#email').val() + '"被使用！');
+			return false;
+		}
+	} else {
+		$('#nameAllow').text('用户名"' + $('#nickname').val() + '"被使用！');
+		return false;
+	}
+}
+</script>
+</block>

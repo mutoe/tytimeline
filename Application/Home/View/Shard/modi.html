@@ -1,0 +1,96 @@
+<extend name="Common:base" />
+
+<block name="main">
+<div class="am-g">
+
+	<br /><br />
+	<form class="am-form" method="post">
+		<fieldset>
+			<div class="am-u-sm-10 am-u-md-8 am-u-lg-6 am-u-sm-centered">
+				<div class="am-form-group" id="ajax-pv">
+					<img id="p_img" width="254" src="__PUBLIC__/{$data.savepath}t_{$data.savename}" />
+					<p><label style="color: #DD514C;">时光碎片<span id="help_inline">{$data.share_id}</span></label></p>
+					<div class="am-form-group">
+						<input type="hidden" name="share_id" id="share_id" value="{$data.share_id}" />
+						<label for="doc-ipt-email-1">标签</label><span class="am-text-xs">  标签间用空格隔开 短语空格请使用下划线&quot;_&quot;代替</span>
+						<input type="text" class="" name="tag_id" id="doc-ipt-tag" placeholder="非必填" value="{$data.tag_id|get_tag}">
+						<small style="color: #0D86C4;">请不要超过 7 个标签；每个标签 12 个字以内；</small>
+					</div>
+					<div class="am-form-group">
+						<label for="doc-ta-1">说点什么</label>
+						<textarea class="" rows="2" name="detail" id="doc-ipt-detail" placeholder="非必填，255 字以内">{$data.detail}</textarea>
+					</div>
+					<div class="am-cf">
+						<a id="datetime" class="am-badge am-badge-secondary am-radius am-fl am-text-sm am-animation-shake" style="color: white;" onClick="WdatePicker({el:'datetime'})">
+						<if condition="empty($data['time'])">
+							{:date('Y-m-d H:i:s',time())}
+						<else />
+							{$data.time|time_format}
+						</if>
+						</a> <span class="am-text-sm am-text-warning">&nbsp; ← 点击此处有惊喜</span>
+						<button type="button" class="am-btn am-fr am-btn-danger" onclick="return modi();">提交</button>
+					</div>
+				</div>
+
+			</div>
+		</fieldset>
+	</form>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">天佑时光轴</div>
+    <div class="am-modal-bd" id="alert-info">
+      上传失败了 (⊙o⊙)噢！No!<br />
+      <small style="color: #DD514C;">参考可能原因：<span id="alert-error-info"></span></small>
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" id="alert-btn">好吧</span>
+    </div>
+  </div>
+</div>
+
+</div>
+</block>
+
+<block name="js">
+<script src="__PUBLIC__/js/My97DatePicker/WdatePicker.js" language="javascript" type="text/javascript"></script>
+<script type="text/javascript">
+function modi() {
+	$(document).ready(function(){
+		var options = {
+			url: "{:U('Shard/modi')}",
+			type: 'POST',
+			data:{
+				share_id: parseInt($("#help_inline").text()),
+				tag_id: $("#doc-ipt-tag").val(),
+				detail: $("#doc-ipt-detail").val(),
+				time: $("#datetime").text()
+			},
+			success: function(data) {
+				if(data.status) {
+					console.log(data.info);
+					//alert成功
+					$("#alert-btn").text('哦也 XD');
+					$("#alert-info").html('<span style="color: #4DB14D;">碎片信息修改成功了！</span>');
+					$("#my-alert").modal('open');
+					window.location.href = "{:U('detail')}?id="+$("#help_inline").text();
+				} else {
+					console.log(data.info);
+					$("#alert-info").html('上传失败了 (⊙o⊙)噢！No!<br /><small style="color: #DD514C;">参考可能原因：<span id="alert-error-info"></span></small>');
+					$("#alert-error-info").text(data.info);
+					$('#my-alert').modal('open');
+				}
+			},
+			error: function(data) {
+				console.log(data.info);
+				$("#alert-info").html('上传失败了 (⊙o⊙)噢！No!<br /><small style="color: #DD514C;">参考可能原因：<span id="alert-error-info"></span></small>');
+				$("#alert-error-info").text(data.info);
+				$('#my-alert').modal('open');
+			}
+		};
+		$.ajax(options);
+		return false;//为了防止刷新
+	});
+}
+</script>
+</block>

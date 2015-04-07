@@ -1,0 +1,82 @@
+<extend name='Common:base' />
+
+<block name='css'>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/timeline-v2.css"/>
+<style type="text/css">
+		body{background-image: url(__PUBLIC__/img/time.png);}
+</style>
+</block>
+
+<block name='top-fixed'></block>
+
+{$list|dump}
+{$data1|dump}
+<block name='main'>
+<div class="am-g am-g-fixed">
+
+<div class="am-u-sm-12 top"></div>
+
+<div class="am-u-sm-12 container">
+	<div class="am-u-md-1 am-g-collapse">
+		<div class="scrubber" data-am-scrollspy-nav="{className: {active: 'current'}}" data-am-sticky="{top:30}">
+			<foreach name="list" key="year" item="vo">
+			<a class="year" onclick="javascript:show_year('{$year}',this);">{$year}</a>
+				<volist name="vo" id="month">
+				<a class="month" onclick="javascript:show_month('{$year}','{$month}',this);">{$month}月</a>
+				</volist>
+			</foreach>
+		</div>
+	</div>
+	<div class="am-u-md-11 content">
+<foreach name="list" key="year" item="vo">
+		<div class="content_year" id="spy_{$year}">{$year}</div>
+	<volist name="vo" id="month">
+		<div class="content_month" id="spy_{$year}{$month}">{$month}月</div>
+		<volist name="data" id="per_month">
+			<volist name="per_month" id="meta">
+				<if condition="$meta['month'] eq $year.$month">
+		<div class="content_item">
+			<div class="arrow"></div>
+			<div class="dot">
+				<div class="dot_child"></div>
+			</div>
+			<div class="head">
+				<div class="title">
+					<div class="lunar">时<br />&nbsp;&nbsp;&nbsp;光</div>
+					{$meta.time|time_format="m月d日 h:i a."}
+				</div>
+				<div class="tag">
+					{$meta.tag_id|show_tag}
+				</div>
+			</div>
+			<div class="media">
+				<img src="__PUBLIC__/{$meta.savepath}t_{$meta.savename}" width="370"/>
+			</div>
+			<div class="footer">
+				<div class="intro">
+					<if condition="$meta['detail'] neq ''">
+					<i class="icon quote_l"></i>
+					{$meta.detail}
+					<i class="icon quote_r"></i>
+					</if>
+				</div>
+				<div class="info">
+					<a href="" title="赞"><i class="icon-like"> </i>(2199)</a>
+					<a href="" title="评论"><i class="icon-comment"> </i>(199)</a>
+				</div>
+				<div class="like">2.5万人觉得很赞</div>
+			</div>
+		</div>
+				</if>
+			</volist>
+		</volist>
+	</volist>
+</foreach>
+	</div>
+</div>
+</div>
+</block>
+
+<block name='js'>
+<script src="__PUBLIC__/js/tytl.js" type="text/javascript" charset="utf-8"></script>
+</block>

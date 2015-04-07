@@ -1,0 +1,119 @@
+<extend name="Common:base" />
+
+<block name='css'>
+<style type="text/css">
+	.media{max-height: 150px;overflow: hidden;}
+</style>
+</block>
+
+<block name="main">
+<div class="am-g">
+
+<h2 style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">时光碎片 {$data.share_id}</h2>
+<div style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">
+  <div class="am-u-md-8">
+  	<p class="am-text-sm am-fl">@{$data.user_id|get_nickname} 发表于{$data.create_time|get_timing}前</p>
+  	{//如果是自己的分享或管理员，显示控制栏}
+  	<if condition="$data['user_id'] eq is_login() or get_auth('delete')">
+    <div class="am-btn-group am-btn-group-xs am-fr">
+		  <a href="{:U('Shard/modi','share_id='.I('get.id'))}" class="am-btn am-radius am-btn-secondary">修改</a>
+		  <a id="del" class="am-btn am-radius">删除</a>
+		</div>
+  	</if>
+		<img src="__PUBLIC__/{$data.savepath}{$data.savename}"/>
+  	<h5>{$data.tag_id|show_tag}</h5>
+		<p>{$data.detail}</p>
+
+
+    <hr class="am-article-divider blog-hr">
+
+		<!-- 多说评论框 start -->
+		<div data-am-widget="duoshuo" class="am-duoshuo am-duoshuo-default" data-ds-short-name="tianyou">
+		  <div class="ds-thread" data-thread-key="{$data.user_id}-{$data.share_id}" data-title="时光碎片 {$data.share_id}" data-url="/share/id/{$data.share_id}"></div>
+		</div>
+		<!-- 多说评论框 end -->
+		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+		<script type="text/javascript">
+		var duoshuoQuery = {short_name:"tianyou"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+		</script>
+		<!-- 多说公共JS代码 end -->
+
+  </div>
+
+  <div class="am-u-md-4 blog-sidebar">
+    <div class="am-panel-group">
+      <section class="am-panel am-panel-default">
+        <div class="am-panel-hd">
+        	<span class="am-badge-primary am-badge">{$data.user_id|get_usergroup=0}</span> <a href="">@{$data.user_id|get_nickname}</a><br />
+        	<span class="am-text-sm">关注：{$user.like|default='0'} 粉丝：{$user.be_like} 分享：{$user.total_share}</span>
+        </div>
+        <div class="am-panel-bd">
+          <p>{$user.detail|default="碎片主人很懒，什么也没有留下。"}</p>
+          <a class="am-btn am-btn-success am-btn-xs" href="#">查看更多信息 →</a>
+        </div>
+      </section>
+
+      <section class="am-panel am-panel-default">
+        <div class="am-panel-hd">近期分享</div>
+        <div class="am-panel-bd">
+          <ul class="am-avg-sm-2 blog-team">
+          <volist name="near" id="vo">
+            <li><div class="media"><a href="{:U('detail','id='.$vo['share_id'])}"><img class="am-thumbnail" width="150" src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" alt="{$vo.detail}"/></a></div></li>
+          </volist>
+
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">天佑时光轴</div>
+    <div class="am-modal-bd">
+      你，确定要删除这条记录吗？
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>不不不</span>
+      <span class="am-modal-btn" data-am-modal-confirm style="color: #dd514c;"><i class="am-icon-remove"></i> 无情删除</span>
+    </div>
+  </div>
+</div>
+
+</div>
+</block>
+
+<block name='js'>
+<script type="text/javascript">
+$(function() {
+  $('#del').on('click', function() {
+  	var share_id = {:I('get.id')};
+    $('#my-confirm').modal({
+      relatedTarget: this,
+      onConfirm: function(options) {
+        $.ajax({
+        	url: "{:U('Shard/del')}",
+        	data: {'share_id': share_id},
+        	success: function(data) {
+        		if(data.status){
+        			alert('删除成功');
+          		window.location.href = "{:U('Index/index')}";
+        		} else {
+        			alert(data.info);
+        		}
+        	}
+        });
+      }
+    });
+  });
+});
+</script>
+</block>

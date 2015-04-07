@@ -1,0 +1,50 @@
+<extend name='Common:base' />
+
+<block name='main'>
+
+<div class="admin-content">
+
+<div class="am-cf am-padding">
+	<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">基本信息</strong> / <small>Base Information</small>
+	</div>
+</div>
+
+<ul class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
+	<li><a href="#" class="am-text-success"><span class="am-icon-btn am-icon-file-text"></span><br/><small>近7日</small>新增拼图<br/>{$data.picCount}</a></li>
+	<li><a href="#" class="am-text-warning"><span class="am-icon-btn am-icon-briefcase"></span><br/><small>近7日</small>新增用户<br/>{$data.userCount}</a></li>
+	<li><a href="#" class="am-text-danger"><span class="am-icon-btn am-icon-recycle"></span><br/>昨日访问<br/>821</a></li>
+	<li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-icon-user-md"></span><br/>总访问量<br/>1224</a></li>
+</ul>
+
+<div class="am-g">
+
+	<div class="am-u-sm-8 am-u-end">
+		<table class="am-table am-table-bd am-table-striped am-table-hover admin-content-table">
+			<thead>
+				<tr><th colspan="2">站点信息</strong> / <small>Base Information</small></th>
+			</thead>
+			<tbody>
+				<tr><td>站点名称</td><td>TianYou TimeLine 天佑时光轴</td></tr>
+				<tr><td>站点版本</td><td>1.0.0</td></tr>
+				<tr><td>服务器信息</td><td>Apache 2.4.9 / PHP 5.5.12</td></tr>
+				<tr><td>数据库信息</td><td>MySQL 5.6.17</td></tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="am-u-sm-8 am-u-end">
+		<table class="am-table am-table-bd am-table-striped am-table-hover admin-content-table">
+			<thead>
+				<tr><th>版权说明</strong> / <small>Copyright</small></th>
+			</thead>
+			<tbody>
+				<tr><td>项目基于MVC网页管理框架 ThinkPHP 以及前端UI框架 Amaze UI 完成开发</td></tr>
+				<tr><td>由天佑工作室团队开发，建立了“天佑时光轴”项目。</td></tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+</div>
+</block>

@@ -1,0 +1,152 @@
+
+@line-x: 60px;
+
+footer{
+    background-color: rgba(0,0,0,0.4) !important;
+}
+
+.top{
+    height: 200px;
+    background-color: rgba(255,255,255,0.6);
+}
+.container{
+    position: relative;
+}
+.scrubber{
+    min-height: 200px;
+    position: absolute;top: 29px;left: 30px;
+    //padding-top: 75px;
+    z-index: 99;
+    a{
+        display: block;
+        height: 26px;line-height: 26px;font-size: 1.2rem;
+        border-right: 2px solid #c8c8c8;
+        border-right-color: rgba(200,200,200,.5);
+        padding-right: 5px;
+        color: #7EBAD0;text-decoration: none;
+        text-shadow: 0 1px 1px rgba(0,0,0,.3);
+        text-align: right;
+        &:hover,&.current{
+            border-right-color: #7ebad0;
+            color: #7ebad0;
+            font-weight: bold;
+        }
+        &:hover{text-decoration: underline;}
+        &.current{text-decoration: none;}
+    }
+    .year{
+        font-size: 1.4rem;
+    }
+}
+.content{
+    padding-top: 29px;padding-left: 104px;
+    min-height: 1000px;
+    background: url(../img/timeline-v2/spine.png) repeat-y @line-x 0;
+    position: relative;
+}
+.content_year,
+.content_month{
+    height: 30px;line-height: 30px;color: #a5a5a5;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    font-weight: bold;font-size: 1.4rem;
+    position: relative;left: -40-(@line-x);
+    clear: both;
+}
+.content_item{
+    width: 370px;
+    min-height: 300px;
+    background: #fff;border-radius: 4px;
+    margin: 20px 30px 0 0;
+    position: relative;left: -10px;top: 0;
+    color: #888;
+    .arrow{
+        position: absolute;left: -20px;top: 20px;
+        height: 0;
+        border-color: transparent #fff transparent transparent;
+        border-width: 10px 10px 10px;
+        border-style: dashed solid dashed dashed;
+    }
+    .dot{
+        width: 11px;height: 11px;
+        border-radius: 11px;
+        background-color: #fff;
+        position: absolute;top: 24px;
+        left: -38px;
+        .dot_child{
+            width: 7px;height: 7px;
+            border-radius: 7px;
+            background-color: #b3dae9;
+            position: absolute;top: 2px;left: 2px;
+        }
+    }
+    .head{
+        padding: 15px;padding-bottom: 0px;
+        .title{
+            height: 46px;line-height: 46px;font-size: 28px;
+            padding: 0 0 10px 60px;
+            position: relative;
+            .lunar{
+                width: 50px;height: 50px;background: #B3DAE9;border-radius: 8px;
+                position: absolute;left: 0;top: 0;
+                overflow: hidden;
+                color: #FFF;
+                font-size: 27px;line-height: 23px;
+            }
+        }
+        .tag{
+            padding-top: 10px;padding-bottom: 10px;
+        }
+    }
+    .media{
+        height: 277px;overflow: hidden;
+        padding-bottom: 10px;
+    }
+    .footer{
+        padding: 10px 15px;
+        margin: 0 15px;
+        border-top: 1px solid #d6d6d6;
+        font-size: 12px;color: #b2b2b2;
+        line-height: 20px;
+        .intro{
+            font-size: 1.4rem;
+            line-height: 22px;
+            padding: 0px 7px;
+            margin-bottom: 10px;
+        }
+        .info{
+            a{
+                color: #b2b2b2;text-decoration: none;padding-right: 10px;
+                display: inline-block;height: 20px;
+            }
+        }
+        .like{
+            padding-top: 5px;
+        }
+    }
+}
+
+.icon{
+    width: 15px;height: 15px;display: inline-block;
+    background-repeat: no-repeat;
+    font-size: 0;
+    overflow: hidden;
+    background-image: url(../img/timeline-v2/timeline.png);
+    margin-right: 5px;
+    vertical-align: bottom;
+}
+.quote_r{background-position: -986px -102px;}
+.quote_l{background-position: -986px -85px;}
+.icon-like,.icon-comment{
+    width: 20px;height: 20px;display: inline-block;
+    background-repeat: no-repeat;
+    font-size: 0;
+    overflow: hidden;
+    background-image: url(../img/timeline-v2/timeline.png);
+    vertical-align: bottom;
+}
+.icon-like{background-position: -883px -21px;}
+.icon-comment{background-position: -904px -21px;}
+
+
+
+

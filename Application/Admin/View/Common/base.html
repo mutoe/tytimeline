@@ -1,0 +1,139 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>天佑时光轴管理页面</title>
+  <meta name="keywords" content="index">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="__PUBLIC__/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.css"/>
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin.css"/>
+  <block name='css'></block>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<block name='header'>
+<header class="am-topbar admin-header">
+  <div class="am-topbar-brand">
+    <strong>TY timeline</strong> <small>后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li><a href="{:U('Home/Index/index')}"><span class="am-icon-envelope-o"></span>返回前台</a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> {$Think.session.user_id|get_usergroup} {$Think.session.user_id|get_nickname} <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+          <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+        </ul>
+      </li>
+      <li><a href="{:U('Home/User/logout')}" id="admin-fullscreen"><span class="am-icon-sign-out"></span> <span class="admin-fullText">退出登陆</span></a></li>
+    </ul>
+  </div>
+</header>
+</block>
+
+
+<div class="am-cf admin-main">
+
+<!-- content start -->
+<block name='sidebar'>
+<!-- sidebar start -->
+<div class="admin-sidebar">
+  <ul class="am-list admin-sidebar-list am-panel-group" id="accordion">
+    <li class="admin-parent am-panel am-panel-default">
+      <a class="am-cf am-panel-hd" data-am-collapse="{parent: '#accordion', target: '#collapse-nav-Index'}">
+      	<span class="am-icon-file"></span> 站点管理 <span class="am-icon-caret-down am-fr am-margin-right"></span>
+      </a>
+      <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-Index">
+        <li><a href="{:U('Index/index')}" class="am-cf"><span class="am-icon-check"></span> 基本信息</span></a></li>
+        <!--<li><a href="admin-help.html"><span class="am-icon-puzzle-piece"></span> 站点设置</a></li>-->
+      </ul>
+    </li>
+    <li class="admin-parent am-panel am-panel-default">
+      <a class="am-cf am-panel-hd" data-am-collapse="{parent: '#accordion', target: '#collapse-nav-Source'}"><span class="am-icon-file"></span> 内容管理 <span class="am-icon-caret-down am-fr am-margin-right"></span></a>
+      <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-Source">
+        <li><a href="{:U('Source/tag')}" class="am-cf"><span class="am-icon-tags"></span> 标签管理</a></li>
+        <li><a href="{:U('Source/shard')}"><span class="am-icon-th"></span> 碎片管理</a></li>
+      </ul>
+    </li>
+    <li class="admin-parent am-panel am-panel-default">
+      <a class="am-cf am-panel-hd" data-am-collapse="{parent: '#accordion', target: '#collapse-nav-Member'}"><span class="am-icon-file"></span> 用户管理 <span class="am-icon-caret-down am-fr am-margin-right"></span></a>
+      <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-Member">
+        <li><a href="{:U('Member/user')}" class="am-cf"><span class="am-icon-users"></span> 用户管理</a></li>
+        <li><a href="{:U('Member/admin')}"><span class="am-icon-user-md"></span> 管理员</a></li>
+        <!--<li><a href="admin-log.html"><span class="am-icon-calendar"></span> 操作日志</a></li>-->
+      </ul>
+    </li>
+    <li class="admin-parent am-panel am-panel-default">
+    	<a class="am-cf am-panel-hd"  href="admin-form.html"><span class="am-icon-pencil-square-o"></span> 其他</a>
+    </li>
+  </ul>
+
+  <div class="am-panel am-panel-default admin-sidebar-panel">
+    <div class="am-panel-bd">
+      <p><span class="am-icon-bookmark"></span> 公告</p>
+      <p></p>
+    </div>
+  </div>
+
+  <div class="am-panel am-panel-default admin-sidebar-panel">
+    <div class="am-panel-bd">
+      <p><span class="am-icon-tag"></span> wiki</p>
+      <p>天佑时光轴是一个图片分享平台，希望大家能够将生活中的点点滴滴纪录在这里。</p>
+    </div>
+  </div>
+</div>
+<!-- sidebar end -->
+</block>
+
+<block name='main'>
+
+</block>
+<!-- content end -->
+</div>
+
+<block name='footer'>
+<footer>
+  <hr>
+  <p class="am-padding-left">Copyright 2015 © TianYou Network Studio.</p>
+</footer>
+</block>
+
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="__PUBLIC__/js/rem.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/js/respond.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/js/amazeui.legacy.js" type="text/javascript" charset="utf-8"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/js/amazeui.js" type="text/javascript" charset="utf-8"></script>
+<!--<![endif]-->
+<!--<script src="__PUBLIC__/js/admin.js" type="text/javascript" charset="utf-8"></script>-->
+<script type="text/javascript">
+(function($) {
+	$('#collapse-nav-{$Think.CONTROLLER_NAME}').addClass('am-in');
+})(jQuery);
+</script>
+<block name='js'></block>
+</body>
+</html>

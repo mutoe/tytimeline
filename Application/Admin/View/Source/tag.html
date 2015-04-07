@@ -1,0 +1,88 @@
+<extend name='Common:base' />
+
+<block name='main'>
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">标签管理</strong> / <small>Tags Manage</small>	</div>
+	</div>
+
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<form class="am-form">
+				<table class="am-table am-table-striped am-table-hover table-main">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>标题</th>
+							<th>总碎片数</th>
+							<th>创建者</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="data" id="vo">
+							<tr>
+								<td>{$vo.tag_id}</td>
+								<td><a href="#">{$vo.tag_name}</a></td>
+								<td>{$vo.total_share}</td>
+								<td>{$vo.cretate_user|get_nickname}</td>
+								<td>{$vo.cretate_time}</td>
+								<td>
+									<div class="am-btn-toolbar"><div class="am-btn-group am-btn-group-xs">
+										<a data-id="{$vo.tag_id}" class="am-btn am-btn-default am-btn-xs am-text-danger delete-confirm"><span class="am-icon-trash-o"></span> 删除</a>
+									</div></div>
+								</td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+				<div class="am-cf">共 <span id="data-number">{$data|count}</span> 条记录</div>
+			</form>
+		</div>
+
+	</div>
+</div>
+</block>
+
+<block name='js'>
+<!--删除确认-->
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">天佑时光轴</div>
+    <div class="am-modal-bd">你，确定要删除这条记录吗？</div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>不不不</span>
+      <span class="am-modal-btn" data-am-modal-confirm style="color: firebrick;">无情删除</span>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+(function($) {
+$('.delete-confirm').on('click', function() {
+	$('#my-confirm').modal({
+		relatedTarget: this,
+		onConfirm: function(options) {
+			//点击确定后执行ajax删除数据
+	  	var $link = $(this.relatedTarget);
+	  	var $data_number = $("#data-number").text();
+	  	$.ajax({
+	  		url: "{:U('Source/delete_tag')}",
+	  		data: {tag_id: $link.data('id')},
+				success: function(data) {
+					alert(data.info);
+					$link.closest('tr').remove();//删除该条纪录
+					$("#data-number").text($data_number-1);//总纪录数更新
+				},
+				error: function(data) {
+					alert(data.info);
+				}
+	  	});
+		}
+  });
+});
+})(jQuery);
+</script>
+</block>

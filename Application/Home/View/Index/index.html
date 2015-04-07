@@ -1,0 +1,160 @@
+<extend name="Common:base" />
+
+<block name='css'>
+<style type="text/css">
+	footer{position: fixed;bottom: 0;left: 20rem;background-color: rgba(0,0,0,0.2);}
+		body{background-image: url(__PUBLIC__/img/timeline.png);}
+</style>
+</block>
+
+<block name="banner">
+<div onclick="javascript:" id="top-banner" class="am-slider am-slider-default" data-am-flexslider="{slideshowSpeed: 7500,controlNav: false,directionNav: false}">
+  <ul class="am-slides">
+    <li><img src="__PUBLIC__/img/banner/01.jpg" /><p class="am-badge am-badge-warning"> 天佑时光轴 @{$vo.userid|default='时光老人'} </p></li>
+    <li><img src="__PUBLIC__/img/banner/02.jpg" /><p class="am-badge am-badge-warning"> 天佑时光轴 @{$vo.userid|default='时光老人'} </p></li>
+    <li><img src="__PUBLIC__/img/banner/03.jpg" /><p class="am-badge am-badge-warning"> 天佑时光轴 @{$vo.userid|default='时光老人'} </p></li>
+    <li><img src="__PUBLIC__/img/banner/04.jpg" /><p class="am-badge am-badge-warning"> 天佑时光轴 @{$vo.userid|default='时光老人'} </p></li>
+    <li><img src="__PUBLIC__/img/banner/05.jpg" /><p class="am-badge am-badge-warning"> 天佑时光轴 @{$vo.userid|default='时光老人'} </p></li>
+    <li><img src="__PUBLIC__/img/banner/06.jpg" /><p class="am-badge am-badge-warning"> 天佑时光轴 @{$vo.userid|default='时光老人'} </p></li>
+  </ul>
+</div>
+</block>
+
+<block name="main">
+<div class="am-g">
+
+<h2 style="margin: 0 auto;width: 1040px;margin-top: 2rem;">最新分享</h2>
+<div id="pubu" style="max-width: 1280px;">
+	<volist name="data" id="vo">
+		<div class="box">
+			<div class="pic">
+				<div class="pic-ctrl">
+					<ul class="am-btn-group am-btn-group-xs am-btn-group-justify am-badge">
+					<if condition="is_login()">
+					<if condition="!in_array($vo['share_id'], $like)">
+						<li class="am-btn am-badge-danger" data-id="{$vo['share_id']}">
+							<i class="am-icon-heart-o like_icon"></i> <span class="like_text">喜欢</span>
+						</li>
+					<else />
+						<li class="am-btn am-badge-danger" data-id="{$vo['share_id']}">
+							<i class="am-icon-heartbeat like_icon"></i> <span class="like_text">不喜欢了</span>
+						</li>
+					</if>
+						<if condition="get_auth('delete')">
+						<li class="am-btn" onclick="del({$vo.share_id});"><i class="am-icon-remove"></i> 删除</li>
+						</if>
+					</if>
+					</ul>
+				</div>
+				<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" />
+				<a href="{:U('Shard/detail?id='.$vo['share_id'])}" class="pop_tit">
+					<span class="p_tit1">{$vo.tag_id|show_tag}</span>
+					<span class="am-fr am-badge am-badge-warning p_author">@{$vo.user_id|get_nickname}</span><br>
+					<span class="p_tit2">{$vo.detail}</span>
+				</a>
+			</div>
+		</div>
+	</volist>
+</div>
+
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">天佑时光轴</div>
+    <div class="am-modal-bd">你，确定要删除这条记录吗？</div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>不不不</span>
+      <span class="am-modal-btn" style="color: #DD514C;" data-am-modal-confirm><i class="am-icon-remove"></i> 无情删除</span>
+    </div>
+  </div>
+</div>
+
+</div>
+</block>
+
+<block name='footer'>
+<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer style="margin-top: 3rem;display: none;">
+  <!--<div class="am-footer-switch">
+    <span class="am-footer-ysp" data-rel="mobile" data-am-modal="{target: '#am-switch-mode'}">云适配版</span>
+    <span class="am-footer-divider">|</span>
+    <a id="godesktop" data-rel="desktop" class="am-footer-desktop" href="javascript:">电脑版</a>
+  </div>-->
+  <div class="am-footer-miscs">
+    <p>CopyRight©2015 <a href="http://ty.cqjtu.edu.cn/story/" title="天佑工作室" target="_blank" class="">TianYou Network Studio</a>.</p>
+    <!--<p>京ICP备13033158</p>-->
+  </div>
+</footer>
+</block>
+
+<block name="js">
+<script src="__PUBLIC__/js/waterfall.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+function del (share_id) {
+	$('#my-confirm').modal({
+		relatedTarget: this,
+		onConfirm: function(options) {
+			console.log(share_id);
+			var options = {
+				url:"{:U('Shard/del')}",
+				data: {'share_id': share_id},
+				success: function(data) {
+					alert(data.info);
+					location.reload();
+				},
+				error: function(data) {
+					alert(data.info);
+					console.log(data.info);
+				}
+			};
+			$.ajax(options);
+			return false;//为了防止刷新
+		}
+	});
+}
+
+$('#my-confirm').on('closed.modal.amui', function() {
+	$(this).removeData('am.modal');
+});
+$(".pic-ctrl > ul > li").click(function(){
+	var temp = $(this);
+	var id = temp.attr("data-id");
+  $.ajax({
+  	url: "{:U('Shard/like')}",
+  	data: {"share_id":id},
+  	success: function(data) {
+  		if (data.info == "1") {
+	  		//将喜欢按钮变为不再喜欢，更新图标
+				Inc(temp);//自增popup效果
+	  		temp.children("i").removeClass('am-icon-heart-o').addClass('am-icon-heartbeat');
+	  		temp.children("span").text('不喜欢了');
+  		} else {
+  			//将不喜欢按钮变为喜欢，更新图标
+	  		temp.children("i").removeClass('am-icon-heartbeat').addClass('am-icon-heart-o');
+	  		temp.children("span").text('喜欢');
+  		}
+  	},
+  	error: function(data) {
+  		alert("出错了！");
+  	}
+  });
+});
+
+$(".pic:last").css({
+	'padding-bottom': "100px"
+});
+
+//$("#pubu").height( h );
+
+$(window).bind("scroll", function () {
+	var h = $(".pic:last").offset().top + $(".pic:last").height() - $(window).height();
+	var sTop = $(window).scrollTop();
+	var sTop = parseInt(sTop);
+	if (sTop >= h) {
+		$("footer").fadeIn();
+	} else {
+		$("footer").fadeOut();
+	}
+});
+</script>
+</block>
+

@@ -1,0 +1,73 @@
+<extend name="Common:base" />
+
+<block name="main">
+<div class="am-g">
+
+	<br /><br />
+	<form class="am-form" method="post">
+		<fieldset>
+			<div class="am-u-sm-10 am-u-md-8 am-u-lg-6 am-u-sm-centered">
+				<h5>允许上传的类型: png/jpg/jpeg/gif &nbsp; 大小不要超过 3.00 M</h5>
+				<div class="am-form-group" id="ajax-pv-after">
+					<button type="button" class="am-btn am-btn-primary am-btn-block" id="upload-img">上传分享</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">天佑时光轴</div>
+    <div class="am-modal-bd" id="alert-info">
+      上传失败了 (⊙o⊙)噢！No!<br />
+      <small style="color: #DD514C;">参考可能原因：<span id="alert-error-info"></span></small>
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" id="alert-btn">好吧</span>
+    </div>
+  </div>
+</div>
+
+<form id="form-img" action="{:U('Shard/upimg')}" method="post" target="hidden_frame" enctype="multipart/form-data" class="am-hide">
+	<input id="doc-ipt-file-1" type="file" name="addimg" onchange="checkImage()" accept="image/*" />
+</form>
+
+</div>
+</block>
+
+<block name="js">
+<script src="__PUBLIC__/js/My97DatePicker/WdatePicker.js" language="javascript" type="text/javascript"></script>
+<script src="__PUBLIC__/js/jquery.form.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$("#upload-img").click(function () {
+	$("#doc-ipt-file-1").click();
+});
+
+function checkImage() {
+	$(document).ready(function(){
+		var options = {
+			url:"{:U('Shard/upimg')}",//后台的处理，也就是form里的action
+			type:"POST",
+			dataType:"json", //数据格式，有XML，html，json，默认为文本
+			success: function(data) {
+				//这里加入了一个判断返回值成功与否的步骤，因为jq.form插件有BUG. 下方同样使用error方法以防发生不可预知的错误
+				if (data.status) {
+					window.location.href = "{:U('Shard/modi')}?share_id=" + data.info;
+				} else {
+					console.log(data.info);
+					$("#alert-error-info").text(data.info);
+					$('#my-alert').modal('open');
+				}
+			},
+			error: function(data) {
+				console.log(data.info);
+				$("#alert-error-info").text(data.info);
+				$('#my-alert').modal('open');
+			}
+		};
+		$("#form-img").ajaxSubmit(options);
+		return false;//为了防止刷新
+	})
+}
+</script>
+</block>
