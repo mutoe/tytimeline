@@ -45,3 +45,4 @@ Temporary Items
 *.htaccess
 /Public/uploads
 /Application/Runtime
+/*.project
