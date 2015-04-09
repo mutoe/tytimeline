@@ -19,7 +19,7 @@
 				<div class="am-panel-bd">
 					<ul id="list" class="am-avg-sm-1 am-avg-md-4 am-avg-lg-6 am-thumbnails">
 					<volist name="hot" id="vo">
-						<li><div class="media"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" /></div></li>
+						<li><div class="media"><a href="{:U('shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" /></a></div></li>
 					</volist>
 					</ul>
 				</div>

@@ -16,11 +16,16 @@
 	<foreach name="tag" item="vo" key="k" >
 		<li>
 			<div class="am-panel am-panel-secondary">
-  			<div class="am-panel-hd">{$vo.tag_id|get_tag} <span class="am-badge am-badge-primary am-text-xs">{$vo.total_share}</span></div>
+				<div class="am-panel-hd">
+					<a href="{:U('Tag/detail','tag_id='.$vo['tag_id'])}">
+  					<span class="am-badge am-badge-primary am-text-sm">{$vo.tag_id|get_tag}</span>
+						<span class="am-text-xs"> x {$vo.total_share}</span>
+					</a>
+				</div>
 				<div class="am-panel-bd">
 					<ul class="am-avg-sm-2 am-thumbnails">
 					<volist name="share[$k]" id="s">
-						<li><div class="media"><img src="__PUBLIC__/{$s.savepath}t_{$s.savename}" width="200" /></div></li>
+						<li><div class="media"><a href="{:U('Shard/detail','id='.$s['share_id'])}"><img src="__PUBLIC__/{$s.savepath}t_{$s.savename}" width="200" /></a></div></li>
 					</volist>
 					</ul>
 				</div>

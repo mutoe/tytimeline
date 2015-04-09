@@ -1,0 +1,61 @@
+<extend name="Common:base" />
+
+<block name='css'>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/lightbox.css" />
+<style type="text/css">
+	#list{position:relative;list-style: none;}
+	#list li{display:none;}
+</style>
+</block>
+
+<block name="main">
+<div class="am-g am-g-fixed">
+
+<h2 style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;"><span class="am-text-xl am-badge am-badge-warning">{$data.tag_id|get_tag}</span> {$data.tag_id}</h2>
+
+<div style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">
+  <div class="am-u-sm-12">
+    <ul id="list">
+  	<volist name="list" id="vo">
+    	<li>
+    		<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" height="{:get_t_height($vo['width'],$vo['height'])}">
+    	</li>
+  	</volist>
+    </ul>
+    <hr class="am-article-divider blog-hr">
+
+		<!-- 多说评论框 start -->
+		<div data-am-widget="duoshuo" class="am-duoshuo am-duoshuo-default" data-ds-short-name="tianyou">
+		  <div class="ds-thread" data-thread-key="{$data.user_id}-{$data.tag_id}" data-title="标签 {$data.tag_id}" data-url="/tag/id/{$data.tag_id}"></div>
+		</div>
+		<!-- 多说评论框 end -->
+		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+		<script type="text/javascript">
+		var duoshuoQuery = {short_name:"tianyou"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+		</script>
+		<!-- 多说公共JS代码 end -->
+
+  </div>
+
+</div>
+
+</div>
+</block>
+
+<block name='js'>
+<script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$('#list li').wookmark({
+	  container: $('#list'),
+	  offset: 10,
+	  fillEmptySpace: true
+	});
+</script>
+</block>
