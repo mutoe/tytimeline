@@ -131,6 +131,7 @@ class ShardController extends BaseController {
 		$result = file_exists($address_t) ? unlink($address_t) : true;
 		if($result) {
 			//删除数据
+			$this -> del_tagDec($share_id);
 			$result = $share -> delete();
 			//总分享数自减
 			$user_info = M('user_info');
@@ -144,6 +145,20 @@ class ShardController extends BaseController {
 		} else {
 			$this -> error('删除失败，请联系管理员.移除资源出错');
 		}
+	}
+	/**
+	 * 删除分享时tag的处理
+	 */
+	public function del_tagDec($share_id = 0) {
+		if(!$share_id) return false;
+		$share = M('share');
+		$tag = M('tag');
+		$tag_str = $share -> where('share_id=%d', $share_id) -> getField('tag_id');
+		$tag_arr = explode(',', $tag_str);
+		foreach ($tag_arr as $tag_id) {
+			$tag -> where('tag_id=%d', $tag_id) -> setDec('total_share');
+		}
+		return true;
 	}
 
 	/**

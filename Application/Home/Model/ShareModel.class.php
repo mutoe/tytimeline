@@ -44,13 +44,11 @@ class ShareModel extends Model {
 			if($tgid) {
 				//如果存在该标签
 				$result .= $tgid.',';
-				$total_share = $tag -> where("tag_name='%s'",$value) -> getField('total_share');
-				$data['total_share'] = $total_share++;
-				$tag -> where("tag_name='%s'",$value) -> save($data);
+				$tag -> where("tag_name='%s'",$value) -> setInc('total_share');
 			} else {
 				//新建标签
 				$data['tag_name'] = $value;
-				$data['create_user'] = I('session.user_id');
+				$data['create_user'] = is_login();
 				$data['create_time'] = time();
 				$data['total_share'] = 1; //新增一个分享
 				$add_tag = $tag -> add($data);

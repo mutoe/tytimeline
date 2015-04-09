@@ -59,6 +59,7 @@ function is_admin($user_id = 0) {
  */
 function get_auth($method, $user_id = 0) {
 	if($user_id == 0) $user_id = is_login();
+	if($user_id == 0) return false;
 	$user = M('User');
 	$group = $user -> where('user_id=%d',$user_id) -> getField('group_id');
 	$user_group = M('User_group');
