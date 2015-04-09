@@ -10,6 +10,7 @@ class ShardController extends BaseController {
 		$share = M('share');
 		//获取分享详情
 		$data = $share -> where('share_id=%d',$id) -> find();
+		$share -> where('share_id=%d', $id) -> setInc('click');//点击量自增
 		if(!$data) $this -> error('参数错误');
 		$this -> assign('data', $data);
 		//获取近期分享 4个
