@@ -8,6 +8,13 @@ html {
 footer {
   background-color: rgba(0, 0, 0, 0) !important;
 }
+#wookmark {
+  position: relative;
+  list-style: none;
+}
+#wookmark li {
+  display: none;
+}
 .am-topbar {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 100;

@@ -2,10 +2,6 @@
 
 <block name='css'>
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/lightbox.css" />
-<style type="text/css">
-	#list{position:relative;list-style: none;}
-	#list li{display:none;}
-</style>
 </block>
 
 <block name="main">
@@ -15,7 +11,7 @@
 
 <div style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">
   <div class="am-u-sm-12">
-    <ul id="list">
+    <ul id="wookmark">
   	<volist name="list" id="vo">
     	<li>
     		<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" height="{:get_t_height($vo['width'],$vo['height'])}">
@@ -52,9 +48,8 @@
 <block name='js'>
 <script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	$('#list li').wookmark({
-	  container: $('#list'),
-	  offset: 10,
+	$('#wookmark li').wookmark({
+	  container: $('#wookmark'),
 	  fillEmptySpace: true
 	});
 </script>
