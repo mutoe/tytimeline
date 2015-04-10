@@ -1,12 +1,5 @@
 <extend name="Common:base" />
 
-<block name='css'>
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/lightbox.css" />
-<style type="text/css">
-	.media{max-height: 150px;overflow: hidden;}
-</style>
-</block>
-
 <block name="main">
 <div class="am-g">
 
@@ -28,25 +21,25 @@
 
     <hr class="am-article-divider blog-hr">
 <volist name="comment" id="vo">
-		<article class="am-comment"> <!-- 评论容器 -->
+		<article class="am-comment">
 		  <a href="{:U('User/index','user_id='.$vo['user_id'])}">
 		    <img class="am-comment-avatar" alt=""/> <!-- 评论者头像 -->
 		  </a>
 
-		  <div class="am-comment-main"> <!-- 评论内容容器 -->
+		  <div class="am-comment-main">
 		    <header class="am-comment-hd">
-		      <div class="am-comment-meta am-fl"> <!-- 评论元数据 -->
-		        <a href="{:U('User/index','user_id='.$vo['user_id'])}" class="am-comment-author">{$vo.user_id|get_nickname}</a> <!-- 评论者 -->
+		      <div class="am-comment-meta am-fl">
+		        <a href="{:U('User/index','user_id='.$vo['user_id'])}" class="am-comment-author">{$vo.user_id|get_nickname}</a>
 		        评论于 {$vo.create_time|time_format}
 		      </div>
 		      <if condition="get_auth('manage_comment', 0, $vo['comment_id'])">
 		      <div class="am-fr am-vertical-align">
-		      	<a class="am-text-sm am-vertical-align-middle am-badge" style="margin-right: 1rem;">删除该条 <i class="am-icon-times"></i></a>
+		      	<a id="del-comment" class="am-text-sm am-vertical-align-middle am-badge" data-id="{$vo.comment_id}" style="margin-right: 1rem;">删除该条 <i class="am-icon-times"></i></a>
 		      </div>
 		      </if>
 		    </header>
 
-		    <div class="am-comment-bd">{$vo.detail}</div> <!-- 评论内容 -->
+		    <div class="am-comment-bd">{$vo.detail}</div>
 		  </div>
 		</article>
 		<br />
@@ -55,8 +48,8 @@
 		<form class="am-form" data-am-validator>
 			<fieldset>
 			<div class="am-form-group">
-	      <label for="doc-ta-1">我要吐槽 <span class="am-text-sm am-text-warning">请不要超过255字</span></label>
-	      <textarea id="detail-val" minlength="2" maxlength="255" class="" rows="5" id="doc-ta-1"></textarea>
+	      <label for="doc-ta-1">我要吐槽 <span class="am-text-sm am-text-warning">请合理吐槽</span></label>
+	      <textarea id="detail-val" minlength="2" maxlength="255" class="" rows="5" id="doc-ta-1" placeholder="请不要超过255字"></textarea>
 	    </div>
 			<input type="button" class="am-btn am-btn-primary" value="吐" onclick="return submitComment();"></input>
 			</fieldset>
@@ -121,6 +114,25 @@ $(function() {
       }
     });
   });
+   $('#del-comment').on('click', function() {
+  	var comment_id = $(this).attr('data-id');
+    $('#my-confirm').modal({
+      onConfirm: function(options) {
+        $.ajax({
+        	url: "{:U('Shard/delete_comment')}",
+        	data: {'comment_id': comment_id},
+        	success: function(data) {
+        		if(data.status){
+        			alert(data.info);
+          		window.location.reload();
+        		} else {
+        			alert(data.info);
+        		}
+        	}
+        });
+      }
+    });
+  });
 });
 var submitComment = function() {
 	var share_id = {:I('get.id')};
@@ -137,11 +149,9 @@ var submitComment = function() {
 			} else {
 				alert(data.info);
 			}
-		},
-		complete: function() {
-			return false;
 		}
 	});
+	return false;
 }
 </script>
 </block>

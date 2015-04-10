@@ -13,9 +13,10 @@ class ShardController extends BaseController {
 		$share -> where('share_id=%d', $id) -> setInc('click');//点击量自增
 		if(!$data) $this -> error('参数错误');
 		$this -> assign('data', $data);
-		//获取近期分享 4个
-		$near = $share -> where('user_id=%d', $data['user_id']) -> order('create_time desc') -> limit(0,4) -> field('savepath,savename,detail,share_id') -> select();
-		$this -> assign('near', $near);
+		//获取评论
+		$comment = M('comment');
+		$comments = $comment -> where('share_id=%d', $id) -> limit(8) -> order('create_time desc') -> select();
+		$this -> assign('comment', $comments);
 		//获取用户详情
 		$user = M('user_info');
 		$user_info = $user -> where('user_id=%d', $data['user_id']) -> find();
@@ -119,8 +120,8 @@ class ShardController extends BaseController {
 		$share = M('share');
 		$data = $share -> where('share_id=%d',$share_id) -> find();
 		if(!$data) $this -> error('该条数据不存在！');
-		//检查删除权限
-		if(!get_auth('delete', 0, $share_id)) $this -> error('非法操作！');
+		//检查权限
+		if(!get_auth('delete', 0, $share_id)) $this -> error('非法操作！');//如果不是自己的分享并且没有删除权限
 
 		$address = './Public/'.$data['savepath'].$data['savename'];
 		$address_t = './Public/'.$data['savepath'].'t_'.$data['savename'];
@@ -210,6 +211,47 @@ class ShardController extends BaseController {
 		$share = M('share');
 		$share_id = $share -> order('Rand()') -> limit(1) -> getField('share_id');
 		$this -> redirect('Shard/detail','id='.$share_id);
+	}
+
+	/**
+	 * 提交评论
+	 */
+	public function submit_comment($share_id = 0) {
+		if(!is_login()) $this -> error('请先登录');
+		if($share_id == 0) $this -> error('参数有误');
+		if(!IS_AJAX) $this -> error('非法请求！');
+
+		$comment = M('comment');
+		$data['user_id'] = is_login();
+		$data['share_id'] = $share_id;
+		$data['detail'] = I('get.detail');
+		$data['create_time'] = time();
+		$result = $comment -> add($data);//return了一个comment_id
+
+		if($result) {
+			$share = M('share');
+			$share -> where('share_id=%d', $share_id) -> setInc('total_comments');
+			$this -> success('成功了！');
+		} else {
+			$this -> error('数据写入失败');
+		}
+	}
+	/**
+	 * 删除评论
+	 */
+	public function delete_comment($comment_id = 0) {
+		if( !get_auth('manage_comment', 0, $comment_id) ) $this -> error('没有权限');
+		if( !IS_AJAX ) $this -> error('非法请求');
+		$comment = M('comment');
+		$share_id = $comment -> where('comment_id=%d',$comment_id) -> getField('share_id');
+		$result = $comment -> delete($comment_id);
+		if($result) {
+			$share = M('share');
+			$share -> where('share_id=%d', $share_id) -> setDec('total_comments');
+			$this -> success('删除成功');
+		} else {
+			$this -> error('操作失败！');
+		}
 	}
 }
 
