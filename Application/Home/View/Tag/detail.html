@@ -14,7 +14,7 @@
     <ul id="wookmark">
   	<volist name="list" id="vo">
     	<li>
-    		<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" height="{:get_t_height($vo['width'],$vo['height'])}">
+    		<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" height="{:get_t_height($vo['width'],$vo['height'])}"></a>
     	</li>
   	</volist>
     </ul>
