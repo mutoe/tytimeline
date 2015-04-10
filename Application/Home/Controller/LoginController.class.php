@@ -31,7 +31,7 @@ class LoginController extends BaseController {
 					cookie('user_mm', $this -> getmm($result));
 				}
 				session('user_id', $result);
-				$this -> set_loginfo($this -> get_user());//更新登录信息
+				$this -> set_loginfo($result);//更新登录信息
 				$this -> success('登陆成功', U('Index/index'), 2);
 			} elseif ($result == -1) {
 				//登陆失败:没有找到用户

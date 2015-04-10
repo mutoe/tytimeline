@@ -26,12 +26,10 @@ class BaseController extends Controller {
 		$mm = md5($result['email']. $result['password']);
 		return $mm;
 	}
-	protected function get_user() {
-		return I('session.user_id', 0);
-	}
 
 	protected function set_loginfo($user_id) {
 		$user = M('user');
+		$user -> where('user_id=%d', $user_id) -> setInc('login_times');
 		$data['lastlogin_time'] = time();
 		$data['lastlogin_ip'] = get_client_ip();
 		return $user -> where('user_id=%d',$user_id) -> save($data);
