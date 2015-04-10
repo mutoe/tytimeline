@@ -53,17 +53,18 @@ function is_admin($user_id = 0) {
 /**
  * 获取操作权限
  * @param string $method 权限名
+ * @param int $id 辅助id
  * @return boolen
  * 			false:无权限
  * @author mt 2015.04.03
  */
-function get_auth($method, $user_id = 0) {
+function get_auth($method, $user_id = 0, $id = 0) {
 	if($user_id == 0) $user_id = is_login();
 	if($user_id == 0) return false;
 	$user = M('User');
 	$group = $user -> where('user_id=%d',$user_id) -> getField('group_id');
 	$user_group = M('User_group');
-	$auth = $user_group -> where('group_id=%d',$group) -> getField('auth');
+	$auth = $user_group -> where('group_id=%d', $group) -> getField('auth');
 	switch ($method) {
 		case 'login':
 			return $auth[0];
@@ -72,6 +73,9 @@ function get_auth($method, $user_id = 0) {
 			return $auth[1];
 			break;
 		case 'modi_share':
+			$share = M('share');
+			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
+			if($data == $user_id) return 1;
 			return $auth[2];
 			break;
 		case 'like':
@@ -81,12 +85,21 @@ function get_auth($method, $user_id = 0) {
 			return $auth[4];
 			break;
 		case 'modify':
+			$share = M('share');
+			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
+			if($data == $user_id) return 1;
 			return $auth[5];
 			break;
 		case 'delete':
+			$share = M('share');
+			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
+			if($data == $user_id) return 1;
 			return $auth[6];
 			break;
 		case 'manage_comment':
+			$comment = M('comment');
+			$data = $comment -> where('comment_id=%d', $id) -> getField('user_id');
+			if($data == $user_id) return 1;
 			return $auth[7];
 			break;
 		case 'admin_page':

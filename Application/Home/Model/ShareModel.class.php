@@ -9,20 +9,9 @@ class ShareModel extends Model {
 		array('time','strtotime',3,'function'),
 	);
 	protected $_validate = array(
-		//array('share_id','check_self','你无法这么做',2,'callback'),//TODO:有点问题。。。待修复
 		array('tag_id','check_tag','标签格式有误',2,'callback'),
 		array('detail','0,255','心情超出最大字符限制',2,'length'),
 	);
-
-	/**
-	 * 检查是否修改自己的分享
-	 */
-	protected function check_self($share_id) {
-		$share = M('share');
-		$user_id = $share -> where('share_id=%d',$share_id) -> getField($user_id);
-		if(get_auth('modify')) return true;
-		return $user_id == is_login()? true: false;
-	}
 
 	/**
 	 * 将文字字符串标签(用' '分割)替换成tag_id字符串(用,分隔) - 自动完成方法

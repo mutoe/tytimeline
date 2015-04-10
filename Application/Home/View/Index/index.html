@@ -40,7 +40,7 @@
 							<i class="am-icon-heartbeat like_icon"></i> <span class="like_text">不喜欢了</span>
 						</li>
 					</if>
-						<if condition="get_auth('delete')">
+						<if condition="get_auth('delete',0,$vo['share_id'])">
 						<li class="am-btn" onclick="del({$vo.share_id});"><i class="am-icon-remove"></i> 删除</li>
 						</if>
 					</if>

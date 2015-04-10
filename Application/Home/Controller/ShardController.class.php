@@ -84,12 +84,8 @@ class ShardController extends BaseController {
 	 */
 	public function modi($share_id = 0) {
 		$temp = M('share');
-		$user_id = $temp -> where('share_id=%d',$share_id) -> getField('user_id');
-		//检查删除权限
-		if($user_id != is_login() and !get_auth('delete')) {//如果不是自己的分享并且没有删除权限
-			$this -> error('非法操作！');
-			return false;
-		}
+		//检查权限
+		if(!get_auth('modify', 0, $share_id)) $this -> error('非法操作！');
 		if(!I('param.time', 0)) {
 			//如果不是提交请求
 			$share = M('share');
@@ -124,7 +120,7 @@ class ShardController extends BaseController {
 		$data = $share -> where('share_id=%d',$share_id) -> find();
 		if(!$data) $this -> error('该条数据不存在！');
 		//检查删除权限
-		if($data['user_id'] != is_login() and !get_auth('delete')) $this -> error('非法操作！');//如果不是自己的分享并且没有删除权限
+		if(!get_auth('delete', 0, $share_id)) $this -> error('非法操作！');
 
 		$address = './Public/'.$data['savepath'].$data['savename'];
 		$address_t = './Public/'.$data['savepath'].'t_'.$data['savename'];
