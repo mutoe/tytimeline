@@ -140,7 +140,7 @@ footer {
   padding-bottom: 10px;
 }
 .content_item .media {
-  height: 277px;
+  max-height: 277px;
   overflow: hidden;
   padding-bottom: 10px;
 }

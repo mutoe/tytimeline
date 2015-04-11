@@ -61,9 +61,7 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
 }
 #wookmark .share .detail {
-  padding-top: 0.4rem;
-  padding-bottom: 0;
-  padding-left: 1rem;
+  padding: 0.4rem 1rem 0;
   font-size: 1.2rem;
 }
 .wookmark-placeholder {
