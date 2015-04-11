@@ -16,24 +16,19 @@
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/app.css" />
   <block name="css"></block>
 
-	<!--[if lte IE 9]>
-	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-	<![endif]-->
-	<!--[if (gte IE 9)|!(IE)]><!-->
-	<block name="jq">
-  <script src="__PUBLIC__/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	</block>
-	<!--<![endif]-->
 </head>
+
 <body>
 <!--[if lte IE 9]>
-<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a> 以获得更好的体验！</p>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，可能会出现糟糕的排版。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a> 以获得更好的体验！参考浏览器 Chrome 、 Firefox 、360极速浏览器</p>
 <![endif]-->
 
 <block name="banner"></block>
 
-<header id="head-topbar" class="am-topbar" <block name='top-fixed'>data-am-sticky</block> >
-  <h1 class="am-topbar-brand am-hide-md-only" style="color: white;">天佑时光轴</h1>
+<header id="head-topbar" class="am-topbar am-topbar-inverse" <block name='top-fixed'>data-am-sticky</block> >
+  <h1 class="am-topbar-brand am-hide-md-only" style="color: white;">
+  	<a href="{:U('Index/index')}" class="am-text-ir">天佑时光轴</a>
+  </h1>
 
   <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}">
   	<span class="am-sr-only">导航切换</span>
@@ -111,13 +106,15 @@
 </block>
 
 <!--[if lt IE 9]>
-<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="__PUBLIC__/js/amazeui.legacy.min.js"></script>
+<script src="__PUBLIC__/js/jquery.1.11.1.min.js"></script>
+<script src="__PUBLIC__/js/modernizr.js"></script>
 <script src="__PUBLIC__/js/polyfill/rem.min.js"></script>
 <script src="__PUBLIC__/js/polyfill/respond.min.js"></script>
+<script src="__PUBLIC__/js/amazeui.legacy.min.js"></script>
 <![endif]-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="__PUBLIC__/js/amazeui.js" type="text/javascript" charset="utf-8"></script>
 <!--<![endif]-->
 

@@ -25,16 +25,18 @@
 		<volist name="data" id="vo">
 		<li>
 			<div class="share">
-				<div class="author am-fl">@{$vo.user_id|get_nickname}</div>
-				<div class="media">
-					<div class="tag am-fr">{$vo.tag_id|show_tag}</div>
-					<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="278" height="{:get_t_height($vo['width'],$vo['height'],278)}"/></a>
-					<div class="time am-badge am-radius am-fr">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
+				<div class="author">@{$vo.user_id|get_nickname}</div>
+				<div class="media am-g">
+					<div class="am-u-sm-12">
+						<div class="tag">{$vo.tag_id|show_tag}</div>
+						<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="278" height="{:get_t_height($vo['width'],$vo['height'],278)}"/></a>
+						<div class="time am-badge am-radius">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
+					</div>
 				</div>
-				<div class="tool-bar am-fr">
+				<div class="tool-bar">
 					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
 					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
-					<button class="am-badge am-round am-badge-danger like-btn" data-id="{$vo.share_id}" onclick="like(this)">
+					<button class="am-badge am-round am-badge-danger like-btn" data-id="{$vo.share_id}" onclick="javascript:like(this);">
 						<if condition="get_like_status($vo['share_id'])">
 							<i class="am-icon-heart"></i>
 						<else />
