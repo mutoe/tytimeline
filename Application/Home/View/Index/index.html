@@ -29,7 +29,7 @@
 				<div class="media am-g">
 					<div class="am-u-sm-12">
 						<div class="tag">{$vo.tag_id|show_tag}</div>
-						<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="278" height="{:get_t_height($vo['width'],$vo['height'],278)}"/></a>
+						<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/></a>
 						<div class="time am-badge am-radius">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
 					</div>
 				</div>
@@ -44,7 +44,7 @@
 						</if>
 					</button>
 				</div>
-				<div class="detail" style="max-width: 278px;">{$vo.detail}</div>
+				<div class="detail" style="max-width: 254px;">{$vo.detail}</div>
 				<div class="comment"></div>
 			</div>
 		</li>
