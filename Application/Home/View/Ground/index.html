@@ -1,12 +1,5 @@
 <extend name='Common:base' />
 
-<block name='css'>
-<style type="text/css">
-		body{background-image: url(__PUBLIC__/img/ground.png);}
-		.media {height: 200px;overflow: hidden;}
-</style>
-</block>
-
 <block name='main'>
 <div class="am-g">
 
@@ -17,34 +10,26 @@
 			<div class="am-panel am-panel-secondary">
   			<div class="am-panel-hd">热门分享</div>
 				<div class="am-panel-bd">
-					<ul id="list" class="am-avg-sm-1 am-avg-md-4 am-avg-lg-6 am-thumbnails">
+					<ul id="wookmark">
 					<volist name="hot" id="vo">
-						<li><div class="media"><a href="{:U('shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" /></a></div></li>
-					</volist>
-					</ul>
-				</div>
-			</div>
-		</li>
-<!--		<li>
-			<div class="am-panel am-panel-secondary">
-  			<div class="am-panel-hd">编辑推荐</div>
-				<div class="am-panel-bd">
-					<ul class="am-avg-sm-4 am-thumbnails">
-					<volist name="user" id="vo">
 						<li>
-							<button>{$vo.user_id|get_nickname}</button>
+							<div class="media">
+								<a href="{:U('shard/detail','id='.$vo['share_id'])}">
+									<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" height="{:get_t_height($vo['width'],$vo['height'])}" />
+								</a>
+							</div>
 						</li>
 					</volist>
 					</ul>
 				</div>
 			</div>
-		</li>-->
+		</li>
 		<li>
 			<div id="hot-tag" class="am-panel am-panel-secondary">
   			<div class="am-panel-hd">热门标签</div>
 				<div class="am-panel-bd">
 					<volist name="tag" id="vo">
-					<span><a href="" class="am-radius am-badge am-text-default">{$vo.tag_name}</a> </span>
+					<span><a href="" class="am-radius am-badge am-text-default tag-list">{$vo.tag_name}</a> </span>
 					</volist>
 				</div>
 			</div>
@@ -59,7 +44,7 @@
 							<section class="am-panel am-panel-default">
 				        <div class="am-panel-hd">
 				        	<span class="am-badge-primary am-badge">{$vo.user_id|get_usergroup='0'}</span> <a href="">@{$vo.user_id|get_nickname}</a><br />
-				        	<span class="am-text-sm">关注：{$vo.like|default='0'} 粉丝：{$vo.be_like|default='0'} 分享：{$vo.total_share}</span>
+				        	<span class="am-text-sm">关注：{$vo.like|default='0'} 粉丝：{$vo.be_like} 分享：{$vo.total_share}</span>
 				        </div>
 				        <div class="am-panel-bd">
 				          <p>{$user.detail|default="碎片主人很懒，什么也没有留下。"}</p>
@@ -82,10 +67,14 @@
 <block name='js'>
 <script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-//$('#list li').wookmark();
+$('#wookmark li').wookmark({
+	container: $("#wookmark"),
+	autoResize: true,
+	fillEmptySpace: true
+});
 var rand = ["secondary","danger","warning","success","primary"];
 (function ($) {
-	$(".am-badge").each(function() {
+	$(".tag-list").each(function() {
 		$(this).addClass("am-badge-"+rand[Math.floor(Math.random()*rand.length)]);
 	});
 

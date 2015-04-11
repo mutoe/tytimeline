@@ -6,7 +6,13 @@ html {
   overflow-x: hidden;
 }
 footer {
-  background-color: rgba(0, 0, 0, 0) !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+body {
+  background: url(../img/bg-fixed.png) repeat, url(../img/bg.jpg) fixed;
+}
+.bg-fix {
+  background: url(../img/bg-fixed.png) repeat;
 }
 #wookmark {
   position: relative;
@@ -14,6 +20,47 @@ footer {
 }
 #wookmark li {
   display: none;
+}
+#wookmark .share {
+  position: relative;
+  padding-bottom: 0.4rem;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+#wookmark .share .author {
+  max-width: 18rem;
+  padding-left: 0.8rem;
+  padding-bottom: 0.8rem;
+  padding-top: 0.8rem;
+  font-size: 1.2rem;
+}
+#wookmark .share .tool-bar {
+  position: absolute;
+  right: 0.8rem;
+  top: 0.3rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.8rem;
+}
+#wookmark .share .media {
+  position: relative;
+}
+#wookmark .share .media .tag {
+  position: absolute;
+  right: 1rem;
+  top: 4rem;
+}
+#wookmark .share .media .time {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#wookmark .share .detail {
+  padding: 0.4rem;
+  padding-bottom: 0;
+  font-size: 1.5rem;
+}
+.wookmark-placeholder {
+  background-color: #eee;
 }
 .am-topbar {
   background-color: rgba(0, 0, 0, 0.8);

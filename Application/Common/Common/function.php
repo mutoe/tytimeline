@@ -172,6 +172,17 @@ function get_timing($stamp = 0) {
 	return ' '.$result;
 }
 
+function get_like_status($share_id = 0, $user_id = 0) {
+	if(!$share_id) return false;
+	if(!$user_id) $user_id = is_login();
+	if(!$user_id) return false;
+
+	$user = M('user_info');
+	$like_str = $user -> where('user_id=%d', $user_id) -> getField('like_share');
+	$like_arr = explode(',', $like_str);
+	return in_array($share_id, $like_arr);
+}
+
 /**
  * 天佑 timeline 密码加密技术 用邮箱作为盐分
  * @param mixed $user_id 用户id或者nickname

@@ -5,7 +5,15 @@ html{
 	overflow-x: hidden;
 }
 footer{
-    background-color: rgba(0,0,0,0) !important;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+body{
+    background:
+        url(../img/bg-fixed.png) repeat,
+        url(../img/bg.jpg) fixed;
+}
+.bg-fix{
+    background: url(../img/bg-fixed.png) repeat;
 }
 #wookmark{
     position:relative;
@@ -13,7 +21,41 @@ footer{
     li{
         display:none;
     }
+    .share{
+        position: relative;
+        padding-bottom: 0.4rem;
+        background-color: rgba(255,255,255,0.5);
+        //border-radius: 8px;
+        .author{
+            max-width: 18rem;
+            padding-left: 0.8rem;padding-bottom: 0.8rem;padding-top: 0.8rem;
+            font-size: 1.2rem;
+        }
+        .tool-bar{
+            position: absolute;right: 0.8rem;top: 0.3rem;
+            padding-bottom: 0.4rem;padding-left: 0.8rem;
+        }
+        .media{
+            position: relative;
+            .tag{
+                position: absolute;right: 1rem;top: 4rem;
+            }
+            .time{
+                position: absolute;right: 1rem;bottom: 1rem;
+                background-color: rgba(0,0,0,0.3);
+            }
+        }
+        .detail{
+            padding: 0.4rem;padding-bottom: 0;
+            font-size: 1.5rem;
+        }
+    }
 }
+// wookmark 底部占位符样式
+.wookmark-placeholder{
+    background-color:#eee;
+}
+
 //顶部导航栏
 .am-topbar{
 	background-color: rgba(0,0,0,0.8);

@@ -3,7 +3,7 @@
 <block name='css'>
 <style type="text/css">
 	footer{position: fixed;bottom: 0;left: 20rem;background-color: rgba(0,0,0,0.2);}
-		body{background-image: url(__PUBLIC__/img/timeline.png);}
+		body{background:url(__PUBLIC__/img/bg-fixed.png) repeat, url(__PUBLIC__/img/bg.jpg) no-repeat fixed;}
 </style>
 </block>
 
@@ -22,40 +22,33 @@
 
 <block name="main">
 <div class="am-g">
-
-<h2 style="margin: 0 auto;width: 1040px;margin-top: 2rem;">最新分享</h2>
-<div id="pubu" style="max-width: 1280px;">
-	<volist name="data" id="vo">
-		<div class="box">
-			<div class="pic">
-				<div class="pic-ctrl">
-					<ul class="am-btn-group am-btn-group-xs am-btn-group-justify am-badge">
-					<if condition="is_login()">
-					<if condition="!in_array($vo['share_id'], $like)">
-						<li class="am-btn am-badge-danger" data-id="{$vo['share_id']}">
-							<i class="am-icon-heart-o like_icon"></i> <span class="like_text">喜欢</span>
-						</li>
-					<else />
-						<li class="am-btn am-badge-danger" data-id="{$vo['share_id']}">
-							<i class="am-icon-heartbeat like_icon"></i> <span class="like_text">不喜欢了</span>
-						</li>
-					</if>
-						<if condition="get_auth('delete',0,$vo['share_id'])">
-						<li class="am-btn" onclick="del({$vo.share_id});"><i class="am-icon-remove"></i> 删除</li>
-						</if>
-					</if>
-					</ul>
+	<ul id="wookmark" class="am-u-sm-12 am-u-md-10 am-u-sm-centered" style="margin-top: 6rem;">
+		<volist name="data" id="vo">
+		<li>
+			<div class="share">
+				<div class="author am-fl">@{$vo.user_id|get_nickname}</div>
+				<div class="media">
+					<div class="tag am-fr">{$vo.tag_id|show_tag}</div>
+					<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="278" height="{:get_t_height($vo['width'],$vo['height'],278)}"/></a>
+					<div class="time am-badge am-radius am-fr">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
 				</div>
-				<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" />
-				<a href="{:U('Shard/detail?id='.$vo['share_id'])}" class="pop_tit">
-					<span class="p_tit1">{$vo.tag_id|show_tag}</span>
-					<span class="am-fr am-badge am-badge-warning p_author">@{$vo.user_id|get_nickname}</span><br>
-					<span class="p_tit2">{$vo.detail}</span>
-				</a>
+				<div class="tool-bar am-fr">
+					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
+					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
+					<button class="am-badge am-round am-badge-danger like-btn" data-id="{$vo.share_id}" onclick="like(this)">
+						<if condition="get_like_status($vo['share_id'])">
+							<i class="am-icon-heart"></i>
+						<else />
+							<i class="am-icon-heart-o"></i>
+						</if>
+					</button>
+				</div>
+				<div class="detail">{$vo.detail}</div>
+				<div class="comment"></div>
 			</div>
-		</div>
-	</volist>
-</div>
+		</li>
+		</volist>
+	</ul>
 
 <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
   <div class="am-modal-dialog">
@@ -71,23 +64,14 @@
 </div>
 </block>
 
-<block name='footer'>
-<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer style="margin-top: 3rem;display: none;">
-  <!--<div class="am-footer-switch">
-    <span class="am-footer-ysp" data-rel="mobile" data-am-modal="{target: '#am-switch-mode'}">云适配版</span>
-    <span class="am-footer-divider">|</span>
-    <a id="godesktop" data-rel="desktop" class="am-footer-desktop" href="javascript:">电脑版</a>
-  </div>-->
-  <div class="am-footer-miscs">
-    <p>CopyRight©2015 <a href="http://ty.cqjtu.edu.cn/story/" title="天佑工作室" target="_blank" class="">TianYou Network Studio</a>.</p>
-    <!--<p>京ICP备13033158</p>-->
-  </div>
-</footer>
-</block>
-
 <block name="js">
-<script src="__PUBLIC__/js/waterfall.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+	$("#wookmark li").wookmark({
+		container: $("#wookmark"),
+		offset: 8,
+		autoResize: true
+	});
 
 function del (share_id) {
 	$('#my-confirm').modal({
@@ -115,38 +99,11 @@ function del (share_id) {
 $('#my-confirm').on('closed.modal.amui', function() {
 	$(this).removeData('am.modal');
 });
-$(".pic-ctrl > ul > li").click(function(){
-	var temp = $(this);
-	var id = temp.attr("data-id");
-  $.ajax({
-  	url: "{:U('Shard/like')}",
-  	data: {"share_id":id},
-  	success: function(data) {
-  		if (data.info == "1") {
-	  		//将喜欢按钮变为不再喜欢，更新图标
-				Inc(temp);//自增popup效果
-	  		temp.children("i").removeClass('am-icon-heart-o').addClass('am-icon-heartbeat');
-	  		temp.children("span").text('不喜欢了');
-  		} else {
-  			//将不喜欢按钮变为喜欢，更新图标
-	  		temp.children("i").removeClass('am-icon-heartbeat').addClass('am-icon-heart-o');
-	  		temp.children("span").text('喜欢');
-  		}
-  	},
-  	error: function(data) {
-  		alert("出错了！");
-  	}
-  });
-});
 
-$(".pic:last").css({
-	'padding-bottom': "100px"
-});
-
-//$("#pubu").height( h );
+//修正footer显示方法
 
 $(window).bind("scroll", function () {
-	var h = $(".pic:last").offset().top + $(".pic:last").height() - $(window).height();
+	var h = $(".share:last").offset().top + $(".share:last").height() - $(window).height();
 	var sTop = $(window).scrollTop();
 	var sTop = parseInt(sTop);
 	if (sTop >= h) {

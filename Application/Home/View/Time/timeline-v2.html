@@ -2,9 +2,6 @@
 
 <block name='css'>
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/timeline-v2.css"/>
-<style type="text/css">
-		body{background-image: url(__PUBLIC__/img/time.png);}
-</style>
 </block>
 
 <block name='top-fixed'></block>
@@ -14,7 +11,10 @@
 <block name='main'>
 <div class="am-g am-g-fixed">
 
-<div class="am-u-sm-12 top"></div>
+<div class="am-u-sm-12 top">
+	<p class="sentence">百年那得更百年，今日还须爱今日。</p>
+	<p class="inscribe am-fr">——王世贞</p>
+</div>
 
 <div class="am-u-sm-12 container">
 	<div class="am-u-md-1 am-g-collapse">
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 			<div class="media">
-				<img src="__PUBLIC__/{$meta.savepath}t_{$meta.savename}" width="370"/>
+				<a href="{:U('Shard/detail','id='.$meta['share_id'])}"><img src="__PUBLIC__/{$meta.savepath}t_{$meta.savename}" width="370"/></a>
 			</div>
 			<div class="footer">
 				<div class="intro">
@@ -60,11 +60,18 @@
 					<i class="icon quote_r"></i>
 					</if>
 				</div>
-				<div class="info">
-					<a href="" title="赞"><i class="icon-like"> </i>(2199)</a>
-					<a href="" title="评论"><i class="icon-comment"> </i>(199)</a>
+				<div class="info am-btn-group-xs">
+					<a class="am-btn am-btn-danger" title="喜欢" data-id="{$meta.share_id}" onclick="like(this)">
+						<if condition="get_like_status($meta['share_id'])">
+							<i class="am-icon-heart am-icon-xs"></i>
+						<else />
+							<i class="am-icon-heart-o am-icon-xs"></i>
+						</if>
+						({$meta.be_like})
+					</a>
+					<a class="am-btn am-icon-comments-o am-icon-sm am-btn-icon am-primary" title="评论"> ({$meta.total_comments})</a>
 				</div>
-				<div class="like">2.5万人觉得很赞</div>
+				<div class="like">这个碎片被点击了 {$meta.click} 次</div>
 			</div>
 		</div>
 				</if>

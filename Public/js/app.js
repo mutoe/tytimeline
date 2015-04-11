@@ -17,27 +17,32 @@
 
 })(jQuery);
 
-function Inc (temp) {
-	$("#Inc").remove();
-	$("#pubu").append('<div id="Inc"><b><i class="am-icon-heart"></i> 已喜欢<\/b><\/div>');
-	$('#Inc').css({
-		'text-align': 'center',
-		'font-size': '1.4rem',
-		'position': 'fixed',
-		'z-index': '200',
-		'color': '#C30',
-		'left': '10px',
-		'bottom': '100px',
-		'width': '20rem',
-		'border-radius': '4px',
-		'background-color': 'gold',
-		'box-shadow': '1px 1px 2px'
-	});
-	$('#Inc').animate({
-		top: top - 200+'px',
-		opacity: '0'
-	}, 3000,
-	function() {
-		$(this).fadeOut(1000).remove();
-	});
+
+/**
+ * “喜欢”
+ * @param {Object} element
+ * example. <button data-id="1" onclick="like(this)"><i></i></button>
+ */
+var like = function (el) {
+	var el = $(el);
+	var id = el.attr("data-id");
+  $.ajax({
+  	url: "../Shard/like",
+  	data: {"share_id":id},
+  	success: function(data) {
+  		if(data.status) {
+	  		if (data.info == "1") {
+		  		//将喜欢按钮变为不再喜欢，更新图标
+					el.children('i').removeClass('am-icon-heart-o').addClass('am-icon-heart');
+				} else {
+					el.children('i').removeClass('am-icon-heart').addClass('am-icon-heart-o');
+				}
+  		} else {
+  			alert(data.info);
+  		}
+  	},
+  	error: function(data) {
+  		alert(data.info);
+  	}
+  });
 }

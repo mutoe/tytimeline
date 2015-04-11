@@ -2,8 +2,19 @@ footer {
   background-color: rgba(0, 0, 0, 0.4) !important;
 }
 .top {
-  height: 200px;
   background-color: rgba(255, 255, 255, 0.6);
+  padding: 3rem;
+  text-rendering: auto;
+  text-shadow: rgba(0, 0, 0, 0.2) 2px 2px 2px;
+}
+.top .sentence {
+  text-indent: 4rem;
+  letter-spacing: 5px;
+  padding-left: 20%;
+  padding-top: 2rem;
+}
+.top .inscribe {
+  padding-right: 30%;
 }
 .container {
   position: relative;
@@ -146,13 +157,6 @@ footer {
   line-height: 22px;
   padding: 0px 7px;
   margin-bottom: 10px;
-}
-.content_item .footer .info a {
-  color: #b2b2b2;
-  text-decoration: none;
-  padding-right: 10px;
-  display: inline-block;
-  height: 20px;
 }
 .content_item .footer .like {
   padding-top: 5px;

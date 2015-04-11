@@ -6,7 +6,7 @@ class GroundController extends Controller {
 	public function index() {
 		//获取热门分享
 		$share = M('share');
-		$hot_share = $share -> limit(0,8) -> order('click desc') -> select();
+		$hot_share = $share -> limit(50) -> order('click desc') -> select();
 		$this -> assign('hot', $hot_share);
 
 		/*
