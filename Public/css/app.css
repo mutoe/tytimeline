@@ -5,6 +5,15 @@
 html {
   overflow-x: hidden;
 }
+.am-topbar .am-text-ir {
+  display: block;
+  margin-right: 10px;
+  height: 50px;
+  width: 125px;
+  background: url(../img/logo.png) no-repeat left center;
+  -webkit-background-size: 125px 24px;
+  background-size: 125px 24px;
+}
 footer {
   background-color: rgba(255, 255, 255, 0.5) !important;
 }
@@ -51,12 +60,12 @@ body {
 }
 #wookmark .share .media .tag {
   position: absolute;
-  right: 1rem;
-  top: 4rem;
+  right: 2rem;
+  top: 1rem;
 }
 #wookmark .share .media .time {
   position: absolute;
-  right: 1rem;
+  right: 2rem;
   bottom: 1rem;
   background-color: rgba(0, 0, 0, 0.3);
 }
