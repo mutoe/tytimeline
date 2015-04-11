@@ -6,7 +6,13 @@ html {
   overflow-x: hidden;
 }
 footer {
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+footer .footer-text {
+  color: black;
+}
+footer .footer-link {
+  color: #009CDA;
 }
 body {
   background: url(../img/bg-fixed.png) repeat, url(../img/bg.jpg) fixed;
@@ -31,7 +37,7 @@ body {
   padding-left: 0.8rem;
   padding-bottom: 0.8rem;
   padding-top: 0.8rem;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 #wookmark .share .tool-bar {
   position: absolute;
@@ -55,9 +61,10 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
 }
 #wookmark .share .detail {
-  padding: 0.4rem;
+  padding-top: 0.4rem;
   padding-bottom: 0;
-  font-size: 1.5rem;
+  padding-left: 1rem;
+  font-size: 1.2rem;
 }
 .wookmark-placeholder {
   background-color: #eee;
