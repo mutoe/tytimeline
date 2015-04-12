@@ -24,7 +24,7 @@ class ShareModel extends Model {
 		//return $tag_org;
 		$tag = M('tag');
 		$tag_org = trim($tag_org, ' ');
-		$tag_arr = preg_split("/\s/", $tag_org);
+		$tag_arr = explode(',', $tag_org);
 		$result = '';
 		foreach ($tag_arr as $value) {
 			$value = trim($value, ' ');
@@ -56,19 +56,19 @@ class ShareModel extends Model {
 		// 如果没有输入，则通过验证
 		if($tag_org == '') return true;
 		// 如果去除所有分隔符号的结果为空，则验证失败。如“ , ,,”
-		$match = preg_replace("/\s+/",'', $tag_org);
+		$match = preg_replace("/[\s,]+/",'', $tag_org);
 		if($match == '') return false;
 		//去除首尾空格
 		$tag_org = trim($tag_org, ' ');
 		//匹配中文逗号作为分隔符
-		$tag_arr = preg_split("/\s+/", $tag_org);
+		$tag_arr = explode(",", $tag_org);
 		//当超过 7 个标签不通过验证
 		if(count($tag_arr) > 7) return false;
 		$result = '';
-		//每个标签超过 12 个字符不通过匹配
+		//每个标签超过 18 个字符不通过匹配(6个汉字)
 		foreach ($tag_arr as $value) {
 			$value = trim($value, ' ');
-			if(strlen($value) > 12) return false;
+			if(strlen($value) > 18) return false;
 		}
 		return true;
 	}

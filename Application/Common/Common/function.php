@@ -125,10 +125,11 @@ function get_tag($string) {
 	foreach ($array as $tag_id) {
 		foreach ($tag_list as $tag_value) {
 			if($tag_value['tag_id'] == $tag_id) {
-				$result .= $tag_value['tag_name'].' ';
+				$result .= $tag_value['tag_name'].',';
 			}
 		}
 	}
+	$result = trim($result,',');
 	return $result;
 }
 /**
