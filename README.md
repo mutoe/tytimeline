@@ -4,6 +4,14 @@
 Update Log
 ====================
 
+
+----
+[0.1.6.150412a]
+----
+### fixed ###
+
+* 标签输入框更改为 `tagsinput` 插件
+
 ----
 [0.1.5.150411a]
 ----
@@ -25,13 +33,14 @@ Update Log
 			detail varchar(255),
 			create_time int(12),
 			admire int(8); //被赞数
-
 * 增加了图片的点击量自增
+* 增加了站点的 `logo` 和 `favicon` ，感谢 **郭书昊** 提供的素材
 
 ### fixed ###
 
 * **前端css框架更新至 `amaze ui 2.3.0`**
 * **重构了首页瀑布流，改用 `wookmark` 样式**
+* 修复了IE下的一些布局BUG
 * 修复了未登录时查看分享详情，页面会报错
 * 修复了删除分享时 `total_share` 字段的处理
 * 修复了广场页面达人板块的用户组标签颜色错误显示
@@ -57,7 +66,6 @@ Update Log
 		tytl_share:
 			width int(6),
 			height int(6);
-
 * 增加了以彩色的badge方式显示tag
 
 ### fixed ###
