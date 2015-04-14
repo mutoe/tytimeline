@@ -20,18 +20,18 @@ class LoginController extends BaseController {
 			$this -> display();
 		} else {
 			//获取参数
-			$name = I('post.nickname');
+			$name = strtolower(I('post.nickname'));
 			$password = I('post.password');
 			$password_md5 = md5($password);
 			//执行登录，检查用户名密码
 			$result = $this -> login($name, $password_md5);
 			if ($result > 0) {
 				//登陆成功
-				
+
 				/* UC同步登陆 */
 				$uc = new \Ucenter\Client\Client();
 				$name = mb_convert_encoding($name,'gbk','utf-8');
-				$password = mb_convert_encoding($password,'gbk','utf-8');				
+				$password = mb_convert_encoding($password,'gbk','utf-8');
 				$uc->uc_user_login($name, $password);
 				$uc -> uc_user_synlogin($uid);
 
@@ -53,11 +53,11 @@ class LoginController extends BaseController {
 				$username = mb_convert_encoding($username,'utf-8','gbk');
 				$uc_password = mb_convert_encoding($uc_password,'utf-8','gbk');
 				$email = mb_convert_encoding($email,'utf-8','gbk');
-				
+
 				if($uid > 0) {
 					$this -> sign_from_uc($uid, $username, $uc_password, $email);
 					$this -> init_user_info($uid);//初始化用户信息
-					
+
 					//开始登陆
 					if(I('post.remember-me')){
 					//	cookie('user_id', $uid);

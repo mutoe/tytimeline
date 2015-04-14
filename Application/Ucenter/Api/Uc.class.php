@@ -18,7 +18,7 @@ abstract class Uc extends Controller{
         $this->initConfig();//初始化UC应用配置
         $this->initRequest();//初始化请求
     }
-    
+
     function initConfig(){
         require_cache(MODULE_PATH."Conf/uc.php");
         if(!defined('UC_API')) {
@@ -68,16 +68,52 @@ abstract class Uc extends Controller{
         }
         exit('-1');
     }
-    
+
     protected function _before_response(){
         return true;
     }
-    
+
     protected function _after_response($response=""){
         return true;
     }
-    
+
     public function test(){
         return '1';
     }
+
+
+		public function deleteuser() {
+			$user = M('user');
+			$map['user_id']  = array('IN', $get['uid']);
+		  $result = $user -> where($map) -> delete();//delete方法的返回值是删除的记录数，如果返回值是false则表示SQL出错，返回值如果为0表示没有删除任何数据。
+			return 1;
+		}
+
+		public function renameuser() {
+			$user = M('user');
+			$data['nickname'] = $get['newusername'];
+		  $result = $user -> where('user_id=%d', $get['uid']) -> save($data);//delete方法的返回值是删除的记录数，如果返回值是false则表示SQL出错，返回值如果为0表示没有删除任何数据。
+			return 1;
+		}
+
+		public function updatepw() {
+			$user = M('user');
+			$data['password'] = md5($get['password']);
+		  $result = $user -> where('user_id=%d', $get['uid']) -> save($data);//delete方法的返回值是删除的记录数，如果返回值是false则表示SQL出错，返回值如果为0表示没有删除任何数据。
+			return 1;
+		}
+
+		public function synlogin() {
+			$user = M('user');
+			$member = $user -> where('user_id=%d', $get['uid']) -> field('user_id,nickname') -> find();
+
+			if($member) {
+				header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
+				dsetcookie('Example_auth', authcode($member['user_id']."\t".$member['nickname'], 'ENCODE'), 86400 * 365);
+				session('user_id', $member['user_id']);
+			}
+			return 1;
+		}
+
 }
+
