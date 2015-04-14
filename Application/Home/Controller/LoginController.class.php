@@ -55,16 +55,16 @@ class LoginController extends BaseController {
 				$email = mb_convert_encoding($email,'utf-8','gbk');
 				
 				if($uid > 0) {
-					$user_id = $this -> sign_from_uc($uid, $username, $uc_password, $email);
-					$this -> init_user_info($user_id);//初始化用户信息
-
+					$this -> sign_from_uc($uid, $username, $uc_password, $email);
+					$this -> init_user_info($uid);//初始化用户信息
+					
 					//开始登陆
 					if(I('post.remember-me')){
-					//	cookie('user_id', $user_id);
-					//	cookie('user_mm', $this -> getmm($user_id));
+					//	cookie('user_id', $uid);
+					//	cookie('user_mm', $this -> getmm($uid));
 					}
-					session('user_id', $user_id);
-					$this -> set_loginfo($user_id);//更新登录信息
+					session('user_id', $uid);
+					$this -> set_loginfo($uid);//更新登录信息
 					$this -> success('登陆成功', U('Index/index'), 2);
 				} elseif($uid == -1) {
 					$this -> error('登陆失败:用户不存在,或者被删除');
