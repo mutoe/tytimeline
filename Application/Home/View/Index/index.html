@@ -3,6 +3,7 @@
 <block name='css'>
 <style type="text/css">
 		body{background:url(__PUBLIC__/img/bg-fixed.png) repeat, url(__PUBLIC__/img/bg.jpg) no-repeat fixed;}
+		.am-viewport{max-height: 400px;}
 </style>
 </block>
 
@@ -21,19 +22,24 @@
 
 <block name="main">
 <div class="am-g">
-	<ul id="wookmark" class="am-u-sm-12 am-u-md-10 am-u-sm-centered" style="margin-top: 6rem;">
+	<ul id="wookmark" class="am-u-sm-12 am-u-md-10 am-u-sm-centered am-center" style="margin-top: 6rem;">
 		<volist name="data" id="vo">
 		<li>
 			<div class="share">
-				<div class="author">@{$vo.user_id|get_nickname}</div>
+				<div class="author"><a href="{:U('User/index','user_id='.$vo['user_id'])}">@{$vo.user_id|get_nickname}</a></div>
 				<div class="media am-g">
 					<div class="am-u-sm-12">
-						<div class="tag">{$vo.tag_id|show_tag}</div>
-						<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/></a>
+						<div class="tag am-hide-sm-only">{$vo.tag_id|show_tag}</div>
+						<a class="am-show-sm-down" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
+						</a>
+						<a class="am-show-md-up" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
+						</a>
 						<div class="time am-badge am-radius">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
 					</div>
 				</div>
-				<div class="tool-bar">
+				<div class="tool-bar am-hide-sm-only">
 					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
 					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
 					<button class="am-badge am-round am-badge-danger like-btn" data-id="{$vo.share_id}" onclick="javascript:like(this);">
@@ -44,7 +50,8 @@
 						</if>
 					</button>
 				</div>
-				<div class="detail" style="max-width: 254px;">{$vo.detail}</div>
+				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
+				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail}</div>
 				<div class="comment"></div>
 			</div>
 		</li>

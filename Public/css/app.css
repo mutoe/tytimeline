@@ -29,11 +29,13 @@ body {
 .bg-fix {
   background: url(../img/bg-fixed.png) repeat;
 }
+@media (max-width: 640px) {
+}
 #wookmark {
   position: relative;
   list-style: none;
 }
-#wookmark li {
+#wookmark li.wookmark-box {
   display: none;
 }
 #wookmark .share {
@@ -60,12 +62,12 @@ body {
 }
 #wookmark .share .media .tag {
   position: absolute;
-  right: 2rem;
+  left: 10%;
   top: 1rem;
 }
 #wookmark .share .media .time {
   position: absolute;
-  right: 2rem;
+  right: 7%;
   bottom: 1rem;
   background-color: rgba(0, 0, 0, 0.3);
 }
