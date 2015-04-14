@@ -21,21 +21,59 @@ class LoginController extends BaseController {
 		} else {
 			//获取参数
 			$name = I('post.nickname');
-			$password = md5(I('post.password'));
+			$password = I('post.password');
+			$password_md5 = md5($password);
 			//执行登录，检查用户名密码
-			$result = $this -> login($name, $password);
+			$result = $this -> login($name, $password_md5);
 			if ($result > 0) {
 				//登陆成功
+				
+				/* UC同步登陆 */
+				$uc = new \Ucenter\Client\Client();
+				$name = mb_convert_encoding($name,'gbk','utf-8');
+				$password = mb_convert_encoding($password,'gbk','utf-8');				
+				$uc->uc_user_login($name, $password);
+				$uc -> uc_user_synlogin($uid);
+
+				//TODO: 记住我
 				if(I('post.remember-me')){
-					cookie('user_id', $result);
-					cookie('user_mm', $this -> getmm($result));
+					//cookie('user_id', $result);
+					//cookie('user_mm', $this -> getmm($result));
 				}
 				session('user_id', $result);
 				$this -> set_loginfo($result);//更新登录信息
 				$this -> success('登陆成功', U('Index/index'), 2);
 			} elseif ($result == -1) {
-				//登陆失败:没有找到用户
-				$this -> error('登陆失败:不存在此用户');
+				/* UC开始 */
+				$uc = new \Ucenter\Client\Client();
+				$name = mb_convert_encoding($name,'gbk','utf-8');
+				$password = mb_convert_encoding($password,'gbk','utf-8');
+				list($uid, $username, $uc_password, $email) = $uc -> uc_user_login($name, $password);
+				$uid = mb_convert_encoding($uid,'utf-8','gbk');
+				$username = mb_convert_encoding($username,'utf-8','gbk');
+				$uc_password = mb_convert_encoding($uc_password,'utf-8','gbk');
+				$email = mb_convert_encoding($email,'utf-8','gbk');
+				
+				if($uid > 0) {
+					$user_id = $this -> sign_from_uc($uid, $username, $uc_password, $email);
+					$this -> init_user_info($user_id);//初始化用户信息
+
+					//开始登陆
+					if(I('post.remember-me')){
+					//	cookie('user_id', $user_id);
+					//	cookie('user_mm', $this -> getmm($user_id));
+					}
+					session('user_id', $user_id);
+					$this -> set_loginfo($user_id);//更新登录信息
+					$this -> success('登陆成功', U('Index/index'), 2);
+				} elseif($uid == -1) {
+					$this -> error('登陆失败:用户不存在,或者被删除');
+				} elseif($uid == -2) {
+					$this -> error('登陆失败:密码错');
+				} else {
+					$this -> error('登陆失败:未定义');
+				}
+				/* UC结束 */
 			} elseif($result == -2) {
 				//登陆失败:密码错误
 				$this -> error('登陆失败：密码错误');
@@ -43,6 +81,31 @@ class LoginController extends BaseController {
 				cookie('login_error', $temp++, 3600);
 			}
 		}
+	}
+
+	/**
+	 * 从uc调回用户数据进行注册
+	 */
+	private function sign_from_uc($uid, $username, $password, $email) {
+		$user = M("User");
+		$data['user_id'] = $uid;
+		$data['nickname'] = $username;
+		$data['password'] = md5($password);
+		$data['email'] = $email;
+		$data['create_time'] = time();
+		$data['lastlogin_time'] = time();
+		$result = $user -> add($data);
+		return $result;
+	}
+
+	/**
+	 * 初始化用户信息表
+	 */
+	private function init_user_info($user_id) {
+			$user_info = M('user_info');
+			$user_info -> user_id = $user_id;
+			$result = $user_info -> add();
+			return $result;
 	}
 
 	/**
@@ -63,54 +126,5 @@ class LoginController extends BaseController {
 		}
 	}
 
-	public function sign() {
-		$this -> display();
-	}
-
-	public function checkName() {
-		$userModel = D("User");
-		$findName = I('nickname');
-		$data = $userModel -> where(array('nickname' => $findName)) -> find();
-		if (!$data) {
-			$this -> success('用户名可用~', true);
-			//第二个参数说明该提交为ajax提交
-		} else {
-			$this -> error('用户名重复！', true);
-		}
-	}
-
-	public function checkEmail() {
-		$userModel = D("User");
-		$findEmail = I('email');
-		$data = $userModel -> where(array('email' => $findEmail)) -> find();
-		if (!$data) {
-			$this -> success('邮箱可用~', true);
-			//第二个参数说明该提交为ajax提交
-		} else {
-			$this -> error('邮箱重复！', true);
-		}
-	}
-
-	/**
-	 * 提交注册
-	 */
-	public function checkSign() {
-		$user = D("User");
-		if (!$user -> create($_POST, 1)) {// 如果创建失败 抛出异常
-			$this -> error('注册失败，请联系管理员；<br />'+ $user -> getError(), '', 5);
-		} else {// 验证通过
-			$user_id = $user -> add();
-
-			//初始化用户信息
-			$user_info = D('user_info');
-			$user_info -> user_id = $user_id;
-			$user_info -> add();
-
-			//注册完毕后登陆
-			session('user_id', $user_id);
-
-			$this -> success('注册成功', U('Index/index'), 1);
-		}
-	}
 
 }

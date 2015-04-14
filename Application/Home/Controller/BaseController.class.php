@@ -34,4 +34,19 @@ class BaseController extends Controller {
 		$data['lastlogin_ip'] = get_client_ip();
 		return $user -> where('user_id=%d',$user_id) -> save($data);
 	}
+
+	/**
+	 * 登出操作
+	 */
+	public function logout() {
+		//清空cookie
+		cookie('user_id',null);
+
+		//uc 同步登出
+		$uc -> ucUserSynlogout;
+
+		session('user_id',null);
+		$this -> success('退出成功，正在跳转到首页...', U('Index/index'), 1);
+	}
+
 }

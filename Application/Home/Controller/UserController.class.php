@@ -24,14 +24,4 @@ class UserController extends BaseController {
 		$this -> display();
 	}
 
-
-	/**
-	 * 登出操作
-	 */
-	public function logout() {
-		cookie('user_id',null);
-		cookie('user_mm',null);
-		session('user_id',null);
-		$this -> success('退出成功，正在跳转到首页...', U('Index/index'), 1);
-	}
 }
