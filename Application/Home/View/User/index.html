@@ -2,127 +2,77 @@
 
 <block name="css">
 <style>
-@media only screen and (min-width: 641px) {
-  .blog-sidebar {
-    font-size: 1.4rem;
-    margin-top: 3.6rem;
-  }
-}
+.user-info-box{width: 236px;}
 
-.blog-main {
-  padding: 20px 0;
-}
-
-.blog-title {
-  margin: 10px 0 20px 0;
-}
-
-.blog-meta {
-  font-size: 14px;
-  margin: 10px 0 20px 0;
-  color: #222;
-}
-
-.blog-meta a {
-  color: #27ae60;
-}
-
-.blog-pagination a {
-  font-size: 1.4rem;
-}
-
-.blog-team li {
-  padding: 4px;
-}
-
-.blog-team img {
-  margin-bottom: 0;
-}
-
-.blog-footer {
-  padding: 10px 0;
-  text-align: center;
+@media (max-width: 640px) {
+	.user-info-box{width: 162px;}
 }
 </style>
 </block>
 
 <block name="main">
-<div class="am-g">
-
-
-<div class="am-u-lg-10 am-u-lg-centered">
-<div class="am-u-md-8">
-	<hr />
-	<ul id="wookmark">
-		<volist name="share" id="s">
-		<li>
-			<img src="__PUBLIC__/{$s.savepath}t_{$s.savename}" width="200" height="{:get_t_height($s['width'],$s['height'])}" />
+<div class="am-g am-g-fixed">
+	<h3>个人中心</h3>
+	<ul id="wookmark" class="am-center" style="padding: 0;">
+		<li class="wookmark-box">
+			<section class="am-panel am-panel-default user-info-box" style="margin-bottom: 0;">
+	      <div class="am-panel-hd">
+	      	<span class="am-badge-primary am-badge">{$user.user_id|get_usergroup=0}</span>
+	      	<a href="" class="am-show-sm-only am-text-xs">@{$user.user_id|get_nickname}</a>
+	      	<a href="" class="am-show-md-up">@{$user.user_id|get_nickname}</a>
+	      </div>
+	      <div class="am-panel-bd">
+	      	<ul class="am-avg-sm-3">
+	      		<li>
+	      			<span class="am-center am-text-center"><i class="am-icon-puzzle-piece"></i> <span class="am-hide-sm-only">分享</span></span>
+	      			<a class="am-center am-text-center">{$user_info.total_share}</a>
+	      		</li>
+	      		<li>
+	      			<span class="am-center am-text-center"><i class="am-icon-eye"></i> <span class="am-hide-sm-only">关注</span></span>
+	      			<a class="am-center am-text-center">{$user_info.like|default='0'}</a>
+	      		</li>
+	      		<li>
+	      			<span class="am-center am-text-center"><i class="am-icon-users"></i> <span class="am-hide-sm-only">粉丝</span></span>
+	      			<a class="am-center am-text-center">{$user_info.be_like}</a>
+	      		</li>
+	      	</ul>
+	      	<hr />
+	        <p>&nbsp;&nbsp;&nbsp;{$user_info.detail|default="碎片主人很懒，什么也没有留下。"}</p>
+	        <if condition="$user_info['user_id'] eq is_login()">
+	        <hr />
+	        <p class="am-text-sm">修改个人信息请移步 <a href="http://bbs.cqjtu.edu.cn/memcp.php">论坛-个人中心</a> 。</p>
+	        </if>
+	      </div>
+	    </section>
+		</li>
+		<volist name="share" id="vo">
+		<li class="wookmark-box">
+			<div class="share">
+				<div class="author am-show-md-up">发表于 {$vo.create_time|get_timing}前</div>
+				<div class="author am-show-sm-only"> {$vo.create_time|get_timing}前</div>
+				<div class="media am-g">
+					<div class="am-u-sm-12">
+						<div class="tag">{$vo.tag_id|show_tag}</div>
+						<a class="am-show-sm-down" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
+						</a>
+						<a class="am-show-md-up" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="236" height="{:get_t_height($vo['width'],$vo['height'],236)}"/>
+						</a>
+						<div class="time am-badge am-radius">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
+					</div>
+				</div>
+				<div class="tool-bar">
+					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
+					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
+				</div>
+				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
+				<div class="detail am-show-md-up" style="max-width: 243px;">{$vo.detail}</div>
+				<div class="comment"></div>
+			</div>
 		</li>
 		</volist>
 	</ul>
-
-</div>
-
-<div class="am-u-md-4 blog-sidebar">
-  <div class="am-panel-group">
-    <section class="am-panel am-panel-default">
-      <div class="am-panel-hd">
-      	<span class="am-badge-primary am-badge">{$user.user_id|get_usergroup=0}</span> <a href="">@{$user.user_id|get_nickname}</a><br />
-	      	<span class="am-text-sm">
-	      		<span class="am-badge am-round"><i class="am-icon-eye"></i> 关注：{$user_info.like|default='0'}</span>
-	      		<span class="am-badge am-round"><i class="am-icon-eye"></i> 粉丝：{$user_info.be_like}</span>
-	      		<span class="am-badge am-round"><i class="am-icon-eye"></i> 分享：{$user_info.total_share}</span>
-      		</span>
-      </div>
-      <div class="am-panel-bd">
-        <p>{$user_info.detail|default="碎片主人很懒，什么也没有留下。"}</p>
-        <a class="am-btn am-btn-success am-btn-xs" href="#">查看更多信息 →</a>
-      </div>
-    </section>
-    <if condition="$user['user_id'] eq is_login()">
-    <section class="am-panel am-panel-default">
-      <div class="am-panel-hd"><i class="am-icon-gear"></i> 个人信息管理</div>
-      <ul class="am-list blog-list">
-        <li><a href="#">修改头像</a></li>
-        <li><a href="#">修改个人信息</a></li>
-      </ul>
-    </section>
-    </if>
-
-<!--TODO    <section class="am-panel am-panel-default">
-      <div class="am-panel-hd">近期访客</div>
-      <div class="am-panel-bd">
-        <ul class="am-avg-sm-4 blog-team">
-          <li><img class="am-thumbnail"
-                   src="http://img4.duitang.com/uploads/blog/201406/15/20140615230220_F5LiM.thumb.224_0.jpeg" alt=""/>
-          </li>
-          <li><img class="am-thumbnail"
-                   src="http://img4.duitang.com/uploads/blog/201406/15/20140615230220_F5LiM.thumb.224_0.jpeg" alt=""/>
-          </li>
-          <li><img class="am-thumbnail"
-                   src="http://img4.duitang.com/uploads/blog/201406/15/20140615230220_F5LiM.thumb.224_0.jpeg" alt=""/>
-          </li>
-          <li><img class="am-thumbnail"
-                   src="http://img4.duitang.com/uploads/blog/201406/15/20140615230220_F5LiM.thumb.224_0.jpeg" alt=""/>
-          </li>
-          <li><img class="am-thumbnail"
-                   src="http://img4.duitang.com/uploads/blog/201406/15/20140615230159_kjTmC.thumb.224_0.jpeg" alt=""/>
-          </li>
-          <li><img class="am-thumbnail"
-                   src="http://img4.duitang.com/uploads/blog/201406/15/20140615230220_F5LiM.thumb.224_0.jpeg" alt=""/>
-          </li>
-          <li><img class="am-thumbnail"
-                   src="http://img4.duitang.com/uploads/blog/201406/15/20140615230220_F5LiM.thumb.224_0.jpeg" alt=""/>
-          </li>
-          <li><img class="am-thumbnail"
-                   src="http://img4.duitang.com/uploads/blog/201406/15/20140615230159_kjTmC.thumb.224_0.jpeg" alt=""/>
-          </li>
-        </ul>
-      </div>
-    </section>-->
-  </div>
-</div>
-</div>
 
 </div>
 </block>
@@ -130,8 +80,10 @@
 <block name='js'>
 <script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	$('#wookmark li').wookmark({
-		container: $('#wookmark')
+	$('#wookmark li.wookmark-box').wookmark({
+		container: $('#wookmark'),
+		autoResize: true,
+		offset: 4
 	});
 </script>
 </block>
