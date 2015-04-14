@@ -47,3 +47,4 @@ Temporary Items
 /Application/Runtime
 /*.project
 tytimeline.sql
+Application/Home/Conf/uc.php
