@@ -1,48 +1,105 @@
-<extend name="Common:base" />
+<extend name='Common:base' />
 
-<block name='css'>
-<style type="text/css">
-	ul.am-thumbnails > li > .media {height: 200px;overflow: hidden;}
-</style>
+<block name='main'>
+<div class="am-g am-g-fixed am-g-collapse">
+
+	<h2>热门标签</h2>
+	<div class="am-g am-g-collapse" style="margin-bottom: 2rem;">
+		<ol id="filters">
+      <li data-filter="all">全部</li>
+			<volist name="tag" id="vo">
+			<li data-filter="{$vo.tag_id}">{$vo.tag_id|get_tag}</li>
+      </volist>
+    </ol>
+	</div>
+
+	<div class="am-g">
+		<ul id="wookmark">
+		<volist name="share" id="vo">
+      <li class="wookmark-box" data-filter-class='{$vo.tag_id|get_json}'>
+      	<div class="share">
+					<div class="author"><a href="{:U('User/index','user_id='.$vo['user_id'])}">@{$vo.user_id|get_nickname}</a></div>
+					<div class="media am-g">
+						<div class="am-u-sm-12">
+							<div class="tag am-hide-sm-only">{$vo.tag_id|show_tag}</div>
+							<a class="am-show-sm-down" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+								<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
+							</a>
+							<a class="am-show-md-up" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+								<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="240" height="{:get_t_height($vo['width'],$vo['height'],240)}"/>
+							</a>
+							<div class="time am-badge am-radius">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
+						</div>
+					</div>
+					<div class="tool-bar am-hide-sm-only">
+						<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
+						<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
+						<button class="am-badge am-round am-badge-danger like-btn" data-id="{$vo.share_id}" onclick="javascript:like(this);">
+							<if condition="get_like_status($vo['share_id'])">
+								<i class="am-icon-heart"></i>
+							<else />
+								<i class="am-icon-heart-o"></i>
+							</if>
+						</button>
+					</div>
+					<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
+					<div class="detail am-show-md-up" style="max-width: 240px;">{$vo.detail}</div>
+					<div class="comment"></div>
+				</div>
+			</li>
+		</volist>
+		</ul>
+	</div>
+
+</div>
 </block>
 
-<block name="main">
-<div class="am-g am-g-fixed">
-
-<br />
-<div class="am-u-sm-centered am-u-sm-12">
-	<ul class="am-avg-sm-1 am-avg-lg-2 am-thumbnails">
-	<foreach name="tag" item="vo" key="k" >
-		<li>
-			<div class="am-panel am-panel-secondary">
-				<div class="am-panel-hd">
-					<a href="{:U('Tag/detail','tag_id='.$vo['tag_id'])}">
-  					<span class="am-badge am-badge-primary am-text-sm">{$vo.tag_id|get_tag}</span>
-						<span class="am-text-xs"> x {$vo.total_share}</span>
-					</a>
-				</div>
-				<div class="am-panel-bd">
-					<ul class="am-avg-sm-2 am-thumbnails">
-					<volist name="share[$k]" id="s">
-						<li><div class="media"><a href="{:U('Shard/detail','id='.$s['share_id'])}"><img src="__PUBLIC__/{$s.savepath}t_{$s.savename}" width="200" /></a></div></li>
-					</volist>
-					</ul>
-				</div>
-			</div>
-		</li>
-	</foreach>
-	</ul>
-</div>
-
-</div>
-</block>
 
 <block name='js'>
+<script src="__PUBLIC__/js/jquery.imagesloaded.js"></script>
+<script src="__PUBLIC__/js/jquery.wookmark.min.js"></script>
 <script type="text/javascript">
-	var color = ["am-panel-secondary","am-panel-warning","am-panel-success","am-panel-danger",""];
-	$(".am-panel").each(function () {
-		var c = Math.floor(Math.random() * color.length + 1) - 1;
-		$(this).addClass(color[c]);
-	});
+  (function ($){
+
+    $('#wookmark').imagesLoaded(function() {
+      var handler = $('#wookmark li.wookmark-box'),
+          filters = $('#filters li');
+
+      // Call the layout function.
+      handler.wookmark({
+        autoResize: true,
+        align: 'left',
+        container: $('#wookmark'),
+        offset: 2,
+        fillEmptySpace: true
+      });
+
+      /**
+       * When a filter is clicked, toggle it's active state and refresh.
+       */
+      function onClickFilter(e) {
+        var $item = $(e.currentTarget),
+            activeFilters = [],
+            filterType = $item.data('filter');
+
+        if (filterType === 'all') {
+          filters.removeClass('active');
+        } else {
+          $item.toggleClass('active');
+
+          // Collect active filter strings
+          filters.filter('.active').each(function() {
+            activeFilters.push($(this).data('filter'));
+          });
+        }
+
+        handler.wookmarkInstance.filter(activeFilters, 'or');
+      }
+
+      // Capture filter click events.
+      $('#filters').on('click.wookmark-filter', 'li', onClickFilter);
+    });
+  })(jQuery);
 </script>
+
 </block>

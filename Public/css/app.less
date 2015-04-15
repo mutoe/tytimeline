@@ -16,6 +16,10 @@ html{
 footer{
     background-color: rgba(255,255,255,0.5) !important;
     .footer-text{
+  -webkit-transition: all 0.3s ease-out;
+     -moz-transition: all 0.3s ease-out;
+       -o-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
         color: black;
     }
     .footer-link{
@@ -33,44 +37,50 @@ body{
 @media (max-width: 640px) {
 
 }
-
+// wookmark 瀑布流样式
 #wookmark{
     position:relative;
     list-style: none;
-    li.wookmark-box{
-      -webkit-transition: all 0.3s ease-out;
-         -moz-transition: all 0.3s ease-out;
-           -o-transition: all 0.3s ease-out;
-              transition: all 0.3s ease-out;
-        display:none;
-    }
-    .share{
-        position: relative;
-        padding-bottom: 0.4rem;
-        background-color: rgba(255,255,255,0.5);
-        //border-radius: 8px;
-        .author{
-            max-width: 18rem;
-            padding-left: 0.8rem;padding-bottom: 0.8rem;padding-top: 0.8rem;
-            font-size: 1.3rem;
+    li{
+        &.wookmark-box{
+          -webkit-transition: all 0.3s ease-out;
+             -moz-transition: all 0.3s ease-out;
+               -o-transition: all 0.3s ease-out;
+                  transition: all 0.3s ease-out;
+            display:none;
         }
-        .tool-bar{
-            position: absolute;right: 0.8rem;top: 0.3rem;
-            padding-bottom: 0.4rem;padding-left: 0.8rem;
+        &.inactive {
+            //visibility: hidden;
+            opacity: 0;
         }
-        .media{
+        .share{
             position: relative;
-            .tag{
-                position: absolute;left: 10%;top: 1rem;
+            padding-bottom: 0.4rem;
+            background-color: rgba(255,255,255,0.5);
+            //border-radius: 8px;
+            .author{
+                max-width: 18rem;
+                padding-left: 0.8rem;padding-bottom: 0.8rem;padding-top: 0.8rem;
+                font-size: 1.3rem;
             }
-            .time{
-                position: absolute;right: 7%;bottom: 1rem;
-                background-color: rgba(0,0,0,0.3);
+            .tool-bar{
+                position: absolute;right: 0.8rem;top: 0.3rem;
+                padding-bottom: 0.4rem;padding-left: 0.8rem;
             }
-        }
-        .detail{
-            padding: 0.4rem 1rem 0;
-            font-size: 1.2rem;
+            .media{
+                position: relative;
+                .tag{
+                    position: absolute;left: 10%;top: 1rem;
+                }
+                .time{
+                    position: absolute;right: 7%;bottom: 1rem;
+                    background-color: rgba(0,0,0,0.3);
+                }
+            }
+            .detail{
+                padding: 0.4rem 1rem 0;
+                font-size: 1.2rem;
+            }
         }
     }
 }
@@ -80,8 +90,41 @@ body{
      -moz-transition: all 0.3s ease-out;
        -o-transition: all 0.3s ease-out;
           transition: all 0.3s ease-out;
-    background-color:#eee;
+    background-color: rgba(255,255,255,0.4);
 }
+// 筛选框样式
+#filters {
+    list-style-type: none;
+    text-align: center;
+    padding-bottom: 2rem;
+    padding-left: 0;
+    li {
+        background-color: rgba(255,255,255,0.2);
+        font-size: 12px;
+        float: left;
+        padding: 6px 0 4px 0;
+        margin: 0 1px 1px 0;
+        cursor: pointer;
+        width: 8%;
+      -webkit-transition: all 0.15s ease-out;
+         -moz-transition: all 0.15s ease-out;
+           -o-transition: all 0.15s ease-out;
+              transition: all 0.15s ease-out;
+        &:hover {
+          background: #009CDA;
+          color: #ffffff;
+        }
+
+        &.active {
+          background: #0B76AC;
+          color: #ffffff;
+        }
+    }
+}
+
+
+
+
 
 //顶部导航栏
 .am-topbar{
