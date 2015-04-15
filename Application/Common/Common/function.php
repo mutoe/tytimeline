@@ -9,6 +9,10 @@ function get_nickname($user_id = 0) {
 	$result = $user -> where('user_id=%d', $user_id) -> getField('nickname');
 	return $result;
 }
+
+/**
+ * 获取用户组
+ */
 function get_usergroup($user_id = 0, $show_id = true) {
 	if($user_id == 0) {
 		if(I('session.user_id', 0)) $user_id = I('session.user_id');
@@ -27,17 +31,23 @@ function devide_month($ym) {
 	return $year.'-'.$month;
 }
 
+/**
+ * 格式化时间戳
+ */
 function time_format($time, $format='Y-m-d H:i:s') {
 	return date($format, $time);
 }
 /**
  * 判断是否登录
- * @return int 0:未登录 int:用户ID
+ * @return int 0:未登录 正整数:用户ID
  */
 function is_login() {
 	if(is_null(session('user_id'))) return 0;
 	return I('session.user_id');
 }
+/**
+ * 获取管理员权限
+ */
 function is_admin($user_id = 0) {
 	$admin_group = array(
 		1, //超级管理员
@@ -132,6 +142,16 @@ function get_tag($string) {
 	$result = trim($result,',');
 	return $result;
 }
+
+/**
+ * 字符串(以","分隔)转化为json串
+ */
+function get_json($string) {
+	$array = explode(',',$string);
+	$result = json_encode($array);
+	return $result;
+}
+
 /**
  * 输出tag列表 前端badge形式
  */
@@ -159,7 +179,10 @@ function show_tag($string, $color = true) {
 	return $result;
 }
 
-
+/**
+ * 获取时间差
+ * @param timestamp
+ */
 function get_timing($stamp = 0) {
 	$now_time = time();
 	$timing = $now_time - $stamp;
@@ -173,6 +196,9 @@ function get_timing($stamp = 0) {
 	return ' '.$result;
 }
 
+/**
+ * 获取喜欢分享的状态
+ */
 function get_like_status($share_id = 0, $user_id = 0) {
 	if(!$share_id) return false;
 	if(!$user_id) $user_id = is_login();
@@ -185,20 +211,37 @@ function get_like_status($share_id = 0, $user_id = 0) {
 }
 
 /**
- * 天佑 timeline 密码加密技术 用邮箱作为盐分
- * @param mixed $user_id 用户id或者nickname
- * @param string 32位加密后的md5密码
- * @return string 32为加盐md5密码
- * @author mt
- * TODO:构思好了还未实现
+ * 判断是否移动端函数，来自Thinkphp论坛
  */
-function md5tl($user, $md5passwd) {
-	$user = M('user');
-	$email = $user -> where('user_id=%d', $user_id) -> getField('email');
-	return md5($md5passwd. $email);
+function ismobile() {
+  // 如果有HTTP_X_WAP_PROFILE则一定是移动设备
+  if (isset ($_SERVER['HTTP_X_WAP_PROFILE']))
+    return true;
+
+  //此条摘自TPM智能切换模板引擎，判断是否为客户端
+  if(isset ($_SERVER['HTTP_CLIENT']) &&'PhoneClient'==$_SERVER['HTTP_CLIENT'])
+    return true;
+  //如果via信息含有wap则一定是移动设备,部分服务商会屏蔽该信息
+  if (isset ($_SERVER['HTTP_VIA']))
+    //找不到为flase,否则为true
+    return stristr($_SERVER['HTTP_VIA'], 'wap') ? true : false;
+  //判断手机发送的客户端标志,兼容性有待提高
+  if (isset ($_SERVER['HTTP_USER_AGENT'])) {
+    $clientkeywords = array(
+      'nokia','sony','ericsson','mot','samsung','htc','sgh','lg','sharp','sie-','philips','panasonic','alcatel','lenovo','iphone','ipod','blackberry','meizu','android','netfront','symbian','ucweb','windowsce','palm','operamini','operamobi','openwave','nexusone','cldc','midp','wap','mobile'
+    );
+    //从HTTP_USER_AGENT中查找手机浏览器的关键字
+    if (preg_match("/(" . implode('|', $clientkeywords) . ")/i", strtolower($_SERVER['HTTP_USER_AGENT']))) {
+      return true;
+    }
+  }
+  //协议法，因为有可能不准确，放到最后判断
+  if (isset ($_SERVER['HTTP_ACCEPT'])) {
+    // 如果只支持wml并且不支持html那一定是移动设备
+    // 如果支持wml和html但是wml在html之前则是移动设备
+    if ((strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') !== false) && (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === false || (strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') < strpos($_SERVER['HTTP_ACCEPT'], 'text/html')))) {
+      return true;
+    }
+  }
+  return false;
 }
-
-
-
-
-

@@ -18,6 +18,10 @@ footer {
   background-color: rgba(255, 255, 255, 0.5) !important;
 }
 footer .footer-text {
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
   color: black;
 }
 footer .footer-link {
@@ -42,40 +46,43 @@ body {
   transition: all 0.3s ease-out;
   display: none;
 }
-#wookmark .share {
+#wookmark li.inactive {
+  opacity: 0;
+}
+#wookmark li .share {
   position: relative;
   padding-bottom: 0.4rem;
   background-color: rgba(255, 255, 255, 0.5);
 }
-#wookmark .share .author {
+#wookmark li .share .author {
   max-width: 18rem;
   padding-left: 0.8rem;
   padding-bottom: 0.8rem;
   padding-top: 0.8rem;
   font-size: 1.3rem;
 }
-#wookmark .share .tool-bar {
+#wookmark li .share .tool-bar {
   position: absolute;
   right: 0.8rem;
   top: 0.3rem;
   padding-bottom: 0.4rem;
   padding-left: 0.8rem;
 }
-#wookmark .share .media {
+#wookmark li .share .media {
   position: relative;
 }
-#wookmark .share .media .tag {
+#wookmark li .share .media .tag {
   position: absolute;
   left: 10%;
   top: 1rem;
 }
-#wookmark .share .media .time {
+#wookmark li .share .media .time {
   position: absolute;
   right: 7%;
   bottom: 1rem;
   background-color: rgba(0, 0, 0, 0.3);
 }
-#wookmark .share .detail {
+#wookmark li .share .detail {
   padding: 0.4rem 1rem 0;
   font-size: 1.2rem;
 }
@@ -84,7 +91,34 @@ body {
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  background-color: #eee;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+#filters {
+  list-style-type: none;
+  text-align: center;
+  padding-bottom: 2rem;
+  padding-left: 0;
+}
+#filters li {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  float: left;
+  padding: 6px 0 4px 0;
+  margin: 0 1px 1px 0;
+  cursor: pointer;
+  width: 8%;
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  -o-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+}
+#filters li:hover {
+  background: #009CDA;
+  color: #ffffff;
+}
+#filters li.active {
+  background: #0B76AC;
+  color: #ffffff;
 }
 .am-topbar {
   background-color: rgba(0, 0, 0, 0.8);
