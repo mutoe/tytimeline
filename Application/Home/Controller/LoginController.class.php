@@ -3,6 +3,12 @@ namespace Home\Controller;
 use Think\Controller;
 
 class LoginController extends BaseController {
+	
+	protected function _empty(){
+		header("HTTP/1.0 404 Not Found");
+		$this -> display('Common:404');
+	}	
+	
 	protected function _initialize() {
 		//判断是否已经登陆
 		if (I('session.user_id', 0)) {

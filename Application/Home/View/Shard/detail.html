@@ -7,7 +7,7 @@
 <div style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">
   <div class="am-u-md-8">
   	<p class="am-text-sm am-fl">@{$data.user_id|get_nickname} 发表于{$data.create_time|get_timing}前</p>
-  	<if condition="get_auth('delete', 0, $data['user_id'])">
+  	<if condition="get_auth('delete', 0, $data['share_id'])">
     <div class="am-btn-group am-btn-group-xs am-fr">
 		  <a href="{:U('Shard/modi','share_id='.I('get.id'))}" class="am-btn am-radius am-btn-secondary">修改</a>
 		  <a id="del" class="am-btn am-radius">删除</a>
