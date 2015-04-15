@@ -32,14 +32,15 @@ class LoginController extends BaseController {
 				$uc = new \Ucenter\Client\Client();
 				$name = mb_convert_encoding($name,'gbk','utf-8');
 				$password = mb_convert_encoding($password,'gbk','utf-8');
-				$uc->uc_user_login($name, $password);
-				$uc -> uc_user_synlogin($uid);
-
+				list($uid, $username, $password, $email) = $uc->uc_user_login($name, $password);
+				if($uid > 0){
+					echo $uc->uc_user_synlogin($uid);
+				}
 				//TODO: 记住我
-				if(I('post.remember-me')){
+				//if(I('post.remember-me')){
 					//cookie('user_id', $result);
 					//cookie('user_mm', $this -> getmm($result));
-				}
+				//}
 				session('user_id', $result);
 				$this -> set_loginfo($result);//更新登录信息
 				$this -> success('登陆成功', U('Index/index'), 2);
@@ -55,14 +56,15 @@ class LoginController extends BaseController {
 				$email = mb_convert_encoding($email,'utf-8','gbk');
 
 				if($uid > 0) {
+					$username = strtolower($username);
 					$this -> sign_from_uc($uid, $username, $uc_password, $email);
 					$this -> init_user_info($uid);//初始化用户信息
 
 					//开始登陆
-					if(I('post.remember-me')){
+					//if(I('post.remember-me')){
 					//	cookie('user_id', $uid);
 					//	cookie('user_mm', $this -> getmm($uid));
-					}
+					//}
 					session('user_id', $uid);
 					$this -> set_loginfo($uid);//更新登录信息
 					$this -> success('登陆成功', U('Index/index'), 2);

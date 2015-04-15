@@ -43,7 +43,8 @@ class BaseController extends Controller {
 		cookie('user_id',null);
 
 		//uc 同步登出
-		$uc -> ucUserSynlogout;
+		$uc = new \Ucenter\Client\Client();
+		echo $uc -> uc_user_synlogout();
 
 		session('user_id',null);
 		$this -> success('退出成功，正在跳转到首页...', U('Index/index'), 1);
