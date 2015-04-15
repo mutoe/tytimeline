@@ -17,9 +17,8 @@
 		<li class="wookmark-box">
 			<section class="am-panel am-panel-default user-info-box" style="margin-bottom: 0;">
 	      <div class="am-panel-hd">
-	      	<span class="am-badge-primary am-badge">{$user.user_id|get_usergroup=0}</span>
-	      	<a href="" class="am-show-sm-only am-text-xs">@{$user.user_id|get_nickname}</a>
-	      	<a href="" class="am-show-md-up">@{$user.user_id|get_nickname}</a>
+	      	<span class="am-badge-primary am-badge am-show-sm-only">{$user.user_id|get_usergroup=0}</span><a href="" class="am-show-sm-only am-text-xs">@{$user.user_id|get_nickname}</a>
+	      	<a href="" class="am-show-md-up"><span class="am-badge-primary am-badge">{$user.user_id|get_usergroup=0}</span> @{$user.user_id|get_nickname}</a>
 	      </div>
 	      <div class="am-panel-bd">
 	      	<ul class="am-avg-sm-3">
@@ -83,7 +82,8 @@
 	$('#wookmark li.wookmark-box').wookmark({
 		container: $('#wookmark'),
 		autoResize: true,
-		offset: 4
+		offset: 4,
+		fillEmptySpace: $(".wookmark-placeholder")
 	});
 </script>
 </block>
