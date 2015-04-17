@@ -2,7 +2,6 @@
 
 <block name='css'>
 <style type="text/css">
-		body{background:url(__PUBLIC__/img/bg-fixed.png) repeat, url(__PUBLIC__/img/bg.jpg) no-repeat fixed;}
 		.am-viewport{max-height: 400px;}
 </style>
 </block>
@@ -52,6 +51,7 @@
 				</div>
 				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
 				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail}</div>
+				<div class="detail" style="color: #999;">分享在 <a href="">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
 				<div class="comment"></div>
 			</div>
 		</li>

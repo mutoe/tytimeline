@@ -1,12 +1,20 @@
 <extend name="Common:base" />
 
+<block name='css'>
+<style type="text/css">
+	body{
+		background: url(__PUBLIC__/img/bg.jpg) fixed no-repeat;
+	}
+</style>
+</block>
+
 <block name="main">
 <div class="am-g">
 
 <h2 style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">时光碎片 {$data.share_id}</h2>
 <div style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">
   <div class="am-u-md-8">
-  	<p class="am-text-sm am-fl">@{$data.user_id|get_nickname} 发表于{$data.create_time|get_timing}前</p>
+  	<p class="am-text-sm am-fl">@{$data.user_id|get_nickname} 发表在 <a href="">{$data.catalog_id|get_catalog_name}</a> 于 {$data.create_time|get_timing}前</p>
   	<if condition="get_auth('delete', 0, $data['share_id'])">
     <div class="am-btn-group am-btn-group-xs am-fr">
 		  <a href="{:U('Shard/modi','share_id='.I('get.id'))}" class="am-btn am-radius am-btn-secondary">修改</a>

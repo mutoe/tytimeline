@@ -92,6 +92,11 @@ class ShardController extends BaseController {
 			$share = M('share');
 			$data = $share -> where('share_id=%d',$share_id) -> find();
 			$this -> assign('data',$data);
+
+			$catalog = M('catalog');
+			$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> select();
+			$this -> assign('catalog', $catalog_list);
+
 			$this -> display();
 		} else {
 			//处理提交请求

@@ -4,10 +4,24 @@ use Think\Controller;
 class GroundController extends Controller {
 
 	public function index() {
+		//获取分类列表
+		$catalog = M('catalog');
+		$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> getField('catalog_id',true);//获取分类的ID数组
+		$this -> assign('catalog', $catalog_list);
+
 		//获取热门分享
 		$share = M('share');
-		$hot_share = $share -> limit(50) -> order('click desc') -> select();
-		$this -> assign('hot', $hot_share);
+		$share_list = array();
+		$sort = I('get.sort','click');$sort .= ' desc';//获取排序方式
+
+		foreach ($catalog_list as $key => $catalog_id) {
+			$temp = $share -> where('catalog_id=%d', $catalog_id) -> order($sort) -> limit(30) -> select();
+			foreach ($temp as $value) {
+				array_push($share_list, $value);
+			}
+		}
+		shuffle($share_list);//打乱排序
+		$this -> assign('share', $share_list);
 
 		/*
 		//获取最新分享

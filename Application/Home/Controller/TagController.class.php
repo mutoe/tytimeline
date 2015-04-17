@@ -4,11 +4,12 @@ use Think\Controller;
 class TagController extends BaseController {
 	public function index() {
 		$tag = M('tag');
-		$tag_list = $tag -> order('total_share desc,create_time desc') -> limit(40) -> select();
+
+		$tag_list = $tag -> order('total_share desc,create_time desc') -> select();
 		$this -> assign('tag', $tag_list);
 
 		$share = M('share');
-		$share_list = $share -> order('create_time desc') -> limit(100) -> select();
+		$share_list = $share -> limit(300) -> order('create_time desc') -> select();
 		$this -> assign('share', $share_list);
 
 		$this -> display();

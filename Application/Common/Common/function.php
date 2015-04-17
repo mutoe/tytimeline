@@ -144,9 +144,18 @@ function get_tag($string) {
 }
 
 /**
+ * 根据catalog_id得到名字
+ */
+function get_catalog_name($catalog_id = 1) {
+	$catalog = M('catalog');
+	$result = $catalog -> where('catalog_id=%d', $catalog_id) -> getField('catalog_name');
+	return $result;
+}
+
+/**
  * 字符串(以","分隔)转化为json串
  */
-function get_json($string) {
+function str2json($string) {
 	$array = explode(',',$string);
 	$result = json_encode($array);
 	return $result;

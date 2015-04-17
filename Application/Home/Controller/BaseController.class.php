@@ -13,19 +13,6 @@ class BaseController extends Controller {
 		}
 		//dump(I('session.'));
 	}
-	private function checkpwd($user_id, $pwd) {
-		$mm = $this -> getmm($user_id);
-		return $mm == $pwd ? true : false;
-	}
-	/*
-	 * 加密算法，将邮箱和密码糅合的一种加密方法
-	 */
-	protected function getmm($user_id) {
-		$user = M('user');
-		$result = $user -> where('user_id=%d',$user_id) -> find();
-		$mm = md5($result['email']. $result['password']);
-		return $mm;
-	}
 
 	protected function set_loginfo($user_id) {
 		$user = M('user');

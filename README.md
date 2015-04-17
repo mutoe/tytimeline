@@ -3,7 +3,22 @@
 
 Update Log
 ====================
+----
+[0.1.6.150417a]
+----
+### add ###
+* 增加了分类表 `tytl_catalog` 和分享表的分类字段
 
+		tytl_catalog:
+			catalog_id unsigned int(4) pk,
+			catalog_name varchar(20),
+			sort int(4),
+			status int(4),//分类状态，默认值1
+			total_share int(8);
+		tytl_share:
+			catalog_id unsigned int(4);
+* 增加了广场页面的分类
+* 增加了各分享的分类信息
 
 ----
 [0.1.6.150415a]
@@ -35,9 +50,9 @@ Update Log
 		tytl_share:
 			total_comments int(8); //总评论数
 		tytl_comment: //新表
-			comment_id int(12),
-			share_id int(11),
-			user_id int(8),
+			comment_id unsigned int(12),
+			share_id unsigned int(11),
+			user_id unsigned int(8),
 			detail varchar(255),
 			create_time int(12),
 			admire int(8); //被赞数
