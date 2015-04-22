@@ -51,7 +51,7 @@
 				</div>
 				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
 				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail}</div>
-				<div class="detail" style="color: #999;">分享在 <a href="">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
+				<div class="detail" style="color: #999;">分享在 <a href="{:U('Catalog/detail','id='.$vo['catalog_id'])}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
 				<div class="comment"></div>
 			</div>
 		</li>

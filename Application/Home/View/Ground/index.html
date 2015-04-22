@@ -47,13 +47,13 @@
 				</div>
 				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
 				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail}</div>
-				<div class="detail" style="color: #999;">分享在 <a href="">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
+				<div class="detail" style="color: #999;">分享在 <a href="{:U('Catalog/detail','id='.$vo['catalog_id'])}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
 				<div class="comment"></div>
 			</div>
 		</li>
 	</volist>
 	</ul>
-	<div id="hot-tag" class="am-panel am-panel-secondary">
+<!--	<div id="hot-tag" class="am-panel am-panel-secondary">
 		<div class="am-panel-hd">热门标签</div>
 		<div class="am-panel-bd">
 			<volist name="tag" id="vo">
@@ -82,7 +82,7 @@
 			</volist>
 			</ul>
 		</div>
-	</div>
+	</div>-->
 
 </div>
 
@@ -122,7 +122,9 @@ var rand = ["secondary","danger","warning","success","primary"];
         filters.removeClass('active');
       };
       $item.toggleClass('active');
-
+			if (filterType === 'all') {
+        filters.removeClass('active');
+      }
       if ($item.hasClass('active')) {
         activeFilters.push($(this).data('filter'));
       };

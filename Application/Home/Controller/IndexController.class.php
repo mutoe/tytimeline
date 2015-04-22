@@ -5,7 +5,7 @@ class IndexController extends BaseController {
 	public function index() {
 		//初始化分享信息
 		$share = M('share');
-		$data = $share -> limit(50) -> order('create_time desc') -> select();
+		$data = $share -> limit(50) -> order('click desc') -> select();
 		$this -> assign('data', $data);
 
 		//初始化“喜欢”信息

@@ -20,17 +20,18 @@ Update Log
 * 增加了广场页面的分类
 * 增加了各分享的分类信息
 
+### fixed ###
+* 修复了IE下搜索框的大小问题
+
 ----
 [0.1.6.150415a]
 ----
 ### add ###
-
 * 增加了用户头像
 * 增加了用户详情页面
 * 增加了判断是否移动端的方法
 
 ### fixed ###
-
 * 标签输入框更改为 `tagsinput` 插件
 * 优化了标签页面，使用了 `wookmark` 的 flite 样式
 * 优化了404页面
@@ -39,7 +40,6 @@ Update Log
 [0.1.5.150411a]
 ----
 ### add ###
-
 * 增加了标签详情页面
 * 增加了登陆IP字段 `lastlogin_ip` 性别字段 `gander` 分享的总评论字段 `total_comments` 和评论表 `tytl_comment`
 
@@ -60,7 +60,6 @@ Update Log
 * 增加了站点的 `logo` 和 `favicon` ，感谢 **郭书昊** 提供的素材
 
 ### fixed ###
-
 * **前端css框架更新至 `amaze ui 2.3.0`**
 * **重构了首页瀑布流，改用 `wookmark` 样式**
 * 修复了IE下的一些布局BUG

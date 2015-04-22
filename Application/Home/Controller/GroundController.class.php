@@ -12,7 +12,7 @@ class GroundController extends Controller {
 		//获取热门分享
 		$share = M('share');
 		$share_list = array();
-		$sort = I('get.sort','click');$sort .= ' desc';//获取排序方式
+		$sort = I('get.sort','create_time');$sort .= ' desc';//获取排序方式
 
 		foreach ($catalog_list as $key => $catalog_id) {
 			$temp = $share -> where('catalog_id=%d', $catalog_id) -> order($sort) -> limit(30) -> select();

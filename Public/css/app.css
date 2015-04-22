@@ -148,6 +148,18 @@ body {
   background: #0B76AC;
   color: #ffffff;
 }
+#filters.catalog li {
+  min-height: 7rem;
+  width: 24%;
+  font-size: 3.6rem;
+  line-height: 3.6rem;
+  letter-spacing: 2rem;
+  text-rendering: optimizelegibility;
+  text-shadow: #ccc 2px 2px 2px;
+}
+#filters.catalog li:first-letter {
+  font-size: 4.8rem;
+}
 .am-topbar {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 100;
