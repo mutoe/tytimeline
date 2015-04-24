@@ -4,7 +4,7 @@
 Update Log
 ====================
 ----
-[0.1.6.150417a]
+[0.1.7.150422a]
 ----
 ### add ###
 * 增加了分类表 `tytl_catalog` 和分享表的分类字段
@@ -17,7 +17,7 @@ Update Log
 			total_share int(8);
 		tytl_share:
 			catalog_id unsigned int(4);
-* 增加了广场页面的分类
+* 增加了分类页面
 * 增加了各分享的分类信息
 
 ### fixed ###
