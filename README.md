@@ -3,19 +3,35 @@
 
 Update Log
 ====================
+----
+[0.1.7.150422a]
+----
+### add ###
+* 增加了分类表 `tytl_catalog` 和分享表的分类字段
 
+		tytl_catalog:
+			catalog_id unsigned int(4) pk,
+			catalog_name varchar(20),
+			sort int(4),
+			status int(4),//分类状态，默认值1
+			total_share int(8);
+		tytl_share:
+			catalog_id unsigned int(4);
+* 增加了分类页面
+* 增加了各分享的分类信息
+
+### fixed ###
+* 修复了IE下搜索框的大小问题
 
 ----
 [0.1.6.150415a]
 ----
 ### add ###
-
 * 增加了用户头像
 * 增加了用户详情页面
 * 增加了判断是否移动端的方法
 
 ### fixed ###
-
 * 标签输入框更改为 `tagsinput` 插件
 * 优化了标签页面，使用了 `wookmark` 的 flite 样式
 * 优化了404页面
@@ -24,7 +40,6 @@ Update Log
 [0.1.5.150411a]
 ----
 ### add ###
-
 * 增加了标签详情页面
 * 增加了登陆IP字段 `lastlogin_ip` 性别字段 `gander` 分享的总评论字段 `total_comments` 和评论表 `tytl_comment`
 
@@ -35,9 +50,9 @@ Update Log
 		tytl_share:
 			total_comments int(8); //总评论数
 		tytl_comment: //新表
-			comment_id int(12),
-			share_id int(11),
-			user_id int(8),
+			comment_id unsigned int(12),
+			share_id unsigned int(11),
+			user_id unsigned int(8),
 			detail varchar(255),
 			create_time int(12),
 			admire int(8); //被赞数
@@ -45,7 +60,6 @@ Update Log
 * 增加了站点的 `logo` 和 `favicon` ，感谢 **郭书昊** 提供的素材
 
 ### fixed ###
-
 * **前端css框架更新至 `amaze ui 2.3.0`**
 * **重构了首页瀑布流，改用 `wookmark` 样式**
 * 修复了IE下的一些布局BUG

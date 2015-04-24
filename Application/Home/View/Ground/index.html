@@ -5,79 +5,146 @@
 
 <br />
 <div class="am-u-sm-centered am-u-sm-12 am-u-lg-10">
-	<ul class="am-avg-sm-1 am-thumbnails">
-		<li>
-			<div class="am-panel am-panel-secondary">
-  			<div class="am-panel-hd">热门分享</div>
-				<div class="am-panel-bd">
-					<ul id="wookmark">
-					<volist name="hot" id="vo">
-						<li class="wookmark-box">
-							<div class="media">
-								<a href="{:U('shard/detail','id='.$vo['share_id'])}">
-									<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" height="{:get_t_height($vo['width'],$vo['height'])}" />
-								</a>
-							</div>
-						</li>
-					</volist>
-					</ul>
-				</div>
-			</div>
-		</li>
-		<li>
-			<div id="hot-tag" class="am-panel am-panel-secondary">
-  			<div class="am-panel-hd">热门标签</div>
-				<div class="am-panel-bd">
-					<volist name="tag" id="vo">
-					<span><a href="" class="am-radius am-badge am-text-default tag-list">{$vo.tag_name}</a> </span>
-					</volist>
-				</div>
-			</div>
-		</li>
-		<li>
-			<div class="am-panel am-panel-secondary">
-  			<div class="am-panel-hd">红人</div>
-				<div class="am-panel-bd">
-					<ul class="am-avg-sm-4 am-thumbnails">
-					<volist name="user" id="vo">
-						<li>
-							<section class="am-panel am-panel-default">
-				        <div class="am-panel-hd">
-				        	<span class="am-badge-primary am-badge">{$vo.user_id|get_usergroup='0'}</span> <a href="">@{$vo.user_id|get_nickname}</a><br />
-				        	<span class="am-text-sm">关注：{$vo.like|default='0'} 粉丝：{$vo.be_like} 分享：{$vo.total_share}</span>
-				        </div>
-				        <div class="am-panel-bd">
-				          <p>{$user.detail|default="碎片主人很懒，什么也没有留下。"}</p>
-				          <a class="am-btn am-btn-success am-btn-xs" href="#">查看更多信息 →</a>
-				        </div>
-				      </section>
-						</li>
-					</volist>
-					</ul>
-				</div>
-			</div>
-		</li>
+	<div class="am-g am-g-collapse" style="margin-bottom: 2rem;">
+		<ol id="filters" class="catalog">
+      <li data-filter="all">全部</li>
+			<volist name="catalog" id="vo">
+			<li data-filter="{$vo}">{$vo|get_catalog_name}</li>
+      </volist>
+    </ol>
+	</div>
+</div>
 
+
+<div class="am-u-sm-centered am-u-sm-12 am-u-lg-10">
+	<ul id="wookmark">
+	<volist name="share" id="vo">
+		<li class="wookmark-box" data-filter-class='{$vo.catalog_id|str2json}'>
+			<div class="share">
+				<div class="author"><a href="{:U('User/index','user_id='.$vo['user_id'])}">@{$vo.user_id|get_nickname}</a></div>
+				<div class="media am-g">
+					<div class="am-u-sm-12">
+						<div class="tag am-hide-sm-only">{$vo.tag_id|show_tag}</div>
+						<a class="am-show-sm-down" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
+						</a>
+						<a class="am-show-md-up" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
+						</a>
+						<div class="time am-badge am-radius">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
+					</div>
+				</div>
+				<div class="tool-bar am-hide-sm-only">
+					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
+					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
+					<button class="am-badge am-round am-badge-danger like-btn" data-id="{$vo.share_id}" onclick="javascript:like(this);">
+						<if condition="get_like_status($vo['share_id'])">
+							<i class="am-icon-heart"></i>
+						<else />
+							<i class="am-icon-heart-o"></i>
+						</if>
+					</button>
+				</div>
+				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
+				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail}</div>
+				<div class="detail" style="color: #999;">分享在 <a href="{:U('Catalog/detail','id='.$vo['catalog_id'])}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
+				<div class="comment"></div>
+			</div>
+		</li>
+	</volist>
 	</ul>
+<!--	<div id="hot-tag" class="am-panel am-panel-secondary">
+		<div class="am-panel-hd">热门标签</div>
+		<div class="am-panel-bd">
+			<volist name="tag" id="vo">
+			<span><a href="" class="am-radius am-badge am-text-default tag-list">{$vo.tag_name}</a> </span>
+			</volist>
+		</div>
+	</div>
+
+	<div class="am-panel am-panel-secondary">
+		<div class="am-panel-hd">红人</div>
+		<div class="am-panel-bd">
+			<ul class="am-avg-sm-4 am-thumbnails">
+			<volist name="user" id="vo">
+				<li>
+					<section class="am-panel am-panel-default">
+		        <div class="am-panel-hd">
+		        	<span class="am-badge-primary am-badge">{$vo.user_id|get_usergroup='0'}</span> <a href="">@{$vo.user_id|get_nickname}</a><br />
+		        	<span class="am-text-sm">关注：{$vo.like|default='0'} 粉丝：{$vo.be_like} 分享：{$vo.total_share}</span>
+		        </div>
+		        <div class="am-panel-bd">
+		          <p>{$user.detail|default="碎片主人很懒，什么也没有留下。"}</p>
+		          <a class="am-btn am-btn-success am-btn-xs" href="#">查看更多信息 →</a>
+		        </div>
+		      </section>
+				</li>
+			</volist>
+			</ul>
+		</div>
+	</div>-->
+
 </div>
 
 </div>
 </block>
 
 <block name='js'>
+<script src="__PUBLIC__/js/jquery.imagesloaded.js"></script>
 <script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-$('#wookmark li').wookmark({
-	container: $("#wookmark"),
-	autoResize: true,
-	fillEmptySpace: true
-});
 var rand = ["secondary","danger","warning","success","primary"];
 (function ($) {
 	$(".tag-list").each(function() {
 		$(this).addClass("am-badge-"+rand[Math.floor(Math.random()*rand.length)]);
 	});
 
+  $('#wookmark').imagesLoaded(function() {
+    var handler = $('#wookmark li.wookmark-box'),
+        filters = $('#filters li');
+
+    // Call the layout function.
+    handler.wookmark({
+			container: $("#wookmark"),
+			autoResize: true,
+			offset: 4,
+			fillEmptySpace: true
+    });
+    /**
+     * When a filter is clicked, toggle it's active state and refresh.
+     */
+    function onClickFilter(e) {
+    	var $item = $(e.currentTarget),
+        	activeFilters = [],
+        	filterType = $item.data('filter');
+
+      if (!$item.hasClass('active')) {
+        filters.removeClass('active');
+      };
+      $item.toggleClass('active');
+			if (filterType === 'all') {
+        filters.removeClass('active');
+      }
+      if ($item.hasClass('active')) {
+        activeFilters.push($(this).data('filter'));
+      };
+
+      handler.wookmarkInstance.filter(activeFilters);
+    }
+
+    // Capture filter click events.
+    $('#filters').on('click.wookmark-filter', 'li', onClickFilter);
+		//如果传参进来
+		var get_data = {:I('get.tag_id',0)};
+		if(get_data) {
+			filters.each(function() {
+				var value = $(this).data('filter');
+				if({:I('get.tag_id',0)} == value) {
+					$(this).click();
+				}
+      });
+		}
+  });
 })(jQuery);
 </script>
 </block>
