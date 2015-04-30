@@ -1,14 +1,12 @@
 <extend name="Common:base" />
 
-<block name='sidebar'></block>
-
 <block name="main">
 <div class="am-u-sm-12 am-u-md-8 am-u-md-centered">
 	<div class="am-panel am-panel-default" style="margin: 15rem auto 0;">
 	  <div class="am-panel-hd">
 	  	<label style="color: #DD514C;">{$msgTitle}</label>
 	  </div>
-	  <div class="am-panel-bd">{$message|default=$msgTitle}</div>
+	  <div class="am-panel-bd">{$error|default=$msgTitle}</div>
 	</div>
 	<p style="margin-bottom: 15rem;">
 		页面将于 <label id="wait">{$waitSecond}</label> 秒后跳转...

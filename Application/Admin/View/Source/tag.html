@@ -27,8 +27,8 @@
 								<td>{$vo.tag_id}</td>
 								<td><a href="#">{$vo.tag_name}</a></td>
 								<td>{$vo.total_share}</td>
-								<td>{$vo.cretate_user|get_nickname}</td>
-								<td>{$vo.cretate_time}</td>
+								<td>{$vo.create_user|get_nickname}</td>
+								<td>{$vo.create_time|time_format} <span class="am-text-warning">约 {$vo.create_time|get_timing}前</span></td>
 								<td>
 									<div class="am-btn-toolbar"><div class="am-btn-group am-btn-group-xs">
 										<a data-id="{$vo.tag_id}" class="am-btn am-btn-default am-btn-xs am-text-danger delete-confirm"><span class="am-icon-trash-o"></span> 删除</a>
