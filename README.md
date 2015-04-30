@@ -4,17 +4,19 @@
 Update Log
 ====================
 ----
-[0.1.8.150430a]
+[0.1.8.150501a]
 ----
 ### add ###
 * 增加了站点版本号
-* 增加了设置表 `tytl_setting` 
+* 增加了配置表 `tytl_config` 
 
-		tytl_setting:
-			setting_id unsinged int(10) pk,
+		tytl_config:
+			config_id unsinged int(10) pk,
 			key varchar(255),
 			value text,
-			attr tinyint(4); // 0：必须，1(default)：可擦除
+			attr tinyint(4), // 0：必须，1(default)：可擦除
+			comment varchar(255); // 备注
+* 增加了后台配置页面
 
 ### fixed ###
 * 修复了登陆时外网用户不同步登陆

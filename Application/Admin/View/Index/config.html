@@ -1,0 +1,74 @@
+<extend name='Common:base' />
+
+<block name='main'>
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">站点配置</strong> / <small>Website Config</small>	</div>
+		<div class="am-input-group am-input-group-sm am-u-sm-4 am-fr">
+			<input type="text" class="am-form-field">
+			<span class="am-input-group-btn"><button class="am-btn am-btn-default" type="button">搜索</button></span>
+		</div>
+		<div class=" am-fr">
+			<a class="am-btn am-btn-sm am-btn-warning" href="{:U('addConfig')}">增加配置</a>
+		</div>
+	</div>
+
+
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<form class="am-form">
+				<table class="am-table am-table-striped am-table-hover table-main">
+					<thead>
+						<tr>
+							<th class="table-id">ID</th>
+							<th>键</th>
+							<th>值</th>
+							<th>备注</th>
+							<th>属性</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					<volist name="data" id="vo">
+						<tr>
+							<td>{$vo.config_id}</td>
+							<td>{$vo.key}</td>
+							<td>{$vo.value}</td>
+							<td>{$vo.comment}</td>
+							<td>{$vo.attr}</td>
+							<td>
+								<a class="am-btn am-btn-secondary am-btn-xs" href="{:U('modConfig')}?config_id={$vo.config_id}">修改</a>
+								<button class="am-btn am-btn-link am-btn-xs" onclick="return del({$vo.config_id});">删除</button>
+							</td>
+						</tr>
+					</volist>
+					</tbody>
+				</table>
+				<div class="am-cf">共 {$data|count} 条记录</div>
+			</form>
+		</div>
+
+	</div>
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+	var del = function (id) {
+		if(confirm('确定删除？')) {
+			$.ajax({
+				url: "{:U('delConfig')}",
+				data: {'config_id': id},
+				type: "POST",
+				success: function(data) {
+					if(data.status) {
+						location.reload(true);
+					}
+				}
+			});
+		}
+		return false;
+	}
+</script>
+</block>
