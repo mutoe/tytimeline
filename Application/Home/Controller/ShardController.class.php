@@ -41,10 +41,10 @@ class ShardController extends BaseController {
 		// 上传文件
 		$info = $upload -> uploadOne($_FILES['addimg']);
 		if (!$info) {// 上传错误提示错误信息
-			$this -> error($upload -> getError().'1',true);
+			$info = $upload -> getError();
+			$this -> error($info);
 		} else {// 上传成功
 			// 写入数据库
-			$user_id = is_login();
 			$share = M('share');
 			$data = array(
 				'user_id' => $user_id,

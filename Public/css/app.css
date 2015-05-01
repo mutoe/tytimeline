@@ -212,8 +212,14 @@ ul.am-dropdown-content:after {
 }
 #top-banner p {
   position: absolute;
-  bottom: 30px;
-  right: 50px;
+}
+#top-banner p.mobile {
+  bottom: 5%;
+  right: 5%;
+}
+#top-banner p.desktop {
+  bottom: 60px;
+  right: 100px;
 }
 .nav-welcome-info {
   padding-top: 0.25rem;

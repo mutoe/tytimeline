@@ -179,10 +179,6 @@ ul.am-dropdown-content{
 	}
 }
 
-
-//顶部banner
-
-
 //返回顶部
 #returnTop {
 	_display: none;
@@ -209,13 +205,19 @@ ul.am-dropdown-content{
 	}
 }
 
-#top-banner{
+#top-banner {
 	position: relative;
 	margin-bottom: 0;
-	p{
+	p {
 		position: absolute;
-		bottom: 30px;
-		right: 50px;
+		&.mobile {
+		    bottom: 5%;
+		    right: 5%;
+		}
+		&.desktop {
+    		bottom: 60px;
+    		right: 100px;
+		}
 	}
 }
 .nav-welcome-info{

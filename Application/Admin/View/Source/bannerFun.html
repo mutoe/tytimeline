@@ -1,0 +1,81 @@
+<extend name='Common:base' />
+
+<block name="css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/jquery.Jcrop.css"/>
+<style type="text/css">
+  #target {
+    background-color: #ccc;
+    width: 500px;
+    height: 330px;
+    font-size: 24px;
+    display: block;
+  }
+</style>
+</block>
+
+<block name='main'>
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">轮播图</strong> / <small>Banner</small>
+		</div>
+	</div>
+
+	<div class="am-tabs am-margin" data-am-tabs>
+		<ul class="am-tabs-nav am-nav am-nav-tabs">
+			<li class="am-active"><a href="#tab1">新增轮播图</a></li>
+		</ul>
+
+		<div class="am-tabs-bd">
+			<div class="am-tab-panel am-fade am-in am-active" id="tab1">
+				<div class="am-u-sm-12">
+					<h4>图片裁切</h4>
+					<p>新上传的轮播图需要进行裁切，以符合首页需求。</p>
+					<img src="__PUBLIC__/img/banner/{$data.savename}" id="cropbox" style="width: 960px;" />
+
+				</div>
+				<div class="am-u-sm-3 am-u-end am-margin-top">
+					<form method="post" onsubmit="return checkCoords();">
+						<input type="hidden" id="x" name="x" />
+						<input type="hidden" id="y" name="y" />
+						<input type="hidden" id="w" name="w" />
+						<input type="hidden" id="h" name="h" />
+						<input type="hidden" id="f" name="f" />
+						<input type="submit" value="提交" class="am-btn am-btn-block am-btn-primary" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+</block>
+
+<block name="js">
+<script src="__PUBLIC__/js/jquery.Jcrop.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+$(function() {
+	var jcrop_api;
+	$('#cropbox').Jcrop({
+	  aspectRatio: 2.1,
+	  onSelect: updateCoords,
+	  boxWidth: 960
+	});
+
+});
+
+function updateCoords(c) {
+  $('#x').val(c.x);
+  $('#y').val(c.y);
+  $('#w').val(c.w);
+  $('#h').val(c.h);
+};
+
+function checkCoords() {
+  if (parseInt($('#w').val())) return true;
+  alert('请选择一个有效范围再进行提交');
+  return false;
+};
+
+</script>
+</block>

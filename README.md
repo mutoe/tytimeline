@@ -4,10 +4,27 @@
 Update Log
 ====================
 ----
+[0.1.8.150502a]
+----
+### add ###
+* 增加了 banner 管理系统 , 使用了 `Jcrop` 插件进行轮播图的裁切
+* 增加了轮播图表 `banner`
+		tytl_banner:
+			banner_id unsigned int(10) pk,
+			source int(11), //用户id, -1系统添加
+			status tinyint(4), // 1显示 0隐藏
+			sort smallint(6),
+			savename varchar(255),
+			create_time int(10);
+
+### fixed ###
+* 前台 banner 数据来源更改
+
+----
 [0.1.8.150501a]
 ----
 ### add ###
-* 增加了站点版本号
+* 增加了站点版本号管理
 * 增加了配置表 `tytl_config` 
 
 		tytl_config:
@@ -16,7 +33,7 @@ Update Log
 			value text,
 			attr tinyint(4), // 0：必须，1(default)：可擦除
 			comment varchar(255); // 备注
-* 增加了后台配置页面
+* 增加了后台配置管理系统
 
 ### fixed ###
 * 修复了登陆时外网用户不同步登陆

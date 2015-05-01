@@ -1,0 +1,85 @@
+<extend name='Common:base' />
+
+<block name='main'>
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf">
+			<strong class="am-text-primary am-text-lg">轮播图管理</strong> / <small>Banner Manage</small>
+		</div>
+		<a class="am-fr am-btn am-btn-warning" href="{:U('addBanner')}">新增轮播图</a>
+	</div>
+
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<form class="am-form">
+				<table class="am-table am-table-striped am-table-hover table-main">
+					<thead>
+						<tr>
+							<th class="table-id">ID</th>
+							<th class="table-type">来源</th>
+							<th class="table-type">预览</th>
+							<th class="table-title">权重</th>
+							<th class="table-author">创建时间</th>
+							<th class="table-set">状态</th>
+							<th class="table-set">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					<volist name="data" id="vo">
+						<tr>
+							<td><a href="#"><span class="am-badge am-badge-primary am-text-sm am-round">{$vo.banner_id}</span></a></td>
+							<td>{$vo.source|get_nickname}</td>
+							<td><img src="__PUBLIC__/img/banner/t_{$vo.savename}" width="50em"/></td>
+							<td>{$vo.sort}</td>
+							<td>{$vo.create_time|time_format}</td>
+							<td>{$vo.status}</td>
+							<td>
+								<div class="am-btn-toolbar">
+									<div class="am-btn-group am-btn-group-xs">
+										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="del({$vo.banner_id})"><span class="am-icon-trash-o"></span> 删除</button>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</volist>
+					</tbody>
+				</table>
+				<div class="am-cf">
+					共 {$data|count} 条记录
+					<div class="am-fr">
+						<ul class="am-pagination">
+							<li class="am-disabled"><a href="#">«</a></li>
+							<li class="am-active"><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">»</a></li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+  var del = function (id) {
+  	if(confirm('你确实要删除这条吗？')) {
+  		$.ajax({
+  			url: "{:U('delBanner')}",
+  			data: {'banner_id': id},
+  			success: function (data) {
+  				if(data.status) {
+  					location.reload(true);
+  				} else {
+  					alert(data.info);
+  				}
+  			}
+  		});
+  	}
+  }
+</script>
+</block>
