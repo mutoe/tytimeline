@@ -4,6 +4,9 @@
 ul {
   margin-top: 0;
 }
+.am-panel-group .am-panel + .am-panel {
+  margin-top: 0px;
+}
 .admin-icon-yellow {
   color: #ffbe40;
 }
@@ -81,17 +84,17 @@ ul {
 .admin-content-file li {
   padding: 10px 0;
 }
-.admin-content-file li:first-child {
-  border-top: none;
-}
-.admin-content-file li:last-child {
-  border-bottom: none;
-}
 .admin-content-file li .am-progress {
   margin-bottom: 4px;
 }
 .admin-content-file li .am-progress-bar {
   line-height: 14px;
+}
+.admin-content-file:first-child {
+  border-top: none;
+}
+.admin-content-file:last-child {
+  border-bottom: none;
 }
 .admin-content-task {
   margin-bottom: 0;
