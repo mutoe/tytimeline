@@ -3,14 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>天佑时光轴管理页面</title>
+  <title>{:C('SITE_NAME_CN')}管理页面</title>
   <meta name="keywords" content="index">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
   <link rel="icon" type="image/png" href="__PUBLIC__/i/favicon.png">
   <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/i/app-icon72x72@2x.png">
-  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.css"/>
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin.css"/>
   <block name='css'></block>
@@ -24,7 +22,7 @@
 <block name='header'>
 <header class="am-topbar admin-header">
   <div class="am-topbar-brand">
-    <strong>TY timeline</strong> <small>后台管理系统</small>
+    <strong>{:C('SITE_NAME_EN')}</strong> <small>后台管理系统</small>
   </div>
 
   <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -57,12 +55,15 @@
 <div class="admin-sidebar">
   <ul class="am-list admin-sidebar-list am-panel-group" id="accordion">
     <li class="admin-parent am-panel am-panel-default">
-      <a class="am-cf am-panel-hd" data-am-collapse="{parent: '#accordion', target: '#collapse-nav-Index'}">
-      	<span class="am-icon-file"></span> 站点管理 <span class="am-icon-caret-down am-fr am-margin-right"></span>
+    	<a class="am-cf am-panel-hd"  href="{:U('Index/index')}"><span class="am-icon-check"></span> 站点信息</a>
+    </li>
+    <li class="admin-parent am-panel am-panel-default">
+      <a class="am-cf am-panel-hd" data-am-collapse="{parent: '#accordion', target: '#collapse-nav-Config'}">
+      	<span class="am-icon-sitemap"></span> 站点管理 <span class="am-icon-caret-down am-fr am-margin-right"></span>
       </a>
-      <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-Index">
-        <li><a href="{:U('Index/index')}" class="am-cf"><span class="am-icon-check"></span> 基本信息</span></a></li>
-        <li><a href="{:U('Index/config')}"><span class="am-icon-gear"></span> 站点配置</a></li>
+      <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-Config">
+        <li><a href="{:U('Config/base')}" class="am-cf"><span class="am-icon-pencil-square-o"></span> 基本信息</span></a></li>
+        <li><a href="{:U('Config/config')}"><span class="am-icon-gear"></span> 站点配置</a></li>
       </ul>
     </li>
     <li class="admin-parent am-panel am-panel-default">
@@ -73,38 +74,28 @@
       </ul>
     </li>
     <li class="admin-parent am-panel am-panel-default">
-      <a class="am-cf am-panel-hd" data-am-collapse="{parent: '#accordion', target: '#collapse-nav-Member'}"><span class="am-icon-file"></span> 用户管理 <span class="am-icon-caret-down am-fr am-margin-right"></span></a>
+      <a class="am-cf am-panel-hd" data-am-collapse="{parent: '#accordion', target: '#collapse-nav-Member'}"><span class="am-icon-user"></span> 用户管理 <span class="am-icon-caret-down am-fr am-margin-right"></span></a>
       <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-Member">
         <li><a href="{:U('Member/user')}" class="am-cf"><span class="am-icon-users"></span> 用户管理</a></li>
         <li><a href="{:U('Member/admin')}"><span class="am-icon-user-md"></span> 管理员</a></li>
         <!--<li><a href="admin-log.html"><span class="am-icon-calendar"></span> 操作日志</a></li>-->
       </ul>
     </li>
-    <li class="admin-parent am-panel am-panel-default">
-    	<a class="am-cf am-panel-hd"  href="admin-form.html"><span class="am-icon-pencil-square-o"></span> 其他</a>
-    </li>
   </ul>
 
   <div class="am-panel am-panel-default admin-sidebar-panel">
     <div class="am-panel-bd">
-      <p><span class="am-icon-bookmark"></span> 公告</p>
-      <p></p>
+      <p><span class="am-icon-bullhorn"></span> 公告</p>
+      <p style="text-indent: 1em;">{:C('NOTICE_BACK')}</p>
     </div>
   </div>
 
-  <div class="am-panel am-panel-default admin-sidebar-panel">
-    <div class="am-panel-bd">
-      <p><span class="am-icon-tag"></span> wiki</p>
-      <p>天佑时光轴是一个图片分享平台，希望大家能够将生活中的点点滴滴纪录在这里。</p>
-    </div>
-  </div>
 </div>
 <!-- sidebar end -->
 </block>
 
-<block name='main'>
+<block name='main'></block>
 
-</block>
 <!-- content end -->
 </div>
 

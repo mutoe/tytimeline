@@ -17,6 +17,7 @@
 
 	<div class="am-g">
 		<div class="am-u-sm-12">
+			<p class="am-alert am-alert-danger">不熟悉相关内容请勿修改！</p>
 			<form class="am-form">
 				<table class="am-table am-table-striped am-table-hover table-main">
 					<thead>
@@ -45,7 +46,7 @@
 					</volist>
 					</tbody>
 				</table>
-				<div class="am-cf">共 {$data|count} 条记录</div>
+				<div class="am-cf am-padding-bottom">共 {$data|count} 条记录</div>
 			</form>
 		</div>
 
@@ -64,6 +65,8 @@
 				success: function(data) {
 					if(data.status) {
 						location.reload(true);
+					} else {
+						alert(data.info);
 					}
 				}
 			});

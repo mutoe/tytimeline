@@ -1,0 +1,71 @@
+<extend name='Common:base' />
+
+<block name="main">
+<div class="admin-content">
+  <div class="am-cf am-padding">
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">基本信息</strong> / <small>Base Information</small></div>
+  </div>
+
+  <div class="am-tabs am-margin" data-am-tabs="{noSwipe: 1}">
+    <ul class="am-tabs-nav am-nav am-nav-tabs">
+      <li class="am-active"><a href="#tab1">站点</a></li>
+      <li><a href="#tab2">公告</a></li>
+    </ul>
+
+    <div class="am-tabs-bd">
+      <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+      	<form class="am-form" method="post" action="{:U('submitBase')}">
+
+	        <div class="am-g am-margin-top">
+	          <div class="am-u-sm-4 am-u-md-2 am-text-right">站点名称</div>
+	          <div class="am-u-sm-8 am-u-md-6 am-u-end"><input type="text" name="SITE_NAME_CN" class="am-input-sm" value="{$data.SITE_NAME_CN}"></div>
+	        </div>
+	        <div class="am-g am-margin-top">
+	          <div class="am-u-sm-4 am-u-md-2 am-text-right">站点名称 英文</div>
+	          <div class="am-u-sm-8 am-u-md-6 am-u-end"><input type="text" name="SITE_NAME_EN" class="am-input-sm" value="{$data.SITE_NAME_EN}"></div>
+	        </div>
+	        <div class="am-g am-margin-top">
+	          <div class="am-u-sm-4 am-u-md-2 am-text-right">站点版本</div>
+	          <div class="am-u-sm-8 am-u-md-6 am-u-end"><input type="text" name="SITE_VER" class="am-input-sm" value="{$data.SITE_VER}"></div>
+	        </div>
+				  <div class="am-g am-margin-top">
+				  	<div class="am-u-sm-8 am-u-md-6 am-u-sm-offset-2">
+					    <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+				  	</div>
+				  </div>
+				</form>
+      </div>
+
+      <div class="am-tab-panel am-fade" id="tab2">
+        <form class="am-form" method="post" action="{:U('submitBase')}">
+          <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-12 am-u-md-2 am-text-right">前台公告</div>
+            <div class="am-u-sm-12 am-u-md-6 am-u-end">
+              <textarea rows="5" name="NOTICE_FRONT">{$data.NOTICE_FRONT}</textarea>
+            </div>
+          </div>
+          <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-12 am-u-md-2 am-text-right">后台公告</div>
+            <div class="am-u-sm-12 am-u-md-6 am-u-end">
+              <textarea rows="5" name="NOTICE_BACK">{$data.NOTICE_BACK}</textarea>
+            </div>
+          </div>
+				  <div class="am-g am-margin-top">
+				  	<div class="am-u-sm-8 am-u-md-6 am-u-sm-offset-2">
+					    <button type="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+				  	</div>
+				  </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+
+</script>
+</block>
