@@ -4,6 +4,31 @@
 Update Log
 ====================
 ----
+[0.1.8.150501a]
+----
+### add ###
+* 增加了站点版本号
+* 增加了配置表 `tytl_config` 
+
+		tytl_config:
+			config_id unsinged int(10) pk,
+			key varchar(255),
+			value text,
+			attr tinyint(4), // 0：必须，1(default)：可擦除
+			comment varchar(255); // 备注
+* 增加了后台配置页面
+
+### fixed ###
+* 修复了登陆时外网用户不同步登陆
+* 完善了后台页面相关功能
+ * 后台管理首页
+ * 标签管理
+ * 分享管理
+ * 分类管理
+ * 会员管理
+ * 站点信息
+
+----
 [0.1.7.150422a]
 ----
 ### add ###

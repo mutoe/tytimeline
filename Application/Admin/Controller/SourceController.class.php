@@ -7,17 +7,31 @@ class SourceController extends BaseController {
 		$this -> display();
 	}
 
-	public function shard() {
+	public function shard($sort = 'share_id', $share_id = 0) {
 		$share = M('share');
-		$data = $share -> select();
+		$sort .= ' desc';
+		if($share_id) {
+			$data = $share -> where('share_id=%d', $share_id) -> select();
+		} else {
+			$data = $share -> order($sort) -> select();
+		}
 
 		$this -> assign('data', $data);
 		$this -> display();
 	}
 
-	public function tag() {
+	public function catalog() {
+		$catalog = M('catalog');
+		$data = $catalog -> order('sort desc') -> select();
+
+		$this -> assign('data', $data);
+		$this -> display();
+	}
+
+	public function tag($sort = 'tag_id') {
 		$tag = M('tag');
-		$data = $tag -> select();
+		$sort .= ' desc';
+		$data = $tag -> order($sort) -> select();
 
 		$this -> assign('data', $data);
 		$this -> display();

@@ -4,11 +4,11 @@
 <div class="admin-content">
 
 	<div class="am-cf am-padding">
-		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">碎片管理</strong> / <small>Shard Manage</small>
-		</div>
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">分类管理</strong> / <small>Catalog Manage</small>
 		<div class="am-input-group am-input-group-sm am-u-sm-4 am-fr">
-			<input type="text" class="am-form-field" id="doc-ipt-search">
-			<span class="am-input-group-btn"><button class="am-btn am-btn-default" type="button" onclick="share_search();">搜索</button></span>
+			<input type="text" class="am-form-field">
+			<span class="am-input-group-btn"><button class="am-btn am-btn-default" type="button">搜索</button></span>
+		</div>
 		</div>
 	</div>
 
@@ -21,8 +21,8 @@
 							<th class="table-id">ID</th>
 							<th class="table-type">标签</th>
 							<th class="table-title">描述</th>
-							<th class="table-date">创建日期</th>
 							<th class="table-author">上传者</th>
+							<th class="table-date">创建日期</th>
 							<th class="table-set">操作</th>
 						</tr>
 					</thead>
@@ -31,13 +31,9 @@
 						<tr>
 							<td><a href="#"><span class="am-badge am-badge-primary am-text-sm am-round">{$vo.share_id}</span></a></td>
 							<td>{$vo.tag_id|get_tag}</td>
-							<if condition="mb_strlen($vo['detail'],'utf-8') gt 16">
-								<td>{$vo.detail|mb_substr=0,16,'utf-8'}...</td>
-							<else />
-								<td>{$vo.detail}</td>
-							</if>
-							<td>{$vo.create_time|time_format} <span class="am-text-warning">约 {$vo.create_time|get_timing}前</span></td>
-							<td>({$vo.user_id}){$vo.user_id|get_nickname}</td>
+							<td>{$vo.detail}</td>
+							<td>{$vo.user_id|get_nickname}</td>
+							<td>{$vo.create_time|time_format}</td>
 							<td>
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
@@ -66,12 +62,4 @@
 
 	</div>
 </div>
-</block>
-
-<block name='js'>
-<script type="text/javascript">
-	var share_search = function() {
-		window.location.href = "{:U('Source/shard')}?share_id=" + $("#doc-ipt-search").val();
-	}
-</script>
 </block>

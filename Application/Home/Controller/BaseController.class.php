@@ -3,6 +3,12 @@ namespace Home\Controller;
 use Think\Controller;
 class BaseController extends Controller {
 	protected function _initialize() {
+		// 如果还没有读取站点配置就从数据库调取
+		if(C('SITE_VER') == null) {
+			$config = M('config') -> getField('key,value');
+			C($config);
+		}
+
 		if(I('cookie.user_id',0)) {//如果cookie不为空
 			if(is_null(session('user_id'))) {//如果未登录
 				if($this -> checkpwd(cookie('user_id'), cookie('user_mm'))) {

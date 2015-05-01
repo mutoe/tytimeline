@@ -3,12 +3,12 @@ namespace Home\Controller;
 use Think\Controller;
 
 class LoginController extends BaseController {
-	
+
 	protected function _empty(){
 		header("HTTP/1.0 404 Not Found");
 		$this -> display('Common:404');
-	}	
-	
+	}
+
 	protected function _initialize() {
 		//判断是否已经登陆
 		if (I('session.user_id', 0)) {
@@ -19,22 +19,22 @@ class LoginController extends BaseController {
 		}
 
 	}
-	//用户登录
+	// 用户登录
 	public function index() {
-		//判断有无参数
+		// 判断有无参数
 		if (!I('post.nickname', 0)) {
 			$this -> display();
 		} else {
-			//获取参数
+			// 获取参数
 			$name = strtolower(I('post.nickname'));
 			$password = I('post.password');
 			$password_md5 = md5($password);
-			//执行登录，检查用户名密码
+			// 执行登录，检查用户名密码
 			$result = $this -> login($name, $password_md5);
 			if ($result > 0) {
-				//登陆成功
+				// 登陆成功
 
-				/* UC同步登陆 */
+				/* UC同步登陆
 				$uc = new \Ucenter\Client\Client();
 				$name = mb_convert_encoding($name,'gbk','utf-8');
 				$password = mb_convert_encoding($password,'gbk','utf-8');
@@ -42,6 +42,8 @@ class LoginController extends BaseController {
 				if($uid > 0){
 					echo $uc->uc_user_synlogin($uid);
 				}
+				*/
+
 				//TODO: 记住我
 				//if(I('post.remember-me')){
 					//cookie('user_id', $result);

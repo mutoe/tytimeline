@@ -26,9 +26,9 @@
 						<div class="am-u-sm-2 am-text-right">权限</div>
 						<div class="am-u-sm-10">
 							<div class="am-btn-group" data-am-button>
-								<label class="am-btn am-btn-default am-btn-xs"><input type="radio" name="options" id="option1" value="0"> 超级管理员</label>
-								<label class="am-btn am-btn-default am-btn-xs"><input type="radio" name="options" id="option2" value="1"> 网站管理员</label>
-								<label class="am-btn am-btn-default am-btn-xs"><input type="radio" name="options" id="option3" value="2"> 网站编辑</label>
+								<volist name="group" id="vo">
+									<label class="am-btn am-btn-default am-btn-xs"><input type="radio" name="options" value="{$vo.group_id}"> {$vo.name}</label>
+								</volist>
 							</div>
 						</div>
 					</div>

@@ -33,13 +33,13 @@
 							<td>{$vo.user_id}</td>
 							<td><a href="#">{$vo.nickname}</a></td>
 							<td>{$vo.email}</td>
-							<td>{$vo.lastlogin_time|time_format}</td>
+							<td>{$vo.lastlogin_time|get_timing}前</td>
 							<td>{$vo.create_time|time_format}</td>
 							<td>{$vo.login_times}</td>
 							<td>
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
-										<button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+										<button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="mod({$vo.id});"><span class="am-icon-pencil-square-o"></span> 编辑</button>
 										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="window.location='deleteUser.html?uid={$vo.id}'"><span class="am-icon-trash-o"></span> 删除</button>
 									</div>
 								</div>
@@ -54,4 +54,12 @@
 
 	</div>
 </div>
+</block>
+
+<block name='js'>
+<script type="text/javascript">
+	var mod = function(user_id) {
+		window.location.href = "{:U('Member/mod_user')}?user_id=" + user_id;
+	}
+</script>
 </block>
