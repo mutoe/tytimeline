@@ -28,7 +28,7 @@ footer .footer-link {
   color: #009CDA;
 }
 body {
-  background: #ccc url(../img/logo-v.png) 98% 100% no-repeat fixed;
+  background: url(../img/bg-fixed.png) repeat, url(../img/bg.jpg) fixed;
 }
 .bg-fix {
   background: url(../img/bg-fixed.png) repeat;
