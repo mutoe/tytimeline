@@ -39,8 +39,8 @@
 							<td>
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
-										<button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="mod({$vo.id});"><span class="am-icon-pencil-square-o"></span> 编辑</button>
-										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="window.location='deleteUser.html?uid={$vo.id}'"><span class="am-icon-trash-o"></span> 删除</button>
+										<button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="mod({$vo.user_id});"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="del({$vo.user_id})"><span class="am-icon-trash-o"></span> 删除</button>
 									</div>
 								</div>
 							</td>
@@ -58,8 +58,23 @@
 
 <block name='js'>
 <script type="text/javascript">
-	var mod = function(user_id) {
-		window.location.href = "{:U('Member/mod_user')}?user_id=" + user_id;
+	var mod = function(id) {
+		window.location.href = "{:U(modUser')}?user_id=" + id;
+	}
+	var del = function(id) {
+		if( confirm('你确定要删除这个人？') ) {
+			$.ajax({
+				url: "{:U('delUser')}",
+				data: {'user_id': id},
+				success: function(data) {
+					if(data.status) {
+						location.reload(true);
+					} else {
+						alert('删除失败:'+ data.info);
+					}
+				}
+			});
+		}
 	}
 </script>
 </block>
