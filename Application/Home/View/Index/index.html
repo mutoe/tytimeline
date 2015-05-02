@@ -30,7 +30,7 @@
 						<a class="am-show-md-up" href="{:U('Shard/detail','id='.$vo['share_id'])}">
 							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
 						</a>
-						<div class="time am-badge am-radius">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
+						<div class="time am-badge am-radius">{$vo.time|time_format="m 月 d 日 H:i"}</div>
 					</div>
 				</div>
 				<div class="tool-bar am-hide-sm-only">
@@ -46,7 +46,7 @@
 				</div>
 				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
 				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail}</div>
-				<div class="detail" style="color: #999;">分享在 <a href="{:U('Catalog/detail','id='.$vo['catalog_id'])}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
+				<div class="detail" style="color: #555;">分享在 <a href="{:U('Catalog/detail','id='.$vo['catalog_id'])}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
 				<div class="comment"></div>
 			</div>
 		</li>
@@ -73,7 +73,8 @@
 	$("#wookmark li").wookmark({
 		container: $("#wookmark"),
 		offset: 8,
-		autoResize: true
+		autoResize: true,
+		align: 'left'
 	});
 
 function del (share_id) {
