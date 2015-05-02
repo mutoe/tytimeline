@@ -21,7 +21,9 @@
 			<img class="am-img-responsive" style="display: inherit;" src="__PUBLIC__/{$data.savepath}{$data.savename}"/>
   	</a>
   	<h5>{$data.tag_id|show_tag}</h5>
+  	<if condition="strlen($data['detail']) gt 0">
 		<p class="detail">{$data.detail}</p>
+  	</if>
 
     <hr class="am-article-divider blog-hr">
 <volist name="comment" id="vo">
