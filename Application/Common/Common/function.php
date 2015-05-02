@@ -254,3 +254,9 @@ function ismobile() {
   }
   return false;
 }
+
+function substring($str , $len = 20){
+	$result = mb_substr($str, 0, $len, 'utf-8');
+	if( strlen($str) > strlen($result) ) $result .= '...';
+	return $result;
+}
