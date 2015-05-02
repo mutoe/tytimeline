@@ -226,4 +226,28 @@ ul.am-dropdown-content:after {
   padding-top: 0.25rem;
   padding-right: 0.4rem;
 }
+.shard-detail h2 {
+  margin: 0 auto;
+  max-width: 1040px;
+  margin-top: 2rem;
+  color: #FFFFFF;
+}
+.shard-detail .container {
+  margin: 0 auto;
+  max-width: 1040px;
+  margin-top: 2rem;
+  color: #FFFFFF;
+}
+.shard-detail .container .share .info {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 8px;
+}
+.shard-detail .container .share .detail {
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 15px;
+  color: black;
+}
+.shard-detail .container .user-info .detail {
+  color: black;
+}
 /*# sourceMappingURL=app.css.map */
