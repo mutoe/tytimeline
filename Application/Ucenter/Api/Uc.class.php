@@ -82,38 +82,78 @@ abstract class Uc extends Controller{
     }
 
 
-		public function deleteuser() {
-			$user = M('user');
-			$map['user_id']  = array('IN', $get['uid']);
-		  $result = $user -> where($map) -> delete();//delete方法的返回值是删除的记录数，如果返回值是false则表示SQL出错，返回值如果为0表示没有删除任何数据。
-			return 1;
+	public function deleteuser() {
+		$get = $this->get;
+		$user = M('user');
+		$map['user_id']  = array('IN', $get['uid']);
+		$result = $user -> where($map) -> delete();
+		return 1;
+	}
+
+	public function renameuser() {
+		$get = $this->get;
+		$user = M('user');
+		$data['nickname'] = strtolower($get['newusername']);
+		$result = $user -> where('user_id=%d', $get['uid']) -> save($data);
+		return 1;
+	}
+
+	public function updatepw() {
+		$get = $this->get;
+		$user = M('user');
+		$data['password'] = md5($get['password']);
+		$result = $user -> where('user_id=%d', $get['uid']) -> save($data);
+		return 1;
+	}
+
+	public function synlogin() {
+		$get = $this->get;
+		$user = M('user');
+		$member = $user -> where('user_id=%d', $get['uid']) -> field('user_id,nickname') -> find();
+
+		if($member) {
+			header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
+			dsetcookie('Example_auth', authcode($member['user_id']."\t".$member['nickname'], 'ENCODE'), 86400 * 365);
 		}
-
-		public function renameuser() {
-			$user = M('user');
-			$data['nickname'] = $get['newusername'];
-		  $result = $user -> where('user_id=%d', $get['uid']) -> save($data);//delete方法的返回值是删除的记录数，如果返回值是false则表示SQL出错，返回值如果为0表示没有删除任何数据。
-			return 1;
-		}
-
-		public function updatepw() {
-			$user = M('user');
-			$data['password'] = md5($get['password']);
-		  $result = $user -> where('user_id=%d', $get['uid']) -> save($data);//delete方法的返回值是删除的记录数，如果返回值是false则表示SQL出错，返回值如果为0表示没有删除任何数据。
-			return 1;
-		}
-
-		public function synlogin() {
-			$user = M('user');
-			$member = $user -> where('user_id=%d', $get['uid']) -> field('user_id,nickname') -> find();
-
-			if($member) {
-				header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
-				dsetcookie('Example_auth', authcode($member['user_id']."\t".$member['nickname'], 'ENCODE'), 86400 * 365);
-				session('user_id', $member['user_id']);
-			}
-			return 1;
-		}
-
+		return 1;
+	}
+	
+	public function synlogout() {
+		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
+		dsetcookie('Example_auth', '', -86400 * 365);
+	}
+	
+	public function updatebadwords() {
+		$cachefile = APP_PATH.'Ucenter/Client/uc_client/data/cache/badwords.php';
+		$s = "<?php\r\n";
+		$s .= '$_CACHE[\'badwords\'] = '.var_export($this->post, TRUE).";\r\n";
+		file_put_contents($cachefile,$s);
+		return 1;			
+	}	
+	
+	public function updatehosts() {
+		$cachefile = APP_PATH.'Ucenter/Client/uc_client/data/cache/hosts.php';
+		$s = "<?php\r\n";
+		$s .= '$_CACHE[\'hosts\'] = '.var_export($this->post, TRUE).";\r\n";
+		file_put_contents($cachefile,$s);
+		fclose($fp);		
+	}
+	
+	public function updateapps() {
+		$cachefile = APP_PATH.'Ucenter/Client/uc_client/data/cache/apps.php';
+		$s = "<?php\r\n";
+		$s .= '$_CACHE[\'apps\'] = '.var_export($this->post, TRUE).";\r\n";
+		file_put_contents($cachefile,$s);
+		return 1;		
+	}	
+	
+	public function updateclient() {
+		$cachefile = APP_PATH.'Ucenter/Client/uc_client/data/cache/setting.php';
+		$s = "<?php\r\n";
+		$s .= '$_CACHE[\'setting\'] = '.var_export($this->post, TRUE).";\r\n";
+		file_put_contents($cachefile,$s);
+		return 1;
+	}
+	
 }
 

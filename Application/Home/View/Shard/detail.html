@@ -1,31 +1,27 @@
 <extend name="Common:base" />
 
-<block name='css'>
-<style type="text/css">
-	body{
-		background: url(__PUBLIC__/img/bg.jpg) fixed no-repeat;
-	}
-</style>
-</block>
-
 <block name="main">
-<div class="am-g">
+<div class="am-g shard-detail">
 
-<h2 style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">时光碎片 {$data.share_id}</h2>
-<div style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">
-  <div class="am-u-md-8">
-  	<p class="am-text-sm am-fl">@{$data.user_id|get_nickname} 发表在 <a href="">{$data.catalog_id|get_catalog_name}</a> 于 {$data.create_time|get_timing}前</p>
+<h2>时光碎片 {$data.share_id}</h2>
+<div class="container" style="">
+  <div class="am-u-md-8 share">
+  	<p class="am-text-sm am-fl info">
+  		<a class="am-text-warning" href="{:U('User/index','user_id'.$data['user_id'])}">@{$data.user_id|get_nickname}</a>
+  		发表在 <a href="{:U('Catalog/detail')}?id={$data.catalog_id}">{$data.catalog_id|get_catalog_name}</a>
+  		于 {$data.create_time|get_timing}前
+  	</p>
   	<if condition="get_auth('delete', 0, $data['share_id'])">
     <div class="am-btn-group am-btn-group-xs am-fr">
 		  <a href="{:U('Shard/modi','share_id='.I('get.id'))}" class="am-btn am-radius am-btn-secondary">修改</a>
-		  <a id="del" class="am-btn am-radius">删除</a>
+		  <a id="del" class="am-btn am-radius" style="color: #ccc;">删除</a>
 		</div>
   	</if>
   	<a href="__PUBLIC__/{$data.savepath}{$data.savename}" data-lightbox="image-1" title="{$data.tag_id|get_tag}" data-title="{$data.detail}">
 			<img class="am-img-responsive" style="display: inherit;" src="__PUBLIC__/{$data.savepath}{$data.savename}"/>
   	</a>
   	<h5>{$data.tag_id|show_tag}</h5>
-		<p>{$data.detail}</p>
+		<p class="detail">{$data.detail}</p>
 
     <hr class="am-article-divider blog-hr">
 <volist name="comment" id="vo">
@@ -65,7 +61,7 @@
 
   </div>
 
-  <div class="am-u-md-4 blog-sidebar">
+  <div class="am-u-md-4 blog-sidebar user-info">
     <div class="am-panel-group">
       <section class="am-panel am-panel-default">
         <div class="am-panel-hd">
@@ -73,8 +69,7 @@
         	<span class="am-text-sm">关注：{$user.like|default='0'} 粉丝：{$user.be_like} 分享：{$user.total_share}</span>
         </div>
         <div class="am-panel-bd">
-          <p>{$user.detail|default="碎片主人很懒，什么也没有留下。"}</p>
-          <a class="am-btn am-btn-success am-btn-xs" href="#">查看更多信息 →</a>
+          <p class="detail">{$user.detail|default="碎片主人很懒，什么也没有留下。"}</p>
         </div>
       </section>
 

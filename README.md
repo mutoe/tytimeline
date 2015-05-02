@@ -4,12 +4,21 @@
 Update Log
 ====================
 ----
+[0.1.10.150503a]
+----
+### add ###
+* 增加了后台方法 `is_super_admin()` 用来判断是否超级管理员
+* 增加了用户组的管理
+
+### fixed ###
+
 ----
 [0.1.9.150502a]
 ----
 ### add ###
 * 增加了 banner 管理系统 , 使用了 `Jcrop` 插件进行轮播图的裁切
 * 增加了轮播图表 `banner`
+
 		tytl_banner:
 			banner_id unsigned int(10) pk,
 			source int(11), //用户id, -1系统添加
