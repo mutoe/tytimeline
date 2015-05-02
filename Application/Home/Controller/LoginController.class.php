@@ -34,15 +34,14 @@ class LoginController extends BaseController {
 			if ($result > 0) {
 				// 登陆成功
 
-				/* UC同步登陆
-				$uc = new \Ucenter\Client\Client();
+				/* UC同步登陆 */
+/*			$uc = new \Ucenter\Client\Client();
 				$name = mb_convert_encoding($name,'gbk','utf-8');
 				$password = mb_convert_encoding($password,'gbk','utf-8');
 				list($uid, $username, $password, $email) = $uc->uc_user_login($name, $password);
 				if($uid > 0){
 					echo $uc->uc_user_synlogin($uid);
-				}
-				*/
+				}*/
 
 				//TODO: 记住我
 				//if(I('post.remember-me')){
@@ -68,7 +67,7 @@ class LoginController extends BaseController {
 					$this -> sign_from_uc($uid, $username, $uc_password, $email);
 					$this -> init_user_info($uid);//初始化用户信息
 
-					//开始登陆
+					// 开始登陆
 					//if(I('post.remember-me')){
 					//	cookie('user_id', $uid);
 					//	cookie('user_mm', $this -> getmm($uid));
@@ -85,7 +84,7 @@ class LoginController extends BaseController {
 				}
 				/* UC结束 */
 			} elseif($result == -2) {
-				//登陆失败:密码错误
+				// 登陆失败:密码错误
 				$this -> error('登陆失败：密码错误');
 				$temp = I('cookie.login_error', 0);
 				cookie('login_error', $temp++, 3600);
