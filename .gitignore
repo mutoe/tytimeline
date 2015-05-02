@@ -47,6 +47,5 @@ Temporary Items
 /Public/uploads
 /Application/Runtime
 /*.project
-tytimeline.sql
 Application/Home/Conf/uc.php
 Public/img/banner

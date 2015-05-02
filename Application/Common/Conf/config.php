@@ -28,8 +28,6 @@ return array(
 'DATA_CACHE_TYPE' => 'file', // 数据缓存方式 文件
 'DATA_CACHE_TIME' => 15, //15s
 
-'SET_VERSION' => '0.1.8 alpha',//站点版本
-
 );
 
 
