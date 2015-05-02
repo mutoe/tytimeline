@@ -22,6 +22,7 @@ Update Log
 * 前台 banner 数据来源更改
 * TODO: 广场页面的移动端优化
 * TODO: 时光轴页面的移动端优化
+* 修改了各页面背景图片
 * TODO: 移动端不能上传分享 可能原因: android下不能读取到文件type信息 [解决办法](http://ntesmailfetc.blog.163.com/blog/static/2062870612013820105012171/)
 
 ----
