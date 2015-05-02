@@ -15,13 +15,11 @@ class GroundController extends Controller {
 		$sort = I('get.sort','create_time');$sort .= ' desc';//获取排序方式
 
 		foreach ($catalog_list as $key => $catalog_id) {
-			$temp = $share -> where('catalog_id=%d', $catalog_id) -> order($sort) -> limit(30) -> select();
-			foreach ($temp as $value) {
-				array_push($share_list, $value);
-			}
+			$share_list[$key] = $share -> where('catalog_id=%d', $catalog_id) -> order($sort) -> limit(12) -> select();
 		}
-		shuffle($share_list);//打乱排序
 		$this -> assign('share', $share_list);
+		$this -> assign('empty', '<div class="empty">没有数据</div>');
+
 
 		/*
 		//获取最新分享
