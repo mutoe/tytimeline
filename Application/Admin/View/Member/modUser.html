@@ -4,42 +4,70 @@
 <div class="admin-content">
 
 	<div class="am-cf am-padding">
-		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">管理员列表</strong> / <small>Administrator List</small>
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">用户列表</strong> / <small>User List</small>
 		</div>
 	</div>
 
 	<div class="am-tabs am-margin" data-am-tabs>
 		<ul class="am-tabs-nav am-nav am-nav-tabs">
-			<li class="am-active"><a href="#tab1">增加管理员</a></li>
+			<if condition="is_super_admin()">
+			<li class="am-active"><a href="#tab1">用户超级管理</a></li>
+			</if>
+			<li class="am-active"><a href="#tab2">用户管理</a></li>
 		</ul>
 
 		<div class="am-tabs-bd">
 			<div class="am-tab-panel am-fade am-in am-active" id="tab1">
-				<form class="am-form">
+				<form class="am-form" action="{:U('submitSupUser')}" method="post">
 
 					<div class="am-g am-margin-top-sm">
-						<div class="am-u-sm-2 am-text-right">用户id</div>
-						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm"></div>
+						<div class="am-u-sm-2 am-text-right">ID</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" name="user_id" value="{$data.user_id}" readonly></div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">Email</div>
+						<div class="am-u-sm-4 am-u-end"><input type="email" class="am-input-sm" name="email" value="{$data.email}"></div>
 					</div>
 
 					<div class="am-g am-margin-top">
-						<div class="am-u-sm-2 am-text-right">权限</div>
+						<div class="am-u-sm-2 am-text-right">用户组</div>
 						<div class="am-u-sm-10">
-							<div class="am-btn-group" data-am-button>
-								<volist name="group" id="vo">
-									<label class="am-btn am-btn-default am-btn-xs"><input type="radio" name="options" value="{$vo.group_id}"> {$vo.name}</label>
-								</volist>
-							</div>
+							<volist name="group" id="vo">
+						    <label class="am-radio">
+						      <input type="radio" name="group_id" value="{$vo.group_id}" data-am-ucheck <eq name="data.group_id" value="$vo.group_id">checked</eq> > {$vo.name}
+						    </label>
+							</volist>
 						</div>
 					</div>
+					<div class="am-margin">
+						<button type="submit" class="am-btn am-btn-primary am-btn-sm">提交保存</button>
+					</div>
+				</form>
+			</div>
 
+			<div class="am-tab-panel am-fade am-in am-active" id="tab2">
+				<form class="am-form" action="{:U('submitModUser')}" method="post">
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">ID</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" name="user_id" value="{$data.user_id}" readonly></div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">昵称</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" name="nickname" value="{$data.nickname}"></div>
+					</div>
+
+
+					<div class="am-margin">
+						<button type="submit" class="am-btn am-btn-primary am-btn-sm">提交保存</button>
+					</div>
 				</form>
 			</div>
 		</div>
+
 	</div>
 
-	<div class="am-margin">
-		<button type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
-	</div>
 </div>
 </block>
