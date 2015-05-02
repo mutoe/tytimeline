@@ -30,12 +30,12 @@ class ShardController extends BaseController {
 	 */
 	public function upimg() {
 		$config = array(
-			'maxSize' => 3145728,
-			'exts'=>array('jpg', 'gif', 'png', 'jpeg'),
-			'rootPath'=>'./Public/',
-			'savePath'=>'uploads/',
-			'autoSub' => true,
-			'subName' => array('date','Ym'),
+			'maxSize' 	=> 3145728,
+			'exts'			=> array('jpg', 'gif', 'png', 'jpeg'),
+			'rootPath'	=> './Public/',
+			'savePath'	=> 'uploads/',
+			'autoSub' 	=> true,
+			'subName' 	=> array('date','Ym'),
     );
 		$upload = new \Think\Upload($config); // 实例化上传类
 		// 上传文件
@@ -46,6 +46,7 @@ class ShardController extends BaseController {
 		} else {// 上传成功
 			// 写入数据库
 			$share = M('share');
+			$user_id = is_login();
 			$data = array(
 				'user_id' => $user_id,
 				'savepath' => $info['savepath'],
@@ -57,20 +58,33 @@ class ShardController extends BaseController {
 			$result = $share -> add($data);//return $share_id
 
 			if($result) {
-				//总分享数自增
+				// 总分享数自增
 				$user_info = M('user_info');
 				$user_info -> where('user_id=%d',$user_id) -> setInc('total_share');
-				//初始化image类
+				// 初始化image类
 		    $image = new \Think\Image();
-		    $image -> open('./Public/'.$info['savepath'].$info['savename']);
-				//计算宽高
+		    $image -> open('./Public/'. $info['savepath']. $info['savename'] );
+				// 计算宽高
 				$size = $image -> size();
 				$data2['width'] = $size[0];
 				$data2['height'] = $size[1];
 				$share -> where('share_id=%d', $result) -> save($data2);
 
 		    // 生成缩略图
-		    $image -> thumb(245, 2500) -> save('./Public/'.$info['savepath'].'t_'.$info['savename']);
+		    $image -> thumb(360, 2500) -> save('./Public/'.$info['savepath']. 't_'. $info['savename'] );
+
+				// 嵌入水印
+		    $image -> open('./Public/'. $info['savepath']. $info['savename'] );
+				$image -> text( '            '. C('WATERMARK_TEXT') ,'./Public/fonts/msyhbd.ttf', 14, '#ffffff40', 8 , -50 );
+				$image -> text( "@". get_nickname($user_id) ,'./Public/fonts/msyhbd.ttf', 20, '#ffffff40', 8 , -20 );
+				$image -> save('./Public/'. $info['savepath']. $info['savename'] );
+
+				// 嵌入水印（缩略图）
+		    $image -> open('./Public/'.$info['savepath']. 't_'. $info['savename']);
+				$image -> text( '           '. C('WATERMARK_TEXT') ,'./Public/fonts/msyh.ttf', 10, '#ffffff40', 7 , -30 );
+				$image -> text( "       @". get_nickname($user_id) ,'./Public/fonts/msyh.ttf', 12, '#ffffff20', 7 , -10 );
+				$image -> save('./Public/'.$info['savepath']. 't_'. $info['savename']);
+
 
 				$this -> success($result);//返回share_id
 			} else {

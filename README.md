@@ -16,6 +16,7 @@ Update Log
 			sort smallint(6),
 			savename varchar(255),
 			create_time int(10);
+* 增加了分享和轮播图的文字水印
 
 ### fixed ###
 * 前台 banner 数据来源更改

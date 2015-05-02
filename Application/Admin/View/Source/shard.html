@@ -41,7 +41,7 @@
 							<td>
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
-										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="window.location='deletePic?pid={$vo.id}'"><span class="am-icon-trash-o"></span> 删除</button>
+										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="del({$vo.share_id})"><span class="am-icon-trash-o"></span> 删除</button>
 									</div>
 								</div>
 							</td>
@@ -68,10 +68,22 @@
 </div>
 </block>
 
-<block name='js'>
+<block name="js">
 <script type="text/javascript">
-	var share_search = function() {
-		window.location.href = "{:U('Source/shard')}?share_id=" + $("#doc-ipt-search").val();
-	}
+  var del = function (id) {
+  	if( confirm('你确实要删除吗？') ) {
+			$.ajax({
+				url: "{:U('delShare')}",
+				data: {"share_id": id},
+				success: function (data) {
+					if(data.status) {
+						location.reload(true);
+					} else {
+						alert('删除失败:'+ data.info);
+					}
+				}
+			});
+  	}
+  }
 </script>
 </block>

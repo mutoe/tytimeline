@@ -10,17 +10,34 @@ class SourceController extends BaseController {
 	/**
 	 * 分享列表管理
 	 */
-	public function shard($sort = 'banner_id', $banner_id = 0) {
-		$banner = M('share');
-		$sort .= ' desc';
-		if($share_id) {
-			$data = $share -> where('share_id=%d', $share_id) -> select();
-		} else {
-			$data = $share -> order($sort) -> select();
-		}
-
+	public function shard() {
+		$share = M('share');
+		$data = $share -> select();
 		$this -> assign('data', $data);
+
 		$this -> display();
+	}
+
+	/**
+	 * 分享删除处理
+	 */
+	public function delShare($share_id = 0) {
+		if($share_id == 0) $this -> error('参数有误');
+		$share = M('share');
+		$data = $share -> find($share_id);
+
+		// 删除图像
+		unlink('./Public/'. $data['savepath']. $data['savename']);
+		unlink('./Public/'. $data['savepath']. 't_'. $data['savename']);
+
+		// 删除数据
+		$result = $share -> delete($share_id);
+
+		if($result) {
+			$this -> success();
+		} else {
+			$this -> error('删除失败');
+		}
 	}
 
 	/**
@@ -29,8 +46,8 @@ class SourceController extends BaseController {
 	public function catalog() {
 		$catalog = M('catalog');
 		$data = $catalog -> order('sort desc') -> select();
-
 		$this -> assign('data', $data);
+
 		$this -> display();
 	}
 
@@ -41,8 +58,8 @@ class SourceController extends BaseController {
 		$tag = M('tag');
 		$sort .= ' desc';
 		$data = $tag -> order($sort) -> select();
-
 		$this -> assign('data', $data);
+
 		$this -> display();
 	}
 
@@ -158,10 +175,25 @@ class SourceController extends BaseController {
 			$image -> crop($w, $h, $x, $y) -> save('./public/img/banner/'. $data['savename'] );
 
 			// 重新打开图片生成成品图片处理
-			$image -> open('./public/img/banner/'. $data['savename']);
+			$image -> open('./Public/img/banner/'. $data['savename']);
 			$image -> thumb(1680, 800) -> save('./public/img/banner/'. $data['savename'] );	// desktop用大图
 			$image -> thumb(820, 400) -> save('./public/img/banner/t_'. $data['savename'] );	// mobile设备用小图
-			$banner -> where('banner_id=%d', $banner_id) -> setField('status', 1);	//更改轮播图状态
+
+			// 嵌入水印
+	    $image -> open('./public/img/banner/'. $data['savename'] );
+			$image -> text( C('WATERMARK_TEXT') ,'./Public/fonts/msyhbd.ttf', 14, '#ffffff40', 8 , -50 );
+			$image -> text( " @". get_nickname($user_id) ,'./Public/fonts/msyhbd.ttf', 20, '#ffffff40', 8 , -20 );
+			$image -> save('./public/img/banner/'. $data['savename'] );
+
+			// 嵌入水印（小图）
+	    $image -> open('./public/img/banner/t_'. $data['savename'] );
+			$image -> text( C('WATERMARK_TEXT') ,'./Public/fonts/msyh.ttf', 10, '#ffffff40', 8 , -30 );
+			$image -> text( " @". get_nickname($user_id) ,'./Public/fonts/msyh.ttf', 12, '#ffffff20', 8 , -10 );
+			$image -> save('./public/img/banner/t_'. $data['savename'] );
+
+			//更改轮播图状态
+			$banner -> where('banner_id=%d', $banner_id) -> setField('status', 1);
+
 			$this -> success('成功了', U('banner'));
 		} else {
 			if($banner_id == 0) $this -> error('出错了:参数有误!');
