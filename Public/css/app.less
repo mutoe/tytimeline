@@ -226,6 +226,7 @@ ul.am-dropdown-content{
     padding-right: 0.4rem;
 }
 
+/* 分享详情页面 */
 .shard-detail {
     h2 {
         margin: 0 auto;
@@ -256,3 +257,73 @@ ul.am-dropdown-content{
         }
     }
 }
+
+/* 广场页面横向瀑布流 */
+.ground-catalog {
+    h2 {
+        color: white;
+    }
+    .content {
+        //background-color: rgba(255,255,255,0.4);
+
+        .header {
+            padding: 15px;
+            //background-color: rgba(255,255,255,0.4);
+            background: url(../img/catalog-bg.png) repeat-x;
+            background-size: auto 100%;
+            font-size: 24px;
+        }
+        .body {
+            background: rgba(255,255,255,0.8);
+            padding: 1px;
+            .media {
+                position: relative;
+                float: right;
+                overflow: hidden;
+                margin: 1px;
+                img {
+                    max-height: 300px;
+                }
+                .info {
+                    font-size: 12px;
+                    position: absolute;top: -300px;left: 0px;
+                    width: 100%;
+                    background-color: rgba(255,255,255,0.6);
+                    color: #555;
+                    padding: 10px;
+  -webkit-transition: all 0.3s ease-out;
+     -moz-transition: all 0.3s ease-out;
+       -o-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
+                    .detail {
+                        font-size: 16px;
+                        color: black;
+                    }
+                }
+            }
+            .empty {
+                padding: 10px;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

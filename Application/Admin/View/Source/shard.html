@@ -19,6 +19,7 @@
 					<thead>
 						<tr>
 							<th class="table-id">ID</th>
+							<th class="table-type">分类</th>
 							<th class="table-type">标签</th>
 							<th class="table-title">描述</th>
 							<th class="table-date">创建日期</th>
@@ -29,7 +30,8 @@
 					<tbody>
 					<volist name="data" id="vo">
 						<tr>
-							<td><a href="#"><span class="am-badge am-badge-primary am-text-sm am-round">{$vo.share_id}</span></a></td>
+							<td><a href="{:U(Home/Shard/detail)}?share_id={$vo.share_id}"><span class="am-badge am-badge-primary am-text-sm am-round">{$vo.share_id}</span></a></td>
+							<td>{$vo.catalog_id|get_catalog_name}</td>
 							<td>{$vo.tag_id|get_tag}</td>
 							<if condition="mb_strlen($vo['detail'],'utf-8') gt 16">
 								<td>{$vo.detail|mb_substr=0,16,'utf-8'}...</td>
@@ -41,6 +43,7 @@
 							<td>
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
+										<a class="am-btn am-btn-primary am-btn-xs" href="{:U('Home/Shard/modi')}?share_id={$vo.share_id}" target="_blank"><span class="am-icon-trash-o"></span> 修改</a>
 										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="del({$vo.share_id})"><span class="am-icon-trash-o"></span> 删除</button>
 									</div>
 								</div>
