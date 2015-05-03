@@ -29,7 +29,7 @@
 
 	  	<a href="__PUBLIC__/{$data.savepath}{$data.savename}" class="lightwindow page-options"
 	  			title='{$data.tag_id|show_tag}'
-	  			author="{$data.create_time|time_format='Y 年 m 月 d 日 H:i'} by @{$vo.user_id|get_nickname} 发表于 {$data.create_time|get_timing}前"
+	  			author="{$data.create_time|time_format='Y 年 m 月 d 日 H:i'} 由 @{$data.user_id|get_nickname} 发表于 {$data.create_time|get_timing}前"
 	  			caption="{$data.detail|substring='80'}">
 				<img class="am-img-responsive" src="__PUBLIC__/{$data.savepath}{$data.savename}"/>
 			</a>
