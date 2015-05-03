@@ -8,16 +8,16 @@ class ShardController extends BaseController {
 	public function detail($id = 0) {
 		if($id == 0) $this -> error('参数错误');
 		$share = M('share');
-		//获取分享详情
+		// 获取分享详情
 		$data = $share -> where('share_id=%d',$id) -> find();
 		$share -> where('share_id=%d', $id) -> setInc('click');//点击量自增
 		if(!$data) $this -> error('参数错误');
 		$this -> assign('data', $data);
-		//获取评论
+		// 获取评论
 		$comment = M('comment');
 		$comments = $comment -> where('share_id=%d', $id) -> limit(8) -> order('create_time desc') -> select();
 		$this -> assign('comment', $comments);
-		//获取用户详情
+		// 获取用户详情
 		$user = M('user_info');
 		$user_info = $user -> where('user_id=%d', $data['user_id']) -> find();
 		$this -> assign('user', $user_info);
@@ -35,7 +35,7 @@ class ShardController extends BaseController {
 			'rootPath'	=> './Public/',
 			'savePath'	=> 'uploads/',
 			'autoSub' 	=> true,
-			'subName' 	=> array('date','Ym'),
+			'subName' 	=> array('date', 'Ym'),
     );
 		$upload = new \Think\Upload($config); // 实例化上传类
 		// 上传文件
@@ -44,6 +44,20 @@ class ShardController extends BaseController {
 			$info = $upload -> getError();
 			$this -> error($info);
 		} else {// 上传成功
+
+			// 获取图像EXIF时间信息
+			$exif = exif_read_data('./Public/'. $info['savepath']. $info['savename'] , 'IFD0');
+			if($exif['DateTimeOriginal'] != null) {
+				$exif_time = $exif['DateTimeOriginal'];
+			} else {
+				$exif_time = $exif['DateTime'];
+			}
+			if($exif_time != null) {
+				$exif_time = strtotime( $exif_time );
+			} else {
+				$exif_time = time();
+			}
+
 			// 写入数据库
 			$share = M('share');
 			$user_id = is_login();
@@ -51,9 +65,9 @@ class ShardController extends BaseController {
 				'user_id' => $user_id,
 				'savepath' => $info['savepath'],
 				'savename' => $info['savename'],
-				'time' => time(),
+				'time' => $exif_time,
 				'create_time' => time(),
-				'month' => date('Ym', time()),
+				'month' => date('Ym', $exif_time),
 			);
 			$result = $share -> add($data);//return $share_id
 
@@ -85,7 +99,6 @@ class ShardController extends BaseController {
 				$image -> text( "       @". get_nickname($user_id) ,'./Public/fonts/msyh.ttf', 12, '#ffffff20', 7 , -10 );
 				$image -> save('./Public/'.$info['savepath']. 't_'. $info['savename']);
 
-
 				$this -> success($result);//返回share_id
 			} else {
 				unlink('./Public/'.$info['savepath'].$info['savename']);
@@ -104,8 +117,12 @@ class ShardController extends BaseController {
 		if(!I('param.time', 0)) {
 			//如果不是提交请求
 			$share = M('share');
-			$data = $share -> where('share_id=%d',$share_id) -> find();
-			$this -> assign('data',$data);
+			$data = $share -> find($share_id);
+			$this -> assign('data', $data);
+
+			// 获取当前时间
+			$now = date('Y-m-d H:i');
+			$this -> assign('now', $now);
 
 			$catalog = M('catalog');
 			$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> select();

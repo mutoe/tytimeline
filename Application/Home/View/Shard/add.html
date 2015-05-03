@@ -29,14 +29,13 @@
 </div>
 
 <form id="form-img" action="{:U('Shard/upimg')}" method="post" target="hidden_frame" enctype="multipart/form-data" class="am-hide">
-	<input id="doc-ipt-file-1" type="file" name="addimg" onchange="checkImage()" accept="image/*" />
+	<input id="doc-ipt-file-1" type="file" name="addimg" accept="image/*" />
 </form>
 
 </div>
 </block>
 
 <block name="js">
-<script src="__PUBLIC__/js/My97DatePicker/WdatePicker.js" language="javascript" type="text/javascript"></script>
 <script src="__PUBLIC__/js/jquery.form.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 $("#upload-img").click(function () {
@@ -44,10 +43,9 @@ $("#upload-img").click(function () {
 });
 $('.btn-loading-example').click(function () {
   var $btn = $(this);
-  $btn.button('上传中');
+  $btn.button('loading');
 });
-function checkImage() {
-	$(document).ready(function(){
+$("#doc-ipt-file-1").on('change', function(e) {
 		var options = {
 			url:"{:U('Shard/upimg')}",//后台的处理，也就是form里的action
 			type:"POST",
@@ -61,16 +59,10 @@ function checkImage() {
 					$("#alert-error-info").text(data.info);
 					$('#my-alert').modal('open');
 				}
-			},
-			error: function(data) {
-				console.log(data.info);
-				$("#alert-error-info").text(data.info);
-				$('#my-alert').modal('open');
 			}
 		};
 		$("#form-img").ajaxSubmit(options);
 		return false;//为了防止刷新
-	})
-}
+});
 </script>
 </block>

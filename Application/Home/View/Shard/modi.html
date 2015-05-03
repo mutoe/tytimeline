@@ -3,6 +3,7 @@
 <block name='css'>
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.tagsinput.css"/>
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.chosen.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.datetimepicker.css"/>
 </block>
 
 <block name="main">
@@ -35,16 +36,13 @@
 					</div>
 					<div class="am-form-group">
 						<label for="doc-ipt-detail">说点什么</label>
-						<textarea class="" rows="2" name="detail" id="doc-ipt-detail" placeholder="非必填，255 字以内">{$data.detail}</textarea>
+						<textarea class="" rows="4" name="detail" id="doc-ipt-detail" placeholder="非必填，255 字以内">{$data.detail}</textarea>
+					</div>
+					<div class="am-input-group am-input-group-dange">
+						<label for="datetimepicker">时间</label>
+						<input id="datetimepicker" type="text" value="{$data.time|time_format='Y-m-d H:i'}" class="am-form-field" readonly>
 					</div>
 					<div class="am-cf">
-						<a id="datetime" class="am-badge am-badge-secondary am-radius am-fl am-text-sm am-animation-shake" style="color: white;" onClick="WdatePicker({el:'datetime'})">
-						<if condition="empty($data['time'])">
-							{:date('Y-m-d H:i:s',time())}
-						<else />
-							{$data.time|time_format}
-						</if>
-						</a> <span class="am-text-sm am-text-warning">&nbsp; ← 点击此处有惊喜</span>
 						<button type="button" class="am-btn am-fr am-btn-danger" onclick="return modi();">提交</button>
 					</div>
 				</div>
@@ -71,15 +69,25 @@
 <block name="js">
 <script src="__PUBLIC__/js/amazeui.tagsinput.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="__PUBLIC__/js/amazeui.chosen.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="__PUBLIC__/js/My97DatePicker/WdatePicker.js" language="javascript" type="text/javascript"></script>
+<script src="__PUBLIC__/js/amazeui.datetimepicker.min.js" language="javascript" type="text/javascript"></script>
+<script src="__PUBLIC__/js/datetimepicker.zh.js" language="javascript" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() {
-  $('#doc-cho-catalog').chosen();
+	$('#doc-cho-catalog').chosen();
+	$('#datetimepicker').datetimepicker({
+		format: 'yyyy-mm-dd hh:ii',
+    todayBtn: true,
+    pickerPosition: 'top-left',
+    endDate: '{$now}'
+	});
 });
+
+
+
 function modi() {
 	console.log($("#doc-ipt-tag").val());
 	$(document).ready(function(){
-		var options = {
+		$.ajax({
 			url: "{:U('Shard/modi')}",
 			type: 'POST',
 			data:{
@@ -87,7 +95,7 @@ function modi() {
 				tag_id: $("#doc-ipt-tag").val(),
 				detail: $("#doc-ipt-detail").val(),
 				catalog_id: $("#doc-cho-catalog").val(),
-				time: $("#datetime").text()
+				time: $("#datetimepicker").val()
 			},
 			success: function(data) {
 				if(data.status) {
@@ -103,15 +111,8 @@ function modi() {
 					$("#alert-error-info").text(data.info);
 					$('#my-alert').modal('open');
 				}
-			},
-			error: function(data) {
-				console.log(data.info);
-				$("#alert-info").html('上传失败了 (⊙o⊙)噢！No!<br /><small style="color: #DD514C;">参考可能原因：<span id="alert-error-info"></span></small>');
-				$("#alert-error-info").text(data.info);
-				$('#my-alert').modal('open');
 			}
-		};
-		$.ajax(options);
+		});
 		return false;//为了防止刷新
 	});
 }
