@@ -1,0 +1,50 @@
+/*
+	Yes this layout was inspired by lightbox v2.0's page, the reason being, the layout works really well for a doc
+*/
+
+
+.notice {
+	border: 3px solid #ffffbe;
+	padding: 10px;
+	color: #ffffff;
+	background-color: #09f;
+	margin: 0 0 20px 0;
+}
+#lightwindow_contents {
+	width: auto !important;
+	height: auto !important;
+}
+#lightwindow_data_slide_inner {
+	width: auto !important;
+}
+#lightwindow_title_bar_title {
+	position: absolute;
+	top: -4px;
+}
+	.notice p,
+	.notice p a,
+	li a {
+		color: #ffffff;
+		text-decoration: none;
+	}
+
+p {
+	margin: 0 0 20px 0;
+	color: #cccccc;
+	line-height: 140%;
+}
+
+	p small,
+	li small {
+		color: #09F;
+		font-size: 100%;
+	}
+
+	p em,
+	em {
+		color: #ffffff;
+	}
+
+.hidden {
+	display : none;
+}
