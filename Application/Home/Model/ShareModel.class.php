@@ -21,7 +21,6 @@ class ShareModel extends Model {
 	 */
 	protected function tag_fun($tag_org) {
 		if($tag_org == '') return null;
-		//return $tag_org;
 		$tag = M('tag');
 		$tag_org = trim($tag_org, ' ');
 		$tag_arr = explode(',', $tag_org);
@@ -44,7 +43,8 @@ class ShareModel extends Model {
 				$result .= $add_tag.',';
 			}
 		}
-		return rtrim($result, ',');
+		$result = rtrim($result, ',');	// 去除尾部分隔符
+		return str2json( $result );
 	}
 
 	/**

@@ -130,7 +130,7 @@ function get_auth($method, $user_id = 0, $id = 0) {
 function get_tag($string) {
 	$tag = M('tag');
 	$tag_list = $tag -> field('tag_id,tag_name') -> select();
-	$array = explode(',',$string);
+	$array = json_decode($string);
 	$result = '';
 	foreach ($array as $tag_id) {
 		foreach ($tag_list as $tag_value) {
@@ -172,7 +172,7 @@ function show_tag($string, $color = true) {
 		$tag_list = $tag -> field('tag_id,tag_name') -> select();
 		S('tag', $tag_list);
 	}
-	$array = explode(',',$string);
+	$array = json_decode($string);
 	if($color) {
 		$color_list = array('','am-badge-primary','am-badge-danger','am-badge-warning','am-badge-success','am-badge-secondary');
 	} else $color_list = array('');

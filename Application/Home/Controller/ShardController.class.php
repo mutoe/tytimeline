@@ -84,7 +84,7 @@ class ShardController extends BaseController {
 				$data2['height'] = $size[1];
 				// 如果是壁纸，自动添加1号标签
 				$is_wallpaper = $this -> isWallpaper( $data2['width'] , $data2['height'] );
-				if( $is_wallpaper ) $data2['tag_id'] = '1';
+				if( $is_wallpaper ) $data2['tag_id'] = '["1"]';
 
 				// 写入数据
 				$share -> where('share_id=%d', $result) -> save($data2);
