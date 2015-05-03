@@ -55,6 +55,12 @@ h3 {
 		text-decoration: none;
 	}
 
+
+#lightwindow_title_bar_title {
+	position: absolute;
+	top: -4px;
+}
+
 a.page-options {
 	color: #000000;
 	text-decoration: none;
