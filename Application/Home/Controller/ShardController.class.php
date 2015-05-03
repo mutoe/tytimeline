@@ -107,6 +107,11 @@ class ShardController extends BaseController {
 		}
 	}
 
+	public function getTagByName($str) {
+		$tag = M('tag');
+
+	}
+
 	/**
 	 * 图片信息修改页面
 	 */
