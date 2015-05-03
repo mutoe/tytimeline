@@ -1,20 +1,16 @@
 <extend name="Common:base" />
 
-<block name='css'>
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/lightbox.css" />
-</block>
-
 <block name="main">
 <div class="am-g am-g-fixed">
 
-<h2 style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;"><span class="am-text-xl am-badge am-badge-warning">{$data.tag_id|get_tag}</span> {$data.tag_id}</h2>
+<h2 style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;"><span class="am-text-xl am-badge am-badge-warning"> #{$data.tag_id} {$data.tag_id|get_tag}</span> </h2>
 
 <div style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">
   <div class="am-u-sm-12">
     <ul id="wookmark">
   	<volist name="list" id="vo">
     	<li class="wookmark-box">
-    		<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="200" height="{:get_t_height($vo['width'],$vo['height'])}"></a>
+    		<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"></a>
     	</li>
   	</volist>
     </ul>

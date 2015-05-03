@@ -82,6 +82,11 @@ class ShardController extends BaseController {
 				$size = $image -> size();
 				$data2['width'] = $size[0];
 				$data2['height'] = $size[1];
+				// 如果是壁纸，自动添加1号标签
+				$is_wallpaper = $this -> isWallpaper( $data2['width'] , $data2['height'] );
+				if( $is_wallpaper ) $data2['tag_id'] = '1';
+
+				// 写入数据
 				$share -> where('share_id=%d', $result) -> save($data2);
 
 		    // 生成缩略图
@@ -106,10 +111,14 @@ class ShardController extends BaseController {
 			}
 		}
 	}
-
-	public function getTagByName($str) {
-		$tag = M('tag');
-
+	/**
+	 * 判断图片是否为壁纸的方法，用来自动添加'壁纸'标签
+	 */
+	private function isWallpaper($w = 0, $h = 0) {
+		$wlist = ["1024x768", "1152x864", "1280x768", "1280x800", "1280x1024", "1440x900", "1600x900", "1680x1050", "1920x1080",
+							"1600x1200", "1366x768", "1920x1440", "1920x1440", "1920x1200"];
+		$data = $w. "x". $h;
+		return in_array($data, $wlist)?true:false;
 	}
 
 	/**
@@ -157,7 +166,6 @@ class ShardController extends BaseController {
 	 */
 	public function del($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
-		if(!IS_AJAX) $this -> error('非法请求！');
 		$share = M('share');
 		$data = $share -> where('share_id=%d',$share_id) -> find();
 		if(!$data) $this -> error('该条数据不存在！');
@@ -177,7 +185,7 @@ class ShardController extends BaseController {
 			$user_info -> where('user_id=%d',$data['user_id']) -> setDec('total_share');
 
 			if($result) {
-				$this -> success('删除成功');
+				$this -> success('删除成功，正在跳转到首页...', U('Index/index'));
 			} else {
 				$this -> error('删除失败，请联系管理员.删除数据失败');
 			}
@@ -188,7 +196,7 @@ class ShardController extends BaseController {
 	/**
 	 * 删除分享时tag的处理
 	 */
-	public function del_tagDec($share_id = 0) {
+	private function del_tagDec($share_id = 0) {
 		if(!$share_id) return false;
 		$share = M('share');
 		$tag = M('tag');
@@ -260,12 +268,11 @@ class ShardController extends BaseController {
 	public function submit_comment($share_id = 0) {
 		if(!is_login()) $this -> error('请先登录');
 		if($share_id == 0) $this -> error('参数有误');
-		if(!IS_AJAX) $this -> error('非法请求！');
 
 		$comment = M('comment');
 		$data['user_id'] = is_login();
 		$data['share_id'] = $share_id;
-		$data['detail'] = I('get.detail');
+		$data['detail'] = I('post.detail');
 		$data['create_time'] = time();
 		$result = $comment -> add($data);//return了一个comment_id
 
@@ -282,7 +289,6 @@ class ShardController extends BaseController {
 	 */
 	public function delete_comment($comment_id = 0) {
 		if( !get_auth('manage_comment', 0, $comment_id) ) $this -> error('没有权限');
-		if( !IS_AJAX ) $this -> error('非法请求');
 		$comment = M('comment');
 		$share_id = $comment -> where('comment_id=%d',$comment_id) -> getField('share_id');
 		$result = $comment -> delete($comment_id);

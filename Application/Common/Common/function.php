@@ -181,7 +181,7 @@ function show_tag($string, $color = true) {
 		foreach ($tag_list as $tag_value) {
 			if($tag_value['tag_id'] == $tag_id) {
 				$c = array_rand($color_list);
-				$result .= '<span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span>&nbsp;';
+				$result .= '<a href="'. U('Home/Tag/detail', 'tag_id='. $tag_id).'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
 			}
 		}
 	}
