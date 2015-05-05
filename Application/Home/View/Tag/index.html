@@ -9,7 +9,7 @@
 		<ol id="filters">
       <li data-filter="all">全部</li>
 			<volist name="tag" id="vo">
-			<li data-filter="{$vo.tag_id}">{$vo.tag_id|get_tag}</li>
+			<li data-filter="{$vo.tag_id}">{$vo.tag_id|str2json|get_tag}</li>
       </volist>
     </ol>
 	</div>
