@@ -33,9 +33,9 @@
 	  			caption="{$data.detail|substring='80'}">
 				<img class="am-img-responsive" src="__PUBLIC__/{$data.savepath}{$data.savename}"/>
 			</a>
-
+			<p style="padding: 8px;">拍摄于 {$data.time|time_format='Y 年 n 月 j 日 H:i'}</p>
   	</div>
-  	<h5>{$data.tag_id|show_tag}</h5>
+  	<h3 class="am-text-default">{$data.tag_id|show_tag}</h3>
   	<if condition="strlen($data['detail']) gt 0">
 		<p class="detail">{$data.detail}</p>
   	</if>

@@ -123,6 +123,7 @@ body {
   font-size: 12px;
   padding-top: 6px;
   padding-bottom: 4px;
+  margin-right: 2px;
   cursor: pointer;
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
