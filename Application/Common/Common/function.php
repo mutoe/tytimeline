@@ -164,7 +164,7 @@ function str2json($string) {
 /**
  * 输出tag列表 前端badge形式
  */
-function show_tag($string, $color = true) {
+function show_tag($json, $color = true, $css = false) {
 	if(S('tag')) {
 		$tag_list = S('tag');
 	} else {
@@ -172,7 +172,7 @@ function show_tag($string, $color = true) {
 		$tag_list = $tag -> field('tag_id,tag_name') -> select();
 		S('tag', $tag_list);
 	}
-	$array = json_decode($string);
+	$array = json_decode($json);
 	if($color) {
 		$color_list = array('','am-badge-primary','am-badge-danger','am-badge-warning','am-badge-success','am-badge-secondary');
 	} else $color_list = array('');
@@ -181,7 +181,11 @@ function show_tag($string, $color = true) {
 		foreach ($tag_list as $tag_value) {
 			if($tag_value['tag_id'] == $tag_id) {
 				$c = array_rand($color_list);
-				$result .= '<a href="'. U('Home/Tag/detail', 'tag_id='. $tag_id).'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
+				if($css) {
+					$result .= '<button alt="点击添加到标签" data-tag-id="'.$tag_value['tag_name'].'" class="tag-badge am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</button>&nbsp;';
+				} else {
+					$result .= '<a href="'. U('Home/Tag/detail', 'tag_id='. $tag_id).'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
+				}
 			}
 		}
 	}

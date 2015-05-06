@@ -139,6 +139,12 @@ class ShardController extends BaseController {
 			$now = date('Y-m-d H:i');
 			$this -> assign('now', $now);
 
+			// 获取推荐标签
+			$tag = M('tag');
+			$tags = $tag -> where('status>1') -> order('status desc') -> getField('tag_id',true);
+			$tags = json_encode($tags);
+			$this -> assign('hot_tag', $tags);
+
 			$catalog = M('catalog');
 			$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> select();
 			$this -> assign('catalog', $catalog_list);
