@@ -5,7 +5,7 @@ class TagController extends BaseController {
 	public function index() {
 		$tag = M('tag');
 
-		$tag_list = $tag -> order('total_share desc,create_time desc') -> select();
+		$tag_list = $tag -> where('status!=0') -> order('status desc,total_share desc,create_time desc') -> select();
 		$this -> assign('tag', $tag_list);
 
 		$share = M('share');
