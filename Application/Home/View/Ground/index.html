@@ -9,19 +9,19 @@
 		<h2>分类大全</h2>
 		<foreach name="catalog" item="group" key="k">
 		<div class="am-margin-top-lg content">
-			<div class="am-u-sm-4 am-u-end am-text-center header"><a href="{:U('Catalog/detail','id='.$group)}">{$group|get_catalog_name}</a></div>
-			<div class="am-u-sm-12 body">
+			<div class="am-u-sm-8 am-u-md-6 am-u-lg-4 am-u-end am-text-center am-margin-top header"><a href="{:U('Catalog/detail','id='.$group)}">{$group|get_catalog_name}</a></div>
+			<div class="am-u-sm-12 body" data-cataid="{$group}">
 				<volist name="share[$k]" id="vo">
 					<div class="media" data-row="{$group}">
-				<a href="{:U('Shard/detail','id='.$vo['share_id'])}">
-						<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" />
-				</a>
+						<a href="{:U('Shard/detail','id='.$vo['share_id'])}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" />
+						</a>
 						<div class="info">
 							<span class="am-text-warning">@{$vo.user_id|get_nickname}</span>
 							发表在 <span class="am-text-secondary">{$vo.catalog_id|get_catalog_name}</span>
-							于 <span>{$vo.create_time|get_timing}</span>前
-							<if condition="strlen($vo['tag_id']) gt 0"><br /><span style="display: block;padding-top: 4px;">{$vo.tag_id|show_tag}</span></if>
-							<if condition="strlen($vo['detail']) gt 0"><br /><span style="display: block;padding-top: 4px;">{$vo.detail|substring='30'}</span></if>
+							于 <span>{$vo.create_time|get_timing}</span>前<br />
+							<if condition="strlen($vo['tag_id']) gt 0"><span style="display: block;padding-top: 4px;">{$vo.tag_id|show_tag}</span></if>
+							<if condition="strlen($vo['detail']) gt 0"><span style="display: block;padding-top: 4px;">{$vo.detail|substring='30'}</span></if>
 						</div>
 					</div>
 				</volist>
@@ -50,12 +50,15 @@
 	 * 水平瀑布流布局
 	 * @author mutoe
 	 */
-
 	// 写入高度数据
 	var imgHeight = 200 - 4;	// 减去4px边框
 	$(".media").each(function() {
-		$(this).find('img').attr('height', imgHeight);
+		var el = $(this);
+		el.find('img').attr('height', imgHeight);
+		el.find('img').css('max-height', 300);
+		el.css('float', 'right');
   });
+
 	// 获取分类的id数组
 	var catalog = {$catalog|json_encode};
 
@@ -100,7 +103,5 @@
 			el.css('float', 'left');
 		});
 	}
-
-
 </script>
 </block>
