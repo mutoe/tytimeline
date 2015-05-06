@@ -4,12 +4,12 @@
 <div class="am-g">
 <div class="am-u-sm-centered am-u-sm-12 am-u-lg-10">
 
-	<h2>热门标签</h2>
+	<h2 style="color: white;">热门标签</h2>
 	<div class="am-g" style="margin-bottom: 2rem;">
-		<ol id="filters">
-      <li data-filter="all">全部</li>
+		<ol id="filters" class="am-u-sm-12">
+      <li class="am-u-sm-3 am-u-md-2 am-u-lg-1" data-filter="all">全部</li>
 			<volist name="tag" id="vo">
-			<li data-filter="{$vo.tag_id}">{$vo.tag_id|str2json|get_tag}</li>
+			<li class="am-u-sm-3 am-u-md-2 am-u-lg-1" data-filter="{$vo.tag_id}">{$vo.tag_id|str2json|get_tag}</li>
       </volist>
     </ol>
 	</div>
@@ -17,7 +17,7 @@
 	<div class="am-g">
 		<ul id="wookmark">
 		<volist name="share" id="vo">
-      <li class="wookmark-box" data-filter-class='{$vo.tag_id|str2json}'>
+      <li class="wookmark-box" data-filter-class='{$vo.tag_id}'>
 			<div class="share">
 				<div class="author"><a href="{:U('User/index','user_id='.$vo['user_id'])}">@{$vo.user_id|get_nickname}</a></div>
 				<div class="media am-g">
