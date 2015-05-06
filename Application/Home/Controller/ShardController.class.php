@@ -10,8 +10,8 @@ class ShardController extends BaseController {
 		$share = M('share');
 		// 获取分享详情
 		$data = $share -> where('share_id=%d',$id) -> find();
+		if(!$data) $this -> error('抱歉，该条数据可能已被删除');
 		$share -> where('share_id=%d', $id) -> setInc('click');//点击量自增
-		if(!$data) $this -> error('参数错误');
 		$this -> assign('data', $data);
 		// 获取评论
 		$comment = M('comment');
@@ -132,6 +132,7 @@ class ShardController extends BaseController {
 			//如果不是提交请求
 			$share = M('share');
 			$data = $share -> find($share_id);
+			if(!$data) $this -> error('抱歉，该条数据可能已被删除');
 			$this -> assign('data', $data);
 
 			// 获取当前时间
