@@ -49,3 +49,4 @@ Temporary Items
 /*.project
 Application/Home/Conf/uc.php
 Public/img/banner
+Application/Home/Controller/TestController.class.php
