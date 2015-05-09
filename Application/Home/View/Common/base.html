@@ -9,14 +9,16 @@
   <title>{$page['title']|default="天佑时光轴 - 天佑app"}</title>
 
   <link rel="icon" type="image/png" href="__PUBLIC__/i/favicon.png" />
-
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.css" />
+	<link rel="stylesheet" href="__PUBLIC__/css/avgrund.css">
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/app.css" />
   <block name="css"></block>
 
 </head>
 
 <body>
+<div class="container">
+
 <!--[if lte IE 9]>
 <p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，可能会出现糟糕的排版。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a> 以获得更好的体验！参考浏览器 Chrome 、 Firefox 、360极速浏览器</p>
 <![endif]-->
@@ -61,26 +63,26 @@
         <ul class="am-dropdown-content">
         	<li><a href="{:U('Shard/random')}"><i class="am-icon-cube"></i> 试试手气</a></li>
         <if condition="!session('?user_id')">
-        	<li><a href="{:U('Login/sign')}"><i class="am-icon-terminal"></i> 注册</a></li>
+        	<li><a href="javascript: modelSign()"><i class="am-icon-terminal"></i> 注册</a></li>
         <else />
         <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
           <li><a href="{:U('Admin/index')}"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
         </if>
           <li><a href="{:U('User/index')}"><i class="am-icon-user"></i> 个人中心</a></li>
-          <li><a href="{:U('User/logout')}"><i class="am-icon-sign-out"></i> 安全退出</a></li>
+          <li><a href="javascript: modelLogout()"><i class="am-icon-sign-out"></i> 安全退出</a></li>
         </if>
           <li><a href="http://ty.cqjtu.edu.cn/story/"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>
         </ul>
       </div>
     </div>
     <div class="am-topbar-right am-hide-sm-only" >
-    <if condition="session('?user_id')">
-    	<span class="am-topbar-btn am-btn-sm am-btn" style="color: white;">
-				<a style="color: #0D86C4;">{:get_usergroup(0,0)}</a> {:get_nickname()}
-    	</span>
+    <if condition="is_login()">
+    	<a class="am-topbar-btn am-btn-sm am-btn" href="{:U('User/index')}" style="color: white;">
+				<span style="color: #0D86C4;">{:get_usergroup(0,0)}</span> {:get_nickname()}
+    	</a>
   	</if>
-  	<if condition="!session('?user_id')">
-    	<a class="am-btn am-btn-primary am-topbar-btn am-btn-sm" href="{:U('Login/index')}" style="color: white;"><i class="am-icon-sign-in"></i> 登录</a>
+  	<if condition="!is_login()">
+    	<a class="am-btn am-btn-primary am-topbar-btn am-btn-sm" id="model-login" style="color: white;"><i class="am-icon-sign-in"></i> 登录</a>
   	<else />
   		<a href="{:U('Shard/add')}" class="am-btn am-btn-danger am-topbar-btn am-btn-sm" style="color: white;"><i class="am-icon-camera"></i> 时光</a>
   	</if>
@@ -90,7 +92,6 @@
 
 
 <block name="main"></block>
-
 
 <a id="returnTop">回到顶部</a>
 
@@ -102,7 +103,8 @@
   </div>
 </footer>
 </block>
-
+<button id="model-popup" class="am-hide"></button>
+</div>
 <!--[if lt IE 9]>
 <script src="__PUBLIC__/js/jquery.1.11.1.min.js"></script>
 <script src="__PUBLIC__/js/modernizr.js"></script>
@@ -116,12 +118,14 @@
 <script src="__PUBLIC__/js/amazeui.js" type="text/javascript" charset="utf-8"></script>
 <!--<![endif]-->
 
-<script src="__PUBLIC__/js/app.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 (function($) {
 	$(".header-{$Think.CONTROLLER_NAME}").addClass('am-active');
 })(jQuery);
+var ROOT = "__ROOT__";
 </script>
+<script src="__PUBLIC__/js/jquery.avgrund.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/js/app.js" type="text/javascript" charset="utf-8"></script>
 <block name="js"></block>
 
 </body>
