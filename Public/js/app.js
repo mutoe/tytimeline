@@ -141,7 +141,9 @@ var modelSign = function() {
  * @param {String} info
  * @param {Boolean} success
  */
-var popup = function(info, success = true, title = null) {
+var popup = function(info,success,title) {
+	var success = arguments[1] ? arguments[1] : true;
+	var title = arguments[2] ? arguments[2] : null;
 	$("#model-popup").click();
 	if(!success) {
 		$(".model-popup .header h2").removeClass('am-text-success').addClass('am-text-error');

@@ -85,7 +85,7 @@
 			// 获取该行宽度，并计算出图像铺满时的高度
 			$(".media[data-row='"+ catalog[c] +"-"+ i +"']:last").each(function() {
 				var el = $(this);
-				var mod = el.position().left;	// 根据最后一个元素的位置计算行空余宽度
+				var mod = el.position().left - 1;	// 根据最后一个元素的位置计算行空余宽度
 				ht = ( imgHeight * parentWidth ) / ( parentWidth - mod );
 			});
 			// 修正图像高度

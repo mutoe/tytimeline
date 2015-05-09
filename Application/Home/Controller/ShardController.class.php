@@ -30,7 +30,7 @@ class ShardController extends BaseController {
 	 */
 	public function upimg() {
 		$config = array(
-			'maxSize' 	=> 3145728,
+			'maxSize' 	=> 5*1024*1024,
 			'exts'			=> array('jpg', 'gif', 'png', 'jpeg'),
 			'rootPath'	=> './Public/',
 			'savePath'	=> 'uploads/',

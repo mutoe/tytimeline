@@ -5,6 +5,46 @@
 html {
   overflow-x: hidden;
 }
+.model-popup {
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  box-shadow: #bebebe 0 0 4px;
+  background: white;
+}
+.model-popup .header h2 {
+  position: relative;
+  padding: 12px;
+  margin: 0;
+  height: 60px;
+}
+.model-popup .header h2 i {
+  display: inline-block;
+}
+.model-popup .header h2 span.am-text-sm {
+  position: absolute;
+  top: 28px;
+  right: 4px;
+}
+.model-popup .info {
+  padding: 12px;
+  text-indent: 1em;
+}
+.model-popup hr {
+  margin: 0;
+}
+.model-login {
+  color: #555;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.model-login .logo {
+  display: inline-block;
+  height: 20px;
+  width: 60px;
+  background: url(../img/logo-o.png) no-repeat #A4241F;
+  background-size: 60px 20px;
+}
 .am-topbar .am-text-ir {
   display: block;
   margin-right: 10px;
@@ -222,22 +262,22 @@ ul.am-dropdown-content:after {
   margin-top: 2rem;
   color: #FFFFFF;
 }
-.shard-detail .container {
+.shard-detail .content {
   margin: 0 auto;
   max-width: 1040px;
   margin-top: 2rem;
   color: #FFFFFF;
 }
-.shard-detail .container .share .info {
+.shard-detail .content .share .info {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 8px;
 }
-.shard-detail .container .share .detail {
+.shard-detail .content .share .detail {
   background-color: rgba(255, 255, 255, 0.4);
   padding: 15px;
   color: black;
 }
-.shard-detail .container .user-info .detail {
+.shard-detail .content .user-info .detail {
   color: black;
 }
 /* 广场页面横向瀑布流 */

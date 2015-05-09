@@ -3,7 +3,7 @@
 <block name="main">
 <div class="am-g am-g-fixed">
 
-<h2 style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;"><span class="am-text-xl am-badge am-badge-warning"> #{$data.tag_id} {$data.tag_id|get_tag}</span> </h2>
+<h2 style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;"><span class="am-text-xl am-badge am-badge-warning"> #{$data.tag_id} {$data.tag_id|str2json|get_tag}</span> </h2>
 
 <div style="margin: 0 auto;max-width: 1040px;margin-top: 2rem;">
   <div class="am-u-sm-12">
