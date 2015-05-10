@@ -6,6 +6,9 @@ Update Log
 ----
 [1.0.0.150510] 首次公开测试
 ----
+### add ###
+* 增加了统计代码
+
 ### change ###
 * 使用 `imgbox` 替换了 `lightwindow` 灯箱插件
 
