@@ -12,6 +12,8 @@ Update Log
 ### change ###
 * 使用 `imgbox` 替换了 `lightwindow` 灯箱插件
 
+### fixed ###
+* (伪)修复了标签页面产生了空白标签的问题
 ----
 [0.1.18.150509b]
 ----

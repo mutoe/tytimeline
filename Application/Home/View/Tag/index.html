@@ -9,7 +9,9 @@
 		<ol id="filters" class="am-u-sm-12">
       <li class="am-u-md-2 am-u-lg-1 am-u-end" data-filter="all">全部</li>
 			<volist name="tag" id="vo">
-			<li class="am-u-md-2 am-u-lg-1 am-u-end" data-filter="{$vo.tag_id}">{$vo.tag_id|str2json|get_tag}</li>
+				<if condition="get_tag(str2json($vo['tag_id']))">
+					<li class="am-u-md-2 am-u-lg-1 am-u-end" data-filter="{$vo.tag_id}">{$vo.tag_id|str2json|get_tag}</li>
+				</if>
       </volist>
     </ol>
 	</div>
