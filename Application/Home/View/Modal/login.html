@@ -1,0 +1,78 @@
+<div class="am-modal am-modal-prompt" tabindex="-1" id="modal-login">
+	<div class="am-modal-dialog">
+		<form class="am-form" data-am-validator>
+	  	<fieldset>
+	  		<legend><span class="logo">&nbsp;</span> 登陆</legend>
+	  		<div class="am-g am-padding-top">
+		  		<div class="am-u-sm-2"><label for="modal-nickname">用户名</label></div>
+			    <div class="am-u-sm-10"><input type="text" id="modal-nickname" name="nickname" minlength="2" maxlength="24"></div>
+	  		</div>
+	  		<div class="am-g am-padding-top-sm">
+			    <div class="am-u-sm-2"><label for="modal-passwd">密码</label></div>
+			    <div class="am-u-sm-10"><input type="password" id="modal-passwd" name="password" minlength="3" maxlength="32"></div>
+	  		</div>
+		    <div class="am-g am-padding-top">
+		      <input id="modal-login-button" type="button" class="am-btn am-btn-primary am-fr" value="登录" />
+		      <a id="modal-login-sign" class="am-btn am-btn-default am-fr am-margin-right" href="javascript: void(0);"><i class="am-icon-question-circle"></i> 没有帐号</a>
+		    </div>
+		    <div id="modal-login-popover" class="am-alert am-alert-warning am-text-sm am-hide">本站已接入校内论坛，请使用论坛帐号进行登陆。</div>
+	    </fieldset>
+	  </form>
+	</div>
+</div>
+<script type="text/javascript">
+var signButton = $("#modal-login-sign");
+signButton.on('click', function() {
+	$("#modal-login").modal('close');
+	modalSign();
+});
+signButton.on('mouseover', function() {
+	$('#modal-login-popover').removeClass('am-hide');
+});
+signButton.on('mouseout', function() {
+	$('#modal-login-popover').addClass('am-hide');
+});
+
+$('#modal-login-button').click(function () {
+	// 验证值的有效性
+	var nickname = $("#modal-nickname").val();
+	var passwd = $("#modal-passwd").val();
+	if (nickname.length < 2 || nickname.length > 24) {
+		alert('用户名格式有误');
+		return false;
+	}
+	if (passwd.length < 3 || passwd.length > 32) {
+		alert('密码格式有误');
+		return false;
+	}
+
+	// 改变按钮样式
+  var $btn = $('#modal-login-button');
+  $btn.button('loading');
+  $btn.val("请求登陆中...");
+  setTimeout(function(){
+    $btn.button('reset');
+  }, 10000);
+
+  // 提交登陆请求
+	$.ajax({
+		url: "{:U('Login/index')}",
+		type: "POST",
+		data: {
+			nickname: nickname,
+			password: passwd
+		},
+		success: function(data) {
+			if(data.status) {
+				modalPopup('登陆成功，正在返回...');
+				setTimeout(function() {
+					location.reload();
+				}, 1000);
+			} else {
+				//console.log(data);
+				modalPopup(data.info,false);
+			}
+		}
+	});
+});
+</script>

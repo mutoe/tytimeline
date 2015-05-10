@@ -28,6 +28,10 @@ class BaseController extends Controller {
 		return $user -> where('user_id=%d',$user_id) -> save($data);
 	}
 
+	public function fuckIE() {
+		$this -> display('Common:fuckIE');
+	}
+
 	/**
 	 * 登出操作
 	 */
@@ -40,7 +44,21 @@ class BaseController extends Controller {
 		echo $uc -> uc_user_synlogout();*/
 
 		session('user_id',null);
-		$this -> success('退出成功，正在跳转到首页...', U('Index/index'), 1);
+		$this -> success();
+	}
+
+	/**
+	 * 异步加载模态窗口
+	 */
+	public function syncHtml($modal = 'login', $info = null, $status = null, $title = null) {
+		$data['info'] = $info;
+		$data['status'] = $status == 'success' ? true : flase;
+		$data['title'] = $title;
+		$this -> assign($data);
+
+		$content = $this -> fetch('Modal:'.$modal);
+		if($content) $this -> success($content);
+		else $this -> error();
 	}
 
 }

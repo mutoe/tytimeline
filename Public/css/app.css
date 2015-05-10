@@ -5,45 +5,15 @@
 html {
   overflow-x: hidden;
 }
-.model-popup {
-  border: 1px solid #dcdcdc;
-  border-radius: 4px;
-  box-shadow: #bebebe 0 0 4px;
-  background: white;
+body {
+  background: url(../img/bg-fixed.png) repeat, url(../img/bg.jpg) fixed;
 }
-.model-popup .header h2 {
-  position: relative;
-  padding: 12px;
-  margin: 0;
-  height: 60px;
+.bg-fix {
+  background: url(../img/bg-fixed.png) repeat;
 }
-.model-popup .header h2 i {
-  display: inline-block;
-}
-.model-popup .header h2 span.am-text-sm {
-  position: absolute;
-  top: 28px;
-  right: 4px;
-}
-.model-popup .info {
-  padding: 12px;
-  text-indent: 1em;
-}
-.model-popup hr {
-  margin: 0;
-}
-.model-login {
-  color: #555;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-.model-login .logo {
-  display: inline-block;
-  height: 20px;
-  width: 60px;
-  background: url(../img/logo-o.png) no-repeat #A4241F;
-  background-size: 60px 20px;
+.am-topbar {
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
 }
 .am-topbar .am-text-ir {
   display: block;
@@ -53,6 +23,39 @@ html {
   background: url(../img/logo.png) no-repeat left center;
   -webkit-background-size: 125px 24px;
   background-size: 125px 24px;
+}
+ul.am-dropdown-content {
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+}
+ul.am-dropdown-content > li > a {
+  color: white;
+}
+ul.am-dropdown-content:after {
+  top: -7px;
+  border-bottom-color: rgba(0, 0, 0, 0.8);
+}
+.am-nav li a {
+  color: white;
+}
+.am-nav li a:hover,
+.am-nav li a:focus {
+  background-color: #222;
+}
+#top-banner {
+  position: relative;
+  margin-bottom: 0;
+}
+#top-banner p {
+  position: absolute;
+}
+#top-banner p.mobile {
+  bottom: 5%;
+  right: 5%;
+}
+#top-banner p.desktop {
+  bottom: 60px;
+  right: 100px;
 }
 footer {
   background-color: rgba(255, 255, 255, 0.5) !important;
@@ -67,13 +70,28 @@ footer .footer-text {
 footer .footer-link {
   color: #009CDA;
 }
-body {
-  background: url(../img/bg-fixed.png) repeat, url(../img/bg.jpg) fixed;
+#modal-login .am-modal-dialog legend {
+  padding: 10px;
 }
-.bg-fix {
-  background: url(../img/bg-fixed.png) repeat;
+#modal-login .am-modal-dialog legend .logo {
+  display: inline-block;
+  line-height: 1em;
+  height: 20px;
+  width: 60px;
+  background: url(../img/logo-o.png) no-repeat #A4241F;
+  background-size: 60px 20px;
 }
-@media (max-width: 640px) {
+#modal-login .am-modal-dialog p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#modal-login .am-modal-dialog #modal-popover-sign {
+  margin: 10px 0 0;
+}
+#smile {
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
 #wookmark {
   position: relative;
@@ -190,28 +208,6 @@ body {
 #filters.catalog li:first-letter {
   font-size: 4.8rem;
 }
-.am-topbar {
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 100;
-}
-ul.am-dropdown-content {
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 100;
-}
-ul.am-dropdown-content > li > a {
-  color: white;
-}
-ul.am-dropdown-content:after {
-  top: -7px;
-  border-bottom-color: rgba(0, 0, 0, 0.8);
-}
-.am-nav li a {
-  color: white;
-}
-.am-nav li a:hover,
-.am-nav li a:focus {
-  background-color: #222;
-}
 #returnTop {
   _display: none;
   position: fixed;
@@ -235,25 +231,6 @@ ul.am-dropdown-content:after {
 }
 #returnTop:hover {
   background-position: 0 -65px;
-}
-#top-banner {
-  position: relative;
-  margin-bottom: 0;
-}
-#top-banner p {
-  position: absolute;
-}
-#top-banner p.mobile {
-  bottom: 5%;
-  right: 5%;
-}
-#top-banner p.desktop {
-  bottom: 60px;
-  right: 100px;
-}
-.nav-welcome-info {
-  padding-top: 0.25rem;
-  padding-right: 0.4rem;
 }
 /* 分享详情页面 */
 .shard-detail h2 {
