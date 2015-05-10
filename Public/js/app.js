@@ -61,7 +61,7 @@ function modalLogin() {
 			} else {
 				alert("没有找到登陆模态窗口，请联系管理员");
 			}
-		},
+		}
 	});
 }
 
@@ -116,7 +116,7 @@ function modalConfirm(fun,info,title) {
 			} else {
 				alert("没有找到模态窗口，请联系管理员");
 			}
-		},
+		}
 	});
 }
 
@@ -133,7 +133,7 @@ function checkLogout() {
 				} else {
 					modalPopup('失败了，请联系管理员');
 				}
-			},
+			}
 		});
 	},"你确实要注销登陆吗？");
 }
@@ -150,6 +150,6 @@ function modalSign () {
 			} else {
 				alert("没有找到模态窗口，请联系管理员");
 			}
-		},
+		}
 	});
 }
