@@ -1,10 +1,10 @@
 <extend name="Common:base" />
 
 <block name="css">
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/default.css"/>
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/lightwindow.css"/>
+<link rel="stylesheet" href="__PUBLIC__/css/imgbox.css" />
 </block>
 
+<block name="top-fixed"></block>
 
 <block name="main">
 <div class="am-g shard-detail">
@@ -26,12 +26,8 @@
 	  	</if>
   	</div>
   	<div class="am-g">
-
-	  	<a href="__PUBLIC__/{$data.savepath}{$data.savename}" class="lightwindow page-options"
-	  			title='{$data.tag_id|show_tag}'
-	  			author="{$data.create_time|time_format='Y 年 m 月 d 日 H:i'} 由 @{$data.user_id|get_nickname} 发表于 {$data.create_time|get_timing}前"
-	  			caption="{$data.detail|substring='80'}">
-				<img class="am-img-responsive" src="__PUBLIC__/{$data.savepath}{$data.savename}"/>
+			<a id="imgbox" href="__PUBLIC__/{$data.savepath}{$data.savename}" title="{$data.tag_id|get_tag}">
+				<img class="am-img-responsive" alt="{$data.tag_id|str2json|get_tag}" src="__PUBLIC__/{$data.savepath}{$data.savename}" />
 			</a>
 			<p style="padding: 8px;">拍摄于 {$data.time|time_format='Y 年 n 月 j 日 H:i'}</p>
   	</div>
@@ -39,6 +35,12 @@
   	<if condition="strlen($data['detail']) gt 0">
 		<p class="detail">{$data.detail}</p>
   	</if>
+
+		<div id="imgbox-info" class="am-hide">
+			<div class="tag">{$data.tag_id|show_tag}</div>
+			<div class="author">{$data.create_time|time_format='Y 年 m 月 d 日 H:i'} 由 @{$data.user_id|get_nickname} 发表于 {$data.create_time|get_timing}前</div>
+			<div class="detail">{$data.detail|substring='80'}</div>
+		</div>
 
     <hr class="am-article-divider blog-hr">
 <volist name="comment" id="vo">
@@ -90,7 +92,6 @@
           <p class="detail">{$user.detail|default="碎片主人很懒，什么也没有留下。"}</p>
         </div>
       </section>
-
     </div>
   </div>
 </div>
@@ -99,11 +100,14 @@
 </block>
 
 <block name='js'>
-<script type="text/javascript" src="__PUBLIC__/js/prototype.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/effects.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/lightwindow.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.imgbox.js"></script>
 
 <script type="text/javascript">
+(function($) {
+	$("#imgbox").attr('detail', $("#imgbox-info").html() );
+	$("#imgbox").imgbox();
+})(jQuery);
+
 var del = function(id) {
 	if( confirm('你确定要删除这条吗？') ) {
 		window.location.href = "{:U('Shard/del')}?share_id=" + id;

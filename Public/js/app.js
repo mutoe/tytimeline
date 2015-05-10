@@ -87,7 +87,7 @@ function modalPopup(info,status,title) {
 			} else {
 				alert("没有找到模态窗口，请联系管理员");
 			}
-		},
+		}
 	});
 }
 
