@@ -20,28 +20,24 @@
 /**
  * “喜欢”
  * @param {Object} element
- * example. <button data-id="1" onclick="like(this)"><i></i></button>
+ * example. <button onclick="like(share_id)"><i></i></button>
  */
-var like = function (el) {
-	var el = $(el);
-	var id = el.attr("data-id");
+function like(share_id,e) {
   $.ajax({
-  	url: "../Shard/like",
-  	data: {"share_id":id},
+  	url: ROOT + "/Shard/like",
+  	data: {"share_id": share_id},
   	success: function(data) {
   		if(data.status) {
 	  		if (data.info == "1") {
+					modalPopup('已经收藏');
 		  		//将喜欢按钮变为不再喜欢，更新图标
-					el.children('i').removeClass('am-icon-heart-o').addClass('am-icon-heart');
+					e && $(e).children('i').removeClass('am-icon-heart-o').addClass('am-icon-heart');
 				} else {
-					el.children('i').removeClass('am-icon-heart').addClass('am-icon-heart-o');
+					e && $(e).children('i').removeClass('am-icon-heart').addClass('am-icon-heart-o');
 				}
   		} else {
-  			alert(data.info);
+  			modalPopup(data.info, false);
   		}
-  	},
-  	error: function(data) {
-  		alert(data.info);
   	}
   });
 }
@@ -59,7 +55,7 @@ function modalLogin() {
 				$("#modal-container").html(data.info);
 			  $('#modal-login').modal();
 			} else {
-				alert("没有找到登陆模态窗口，请联系管理员");
+				modalPopup("没有找到登陆模态窗口，请联系管理员", false);
 			}
 		}
 	});
@@ -73,7 +69,7 @@ function modalLogin() {
 function modalPopup(info,status,title) {
 	var status = arguments[1] == null ? 'success' : arguments[1];
 	$.ajax({
-		url: ROOT + "/Base/syncHtml.html",
+		url: ROOT + "/Base/syncHtml",
 		data: {
 			modal: 'popup',
 			info: info,
@@ -85,7 +81,7 @@ function modalPopup(info,status,title) {
 				$("#modal-container").html(data.info);
 			  $('#modal-popup').modal();
 			} else {
-				alert("没有找到模态窗口，请联系管理员");
+				modalPopup("没有找到模态窗口，请联系管理员", false);
 			}
 		}
 	});
@@ -93,7 +89,7 @@ function modalPopup(info,status,title) {
 
 function modalConfirm(fun,info,title) {
 	$.ajax({
-		url: ROOT + "/Base/syncHtml.html",
+		url: ROOT + "/Base/syncHtml",
 		type: "POST",
 		data: {
 			modal: 'confirm',
@@ -114,7 +110,7 @@ function modalConfirm(fun,info,title) {
 	        }
 	      });
 			} else {
-				alert("没有找到模态窗口，请联系管理员");
+				modalPopup("没有找到模态窗口，请联系管理员", false);
 			}
 		}
 	});
@@ -136,11 +132,12 @@ function checkLogout() {
 			}
 		});
 	},"你确实要注销登陆吗？");
+	return false;
 }
 
-function modalSign () {
+function modalSign() {
 	$.ajax({
-		url: ROOT + "/Base/syncHtml.html",
+		url: ROOT + "/Base/syncHtml",
 		type: "POST",
 		data: {modal: 'sign'},
 		success: function(data) {
@@ -148,17 +145,19 @@ function modalSign () {
 				$("#modal-container").html(data.info);
 			  $('#modal-sign').modal();
 			} else {
-				alert("没有找到模态窗口，请联系管理员");
+				modalPopup("没有找到模态窗口，请联系管理员", false);
 			}
 		}
 	});
+	return false;
+}
 
 function deleteShare(share_id) {
 	modalConfirm(function() {
 		$.ajax({
 			url: ROOT + 'Shard/deleteShare',
 			type: "POST",
-			data: { share_id: share_id },
+			data: {share_id: share_id},
 			success: function(data) {
 				if (data.status) {
 					modalPopup(data.info);

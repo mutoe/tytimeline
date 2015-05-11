@@ -10,6 +10,7 @@ Update Log
 * banner 宽高比改为2.35:1，具体高度为 `1920x817` , `960x408`
 
 ### fixed ###
+* 优化了部分 JavaScript 代码
 * 对 imgbox 底部分享信息显示进行了排版
 * 对 `Shard/detail` 页面进行了排版优化
 

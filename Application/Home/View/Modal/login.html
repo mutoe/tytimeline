@@ -38,11 +38,11 @@ $('#modal-login-button').click(function () {
 	var nickname = $("#modal-nickname").val();
 	var passwd = $("#modal-passwd").val();
 	if (nickname.length < 2 || nickname.length > 24) {
-		alert('用户名格式有误');
+		modalPopup('用户名格式有误', false);
 		return false;
 	}
 	if (passwd.length < 3 || passwd.length > 32) {
-		alert('密码格式有误');
+		modalPopup('密码格式有误', false);
 		return false;
 	}
 
