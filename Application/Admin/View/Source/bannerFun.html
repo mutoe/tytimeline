@@ -57,9 +57,12 @@
 $(function() {
 	var jcrop_api;
 	$('#cropbox').Jcrop({
-	  aspectRatio: 2.1,
+	  aspectRatio: 2.35,
 	  onSelect: updateCoords,
-	  boxWidth: 960
+	  boxWidth: 960,
+    bgColor: 'white',
+    bgOpacity: 0.2,
+    addClass: 'jcrop-light'
 	});
 
 });

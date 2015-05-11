@@ -176,8 +176,8 @@ class SourceController extends BaseController {
 
 			// 重新打开图片生成成品图片处理
 			$image -> open('./Public/img/banner/'. $data['savename']);
-			$image -> thumb(1680, 800) -> save('./public/img/banner/'. $data['savename'] );	// desktop用大图
-			$image -> thumb(820, 400) -> save('./public/img/banner/t_'. $data['savename'] );	// mobile设备用小图
+			$image -> thumb(1920, 817) -> save('./public/img/banner/'. $data['savename'] );	// desktop用大图
+			$image -> thumb(960, 408) -> save('./public/img/banner/t_'. $data['savename'] );	// mobile设备用小图
 
 			// 嵌入水印
 	    $image -> open('./public/img/banner/'. $data['savename'] );
