@@ -152,4 +152,22 @@ function modalSign () {
 			}
 		}
 	});
+
+function deleteShare(share_id) {
+	modalConfirm(function() {
+		$.ajax({
+			url: ROOT + 'Shard/deleteShare',
+			type: "POST",
+			data: { share_id: share_id },
+			success: function(data) {
+				if (data.status) {
+					modalPopup(data.info);
+					location.reload(true);
+				} else {
+					modalPopup(data.info, false);
+				}
+			}
+		});
+	},"你确实要删除这条纪录吗?");
+	return false;
 }

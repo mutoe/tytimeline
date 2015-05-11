@@ -239,6 +239,9 @@ footer .footer-link {
   margin-top: 2rem;
   color: #FFFFFF;
 }
+.shard-detail h2 span.am-text-lg .am-badge {
+  font-size: 16px;
+}
 .shard-detail .content {
   margin: 0 auto;
   max-width: 1040px;
@@ -247,7 +250,9 @@ footer .footer-link {
 }
 .shard-detail .content .share .info {
   background-color: rgba(0, 0, 0, 0.4);
-  padding: 8px;
+  padding: 0 16px;
+  width: 100%;
+  margin-bottom: 16px;
 }
 .shard-detail .content .share .detail {
   background-color: rgba(255, 255, 255, 0.4);
