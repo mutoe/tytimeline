@@ -37,9 +37,11 @@
   	</if>
 
 		<div id="imgbox-info" class="am-hide">
-			<div class="tag">{$data.tag_id|show_tag}</div>
-			<div class="author">{$data.create_time|time_format='Y 年 m 月 d 日 H:i'} 由 @{$data.user_id|get_nickname} 发表于 {$data.create_time|get_timing}前</div>
-			<div class="detail">{$data.detail|substring='80'}</div>
+			<div class="am-g" style="background-color: #CECECE;">
+				<div class="tag am-fl am-margin-left-sm">{$data.tag_id|show_tag}</div>
+				<div class="author am-fr am-margin-right">{$data.create_time|time_format='Y 年 m 月 d 日 H:i'} 由 @{$data.user_id|get_nickname} 发表于 {$data.create_time|get_timing}前</div>
+			</div>
+			<div class="detail am-text-default am-text-truncate" style="text-indent: 1.5em;">{$data.detail}</div>
 		</div>
 
     <hr class="am-article-divider blog-hr">
