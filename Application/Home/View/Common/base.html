@@ -19,7 +19,7 @@
 
 <!--[if lte IE 9]>
 <script type="text/javascript">
-	location.href = "{:U('Base/fuckIE')}";
+	location.href = "{:U('fuckIE')}";
 </script>
 <p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，可能会出现糟糕的排版。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a> 以获得更好的体验！参考浏览器 Chrome 、 Firefox 、360极速浏览器</p>
 <![endif]-->
@@ -70,7 +70,7 @@
           <li><a href="{:U('Admin/index')}"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
         </if>
           <li><a href="{:U('User/index')}"><i class="am-icon-user"></i> 个人中心</a></li>
-          <li><a href="javascript: checkLogout();"><i class="am-icon-sign-out"></i> 安全退出</a></li>
+          <li><a href="javascript: void(0);" onclick="checkLogout()"><i class="am-icon-sign-out"></i> 安全退出</a></li>
         </if>
           <li><a href="http://ty.cqjtu.edu.cn/story/"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>
         </ul>

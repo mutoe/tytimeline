@@ -172,7 +172,7 @@ class ShardController extends BaseController {
 	/**
 	 * 删除分享
 	 */
-	public function del($share_id = 0) {
+	public function deleteShare($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
 		$share = M('share');
 		$data = $share -> where('share_id=%d',$share_id) -> find();

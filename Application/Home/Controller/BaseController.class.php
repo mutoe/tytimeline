@@ -1,14 +1,9 @@
 <?php
 namespace Home\Controller;
-use Think\Controller;
-class BaseController extends Controller {
-	protected function _initialize() {
-		// 如果还没有读取站点配置就从数据库调取
-		if(C('SITE_VER') == null) {
-			$config = M('config') -> getField('key,value');
-			C($config);
-		}
+use Common\Controller\CommonController;
 
+class BaseController extends CommonController {
+	protected function _initialize() {
 		if(I('cookie.user_id',0)) {//如果cookie不为空
 			if(is_null(session('user_id'))) {//如果未登录
 				if($this -> checkpwd(cookie('user_id'), cookie('user_mm'))) {
@@ -26,39 +21,6 @@ class BaseController extends Controller {
 		$data['lastlogin_time'] = time();
 		$data['lastlogin_ip'] = get_client_ip();
 		return $user -> where('user_id=%d',$user_id) -> save($data);
-	}
-
-	public function fuckIE() {
-		$this -> display('Common:fuckIE');
-	}
-
-	/**
-	 * 登出操作
-	 */
-	public function logout() {
-		//清空cookie
-		cookie('user_id',null);
-
-		//uc 同步登出
-/*	$uc = new \Ucenter\Client\Client();
-		echo $uc -> uc_user_synlogout();*/
-
-		session('user_id',null);
-		$this -> success();
-	}
-
-	/**
-	 * 异步加载模态窗口
-	 */
-	public function syncHtml($modal = 'login', $info = null, $status = null, $title = null) {
-		$data['info'] = $info;
-		$data['status'] = $status == 'success' ? true : flase;
-		$data['title'] = $title;
-		$this -> assign($data);
-
-		$content = $this -> fetch('Modal:'.$modal);
-		if($content) $this -> success($content);
-		else $this -> error();
 	}
 
 }

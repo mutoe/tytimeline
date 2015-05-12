@@ -81,7 +81,7 @@ function modalPopup(info,status,title) {
 				$("#modal-container").html(data.info);
 			  $('#modal-popup').modal();
 			} else {
-				modalPopup("没有找到模态窗口，请联系管理员", false);
+				modalPopup(data.info, false);
 			}
 		}
 	});
@@ -110,7 +110,7 @@ function modalConfirm(fun,info,title) {
 	        }
 	      });
 			} else {
-				modalPopup("没有找到模态窗口，请联系管理员", false);
+				modalPopup(data.info, false);
 			}
 		}
 	});
@@ -145,7 +145,7 @@ function modalSign() {
 				$("#modal-container").html(data.info);
 			  $('#modal-sign').modal();
 			} else {
-				modalPopup("没有找到模态窗口，请联系管理员", false);
+				modalPopup(data.info, false);
 			}
 		}
 	});
