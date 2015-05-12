@@ -40,8 +40,8 @@
 							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" />
 						</a>
 						<div class="info">
-							<span class="am-text-warning">@{$vo.user_id|get_nickname}</span>
-							发表在 <span class="am-text-secondary">{$vo.catalog_id|get_catalog_name}</span>
+							<a class="am-text-warning" href="__ROOT__/user/{$vo.user_id}">@{$vo.user_id|get_nickname}</a>
+							发表在 <a href="__ROOT__/catalog/{$vo.catalog_id}" class="am-text-secondary">{$vo.catalog_id|get_catalog_name}</a>
 							于 <span>{$vo.create_time|get_timing}</span>前<br />
 							<if condition="strlen($vo['tag_id']) gt 0"><span style="display: block;padding-top: 4px;">{$vo.tag_id|show_tag}</span></if>
 							<if condition="strlen($vo['detail']) gt 0"><span style="display: block;padding-top: 4px;">{$vo.detail|substring='30'}</span></if>
