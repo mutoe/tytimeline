@@ -8,6 +8,9 @@ html {
 body {
   background: #52BBDF url(../img/bg-fixed.png) repeat;
 }
+.am-g-fixed {
+  max-width: 1152px;
+}
 .bg-fix {
   background: url(../img/bg-fixed.png) repeat;
 }
@@ -233,7 +236,7 @@ footer .footer-link {
 /* 分享详情页面 */
 .shard-detail .content {
   margin: 0 auto;
-  max-width: 1040px;
+  max-width: 1152px;
   margin-top: 2rem;
   color: #FFFFFF;
 }

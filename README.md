@@ -10,6 +10,7 @@ Update Log
 * 增加路由支持
 
 ### change ###
+* 修改了 `am-g-fixed` 样式使用全局统一限制宽度
 * 修改了首页布局
 
 ### fixed ###
