@@ -18,7 +18,7 @@ class IndexController extends BaseController {
 		$share_list = array();
 
 		foreach ($catalog_list as $key => $catalog_id) {
-			$share_list[$key] = $share -> where('catalog_id=%d', $catalog_id) -> order('click desc') -> limit(12) -> select();
+			$share_list[$key] = $share -> where('catalog_id=%d', $catalog_id) -> order('click desc') -> limit(15) -> select();
 		}
 		$this -> assign('share', $share_list);
 		$this -> assign('empty', '<div class="empty">没有数据</div>');

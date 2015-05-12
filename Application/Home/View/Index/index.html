@@ -28,8 +28,8 @@
 	<!-- 分类模块 -->
 	<div class="am-u-sm-12 index-catalog">
 		<foreach name="catalog" item="group" key="k">
-		<div class="am-margin-top-xl content">
-			<div class="am-margin-top-lg header">
+		<div class="am-margin-top-lg am-margin-bottom-lg am-cf content">
+			<div class="header">
 				<span class="title">{$group|get_catalog_name}&nbsp;&nbsp;</span>
 				<span class="more am-text-sm am-margin-left-sm"><a href="__ROOT__/catalog/{$group}"> 查看更多 <i class="am-icon-angle-double-right"></i></a></span>
 			</div>
@@ -78,7 +78,7 @@
 	$(".media").each(function() {
 		var el = $(this);
 		el.find('img').attr('height', imgHeight);
-		el.find('img').css('max-height', 400);
+		el.find('img').css('max-height', 300);
 		el.css('float', 'right');
   });
 
@@ -104,7 +104,7 @@
 		// 根据行数据处理
 		var parentWidth = $('.body').innerWidth();	// 获取父容器宽度
 		var ht = imgHeight;	// 初始图像高度
-		for (var i = 1 ; i < r ; i++ ) {
+		for (var i = 1 ; i < 4 ; i++ ) {
 			// 获取该行宽度，并计算出图像铺满时的高度
 			$(".media[data-row='"+ catalog[c] +"-"+ i +"']:last").each(function() {
 				var el = $(this);
@@ -119,17 +119,14 @@
 				// 修正行浮动（否则逼死强迫症）
 				el.css('float', 'left');
 			});
-/*			// 每行最后一张图修正浮动
-			$(".media[data-row='"+ catalog[c] +"-"+ i +"']:first").each(function() {
-				var el = $(this);
-				el.css('float', 'right');
-			});*/
 		}
-		// 修正最后一行浮动
-		$(".media[data-row='"+ catalog[c] +"-"+ r +"']").each(function() {
-			var el = $(this);
-			el.css('float', 'left');
-		});
+		// 只显示三行
+		for (var i = 4 ; i <= r ; i++) {
+			$(".media[data-row='"+ catalog[c] +"-"+ i +"']").each(function() {
+				var el = $(this);
+				el.addClass('am-hide');
+			});
+		}
 	}
 </script>
 </block>
