@@ -5,17 +5,17 @@ class ShardController extends BaseController {
 	/**
 	 * 详情页面
 	 */
-	public function detail($id = 0) {
-		if($id == 0) $this -> error('参数错误');
+	public function detail($share_id = 0) {
+		if($share_id == 0) $this -> error('参数错误');
 		$share = M('share');
 		// 获取分享详情
-		$data = $share -> where('share_id=%d',$id) -> find();
+		$data = $share -> where('share_id=%d',$share_id) -> find();
 		if(!$data) $this -> error('抱歉，该条数据可能已被删除');
-		$share -> where('share_id=%d', $id) -> setInc('click');	// 点击量自增
+		$share -> where('share_id=%d', $share_id) -> setInc('click');	// 点击量自增
 		$this -> assign('data', $data);
 		// 获取评论
 		$comment = M('comment');
-		$comments = $comment -> where('share_id=%d', $id) -> limit(8) -> order('create_time desc') -> select();
+		$comments = $comment -> where('share_id=%d', $share_id) -> limit(8) -> order('create_time desc') -> select();
 		$this -> assign('comment', $comments);
 		// 获取用户详情
 		$user = M('user_info');

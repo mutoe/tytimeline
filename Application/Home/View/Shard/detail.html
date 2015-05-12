@@ -9,22 +9,24 @@
 <block name="main">
 <div class="am-g shard-detail">
 
-<h2>时光碎片 {$data.share_id} : <span class="am-text-lg am-margin-left">{$data.tag_id|show_tag}</span></h2>
 
 <div class="content">
   <div class="am-u-md-8 share">
-  	<div class="am-g">
-	  	<p class="am-text-sm am-fl info">
-	  		<a class="am-text-warning" href="{:U('User/index','user_id'.$data['user_id'])}">@{$data.user_id|get_nickname}</a>
-	  		发表在 <a href="{:U('Catalog/detail')}?id={$data.catalog_id}">{$data.catalog_id|get_catalog_name}</a>
-	  		于 {$data.create_time|get_timing}前
-	  	</p>
+		<div class="am-cf page-title">
+			<h2 class="am-fl">时光碎片 {$data.share_id} : <span class="am-text-lg am-margin-left">{$data.tag_id|show_tag}</span></h2>
 	  	<if condition="get_auth('delete', 0, $data['share_id'])">
 	    <div class="am-btn-group am-btn-group-xs am-fr">
-			  <a href="{:U('Shard/modi','share_id='.I('get.id'))}" class="am-btn am-radius am-btn-secondary">修改</a>
+			  <a href="{:U('Shard/modi','share_id='.$data['share_id'])}" class="am-btn am-radius am-btn-secondary">修改</a>
 			  <button class="am-btn am-radius am-btn-link" onclick="deleteShare({$data.share_id})" style="color: #ccc;">删除</button>
 			</div>
 	  	</if>
+		</div>
+  	<div class="am-g">
+	  	<p class="am-text-sm am-fl info">
+	  		<a class="am-text-warning" href="__ROOT__/user/{$data['user_id']}">@{$data.user_id|get_nickname}</a>
+	  		发表在 <a href="__ROOT__/catalog/{$data.catalog_id}">{$data.catalog_id|get_catalog_name}</a>
+	  		于 {$data.create_time|get_timing}前
+	  	</p>
   	</div>
   	<div class="am-g">
 			<a id="imgbox" href="__PUBLIC__/{$data.savepath}{$data.savename}" title="{$data.tag_id|get_tag}">
@@ -52,14 +54,14 @@
 
 			<volist name="comment" id="vo">
 			<article class="am-comment" data-comment-id="{$vo.comment_id}">
-			  <a href="{:U('User/index','user_id='.$vo['user_id'])}">
+			  <a href="__ROOT__/user/{$vo['user_id']}">
 			    <img class="am-comment-avatar" alt=""/> <!-- 评论者头像 -->
 			  </a>
 
 			  <div class="am-comment-main">
 			    <header class="am-comment-hd">
 			      <div class="am-comment-meta am-fl">
-			        <a href="{:U('User/index','user_id='.$vo['user_id'])}" class="am-comment-author"><span class="am-text-warning">@{$vo.user_id|get_nickname}</span></a>
+			        <a href="__ROOT__/user/{$vo['user_id']}" class="am-comment-author"><span class="am-text-warning">@{$vo.user_id|get_nickname}</span></a>
 			        评论于 {$vo.create_time|get_timing}前
 			      </div>
 			      <if condition="get_auth('manage_comment', 0, $vo['comment_id'])">
@@ -93,7 +95,7 @@
     <div class="am-panel-group">
       <section class="am-panel am-panel-default">
         <div class="am-panel-hd">
-        	<span class="am-badge-primary am-badge">{$data.user_id|get_usergroup=0}</span> <a href="{:U('User/index','user_id'.$data['user_id'])}">@{$data.user_id|get_nickname}</a><br />
+        	<span class="am-badge-primary am-badge">{$data.user_id|get_usergroup=0}</span> <a href="__ROOT__/user/{$data['user_id']}">@{$data.user_id|get_nickname}</a><br />
         	<span class="am-text-sm">关注：{$user.like|default='0'} 粉丝：{$user.be_like} 分享：{$user.total_share}</span>
         </div>
         <div class="am-panel-bd">

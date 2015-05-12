@@ -1,17 +1,7 @@
 <extend name="Common:base" />
 
-<block name="css">
-<style>
-.user-info-box{width: 236px;}
-
-@media (max-width: 640px) {
-	.user-info-box{width: 162px;}
-}
-</style>
-</block>
-
 <block name="main">
-<div class="am-g am-g-fixed">
+<div class="am-g" style="max-width: 1096px;">
 	<h3>个人中心</h3>
 	<ul id="wookmark" class="am-center" style="padding: 0;">
 		<li class="wookmark-box">
@@ -52,11 +42,11 @@
 				<div class="media am-g">
 					<div class="am-u-sm-12">
 						<div class="tag">{$vo.tag_id|show_tag}</div>
-						<a class="am-show-sm-down" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+						<a class="am-show-sm-down" href="__ROOT__/{$vo['share_id']}">
 							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
 						</a>
-						<a class="am-show-md-up" href="{:U('Shard/detail','id='.$vo['share_id'])}">
-							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="236" height="{:get_t_height($vo['width'],$vo['height'],236)}"/>
+						<a class="am-show-md-up" href="__ROOT__/{$vo['share_id']}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
 						</a>
 						<div class="time am-badge am-radius">{$vo.time|time_format="m 月 d 日 H:i"}</div>
 					</div>
@@ -83,7 +73,7 @@
 		container: $('#wookmark'),
 		align: 'center',
 		autoResize: true,
-		offset: 4
+		offset: 16
 	});
 </script>
 </block>

@@ -14,95 +14,115 @@
 </div>
 </block>
 
-<block name="main">
-<div class="am-g">
-	<ul id="wookmark" class="am-u-sm-12 am-u-md-10 am-u-sm-centered am-center" style="margin-top: 6rem;">
-		<volist name="data" id="vo">
-		<li class="wookmark-box">
-			<div class="share">
-				<div class="author"><a href="{:U('User/index','user_id='.$vo['user_id'])}">@{$vo.user_id|get_nickname}</a></div>
-				<div class="media am-g">
-					<div class="am-u-sm-12">
-						<div class="tag am-hide-sm-only">{$vo.tag_id|show_tag}</div>
-						<a class="am-show-sm-down" href="{:U('Shard/detail','id='.$vo['share_id'])}">
-							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
-						</a>
-						<a class="am-show-md-up" href="{:U('Shard/detail','id='.$vo['share_id'])}">
-							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
-						</a>
-						<div class="time am-badge am-radius">{$vo.time|time_format="m 月 d 日 H:i"}</div>
-					</div>
-				</div>
-				<div class="tool-bar am-hide-sm-only">
-					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
-					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
-					<button class="am-badge am-round am-badge-danger like-btn" data-id="{$vo.share_id}" onclick="javascript:like(this);">
-						<if condition="get_like_status($vo['share_id'])">
-							<i class="am-icon-heart"></i>
-						<else />
-							<i class="am-icon-heart-o"></i>
-						</if>
-					</button>
-				</div>
-				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail|substring='50'}</div>
-				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail|substring='80'}</div>
-				<div class="detail" style="color: #555;">分享在 <a href="{:U('Catalog/detail','id='.$vo['catalog_id'])}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
-				<div class="comment"></div>
-			</div>
-		</li>
-		</volist>
-	</ul>
 
-<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
-  <div class="am-modal-dialog">
-    <div class="am-modal-hd">天佑时光轴</div>
-    <div class="am-modal-bd">你，确定要删除这条记录吗？</div>
-    <div class="am-modal-footer">
-      <span class="am-modal-btn" data-am-modal-cancel>不不不</span>
-      <span class="am-modal-btn" style="color: #DD514C;" data-am-modal-confirm><i class="am-icon-remove"></i> 无情删除</span>
-    </div>
-  </div>
-</div>
+<block name='main'>
+<div class="am-g am-g-fixed">
+
+	<!-- 分类模块 -->
+	<div class="am-u-sm-12 index-catalog">
+		<foreach name="catalog" item="group" key="k">
+		<div class="am-margin-top-xl content">
+			<div class="am-margin-top-lg header">
+				<span class="title">{$group|get_catalog_name}&nbsp;&nbsp;</span>
+				<span class="more am-text-sm am-margin-left-sm"><a href="__ROOT__/catalog/{$group}"> 查看更多 <i class="am-icon-angle-double-right"></i></a></span>
+			</div>
+			<div class="am-u-sm-12 body am-margin-top-sm am-margin-bottom" data-cataid="{$group}">
+				<volist name="share[$k]" id="vo">
+					<div class="media" data-row="{$group}">
+						<a href="__ROOT__/{$vo.share_id}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" />
+						</a>
+						<div class="info">
+							<span class="am-text-warning">@{$vo.user_id|get_nickname}</span>
+							发表在 <span class="am-text-secondary">{$vo.catalog_id|get_catalog_name}</span>
+							于 <span>{$vo.create_time|get_timing}</span>前<br />
+							<if condition="strlen($vo['tag_id']) gt 0"><span style="display: block;padding-top: 4px;">{$vo.tag_id|show_tag}</span></if>
+							<if condition="strlen($vo['detail']) gt 0"><span style="display: block;padding-top: 4px;">{$vo.detail|substring='30'}</span></if>
+						</div>
+					</div>
+				</volist>
+			</div>
+		</div>
+		</foreach>
+	</div>
+
 
 </div>
 </block>
 
 <block name="js">
-<script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	$("#wookmark li").wookmark({
-		container: $("#wookmark"),
-		offset: 4,
-		autoResize: true,
-		align: 'center'
+
+	$(".media").on('mouseover', function() {
+		var el = $(this);
+		el.children('.info').css('top', '0');
+	});
+	$(".media").on('mouseout', function() {
+		var el = $(this);
+		el.children('.info').css('top', '-300px');
 	});
 
-function del (share_id) {
-	$('#my-confirm').modal({
-		relatedTarget: this,
-		onConfirm: function(options) {
-			console.log(share_id);
-			var options = {
-				url:"{:U('Shard/del')}",
-				data: {'share_id': share_id},
-				success: function(data) {
-					alert(data.info);
-					location.reload();
-				},
-				error: function(data) {
-					alert(data.info);
-					console.log(data.info);
-				}
-			};
-			$.ajax(options);
-			return false;//为了防止刷新
+	/**
+	 * 水平瀑布流布局
+	 * @author mutoe
+	 */
+	// 写入高度数据
+	var imgHeight = 200 - 4;	// 减去4px边框
+	$(".media").each(function() {
+		var el = $(this);
+		el.find('img').attr('height', imgHeight);
+		el.find('img').css('max-height', 400);
+		el.css('float', 'right');
+  });
+
+	// 获取分类的id数组
+	var catalog = {$catalog|json_encode};
+
+	// 对每个分类进行循环
+	for(c in catalog) {
+		var row = new Array();	// 初始化高度列表
+		var r = 0;	// 初始化行计数器
+
+		// 筛选分类
+		$(".media[data-row='"+ catalog[c] +"']").each(function() {
+			var el = $(this);
+			var innerHt = el.position().top;
+			if(innerHt != row[row.length - 1]) {	// 如果新一行元素
+				r++;
+				row.push( innerHt );	// 写入高度
+			}
+			el.attr('data-row', catalog[c] +"-"+ r);	// 写入行数数据
+		});
+
+		// 根据行数据处理
+		var parentWidth = $('.body').innerWidth();	// 获取父容器宽度
+		var ht = imgHeight;	// 初始图像高度
+		for (var i = 1 ; i < r ; i++ ) {
+			// 获取该行宽度，并计算出图像铺满时的高度
+			$(".media[data-row='"+ catalog[c] +"-"+ i +"']:last").each(function() {
+				var el = $(this);
+				var mod = el.position().left -2;	// 根据最后一个元素的位置计算行空余宽度
+				ht = ( imgHeight * parentWidth ) / ( parentWidth - mod );
+			});
+			// 修正图像高度
+			$(".media[data-row='"+ catalog[c] +"-"+ i +"']").each(function() {
+				var el = $(this);
+				ht = Math.floor(ht);
+				el.find('img').attr('height',ht );
+				// 修正行浮动（否则逼死强迫症）
+				el.css('float', 'left');
+			});
+/*			// 每行最后一张图修正浮动
+			$(".media[data-row='"+ catalog[c] +"-"+ i +"']:first").each(function() {
+				var el = $(this);
+				el.css('float', 'right');
+			});*/
 		}
-	});
-}
-
-$('#my-confirm').on('closed.modal.amui', function() {
-	$(this).removeData('am.modal');
-});
+		// 修正最后一行浮动
+		$(".media[data-row='"+ catalog[c] +"-"+ r +"']").each(function() {
+			var el = $(this);
+			el.css('float', 'left');
+		});
+	}
 </script>
 </block>
-

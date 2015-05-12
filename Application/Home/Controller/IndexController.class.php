@@ -8,18 +8,35 @@ class IndexController extends BaseController {
 		$ban = $banner -> where('status=1') -> order('sort desc') -> select();
 		$this -> assign('banner', $ban);
 
-		// 初始化分享信息
-		$share = M('share');
-		$data = $share -> limit(50) -> order('click desc') -> select();
-		$this -> assign('data', $data);
+		//获取分类列表
+		$catalog = M('catalog');
+		$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> getField('catalog_id',true);//获取分类的ID数组
+		$this -> assign('catalog', $catalog_list);
 
-		// 初始化“喜欢”信息
-		if($user_id = is_login()) {
-			$user_info = M('user_info');
-			$like = $user_info -> where('user_id=%d', $user_id) -> getField('like_share');
-			$like_arr = explode(',', $like);
-			$this -> assign('like', $like_arr);
+		//获取热门分享
+		$share = M('share');
+		$share_list = array();
+
+		foreach ($catalog_list as $key => $catalog_id) {
+			$share_list[$key] = $share -> where('catalog_id=%d', $catalog_id) -> order('click desc') -> limit(12) -> select();
 		}
+		$this -> assign('share', $share_list);
+		$this -> assign('empty', '<div class="empty">没有数据</div>');
+
+		/*
+		//获取最新分享
+		$new_share = $share -> limit(0,8) -> order('create_time desc') -> select();
+		$this -> assign('new', $hot_share);*/
+
+		//获取热门标签
+		$tag = M('tag');
+		$hot_tag = $tag -> limit(0,16) -> order('total_share desc') -> select();
+		$this -> assign('tag', $hot_tag);
+
+		//获取狂热用户
+		$user_info = M('user_info');
+		$hot_user = $user_info -> limit(0,8) -> order('total_share desc') -> select();
+		$this -> assign('user', $hot_user);
 
 		$this -> display();
 	}

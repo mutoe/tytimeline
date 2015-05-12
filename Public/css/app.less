@@ -1,3 +1,5 @@
+@bg-color: #52BBDF;
+
 * {
 	padding: 0;margin: 0;
 }
@@ -5,10 +7,7 @@ html {
 	overflow-x: hidden;
 }
 body {
-    background:
-        //#ccc url(../img/logo-v.png) 98% 100% no-repeat fixed;
-        url(../img/bg-fixed.png) repeat
-        ,url(../img/bg.jpg) fixed;
+    background: @bg-color url(../img/bg-fixed.png) repeat;
 }
 .bg-fix {
     background: url(../img/bg-fixed.png) repeat;
@@ -16,7 +15,7 @@ body {
 
 // 顶部导航栏
 .am-topbar{
-    background-color: rgba(0,0,0,0.8);
+    background-color: darken(@bg-color, 20%);
     z-index: 100;
     .am-text-ir {
         display: block;
@@ -26,6 +25,9 @@ body {
         background: url(../img/logo.png) no-repeat left center;
         -webkit-background-size: 125px 24px;
         background-size: 125px 24px;
+    }
+    &-inverse {
+        border-color: #fff;
     }
 }
 ul.am-dropdown-content{
@@ -102,6 +104,9 @@ footer {
 }
 
 // wookmark 瀑布流样式
+@wookmark-meta-bg: rgba(255,255,255,1);
+
+
 #wookmark{
     position:relative;
     list-style: none;
@@ -112,46 +117,41 @@ footer {
                -o-transition: all 0.3s ease-out;
                   transition: all 0.3s ease-out;
             display:none;
+            width: 254px;
+            .share{
+                position: relative;
+                padding-bottom: 0.4rem;
+                background-color: @wookmark-meta-bg;
+                .author{
+                    max-width: 18rem;
+                    padding-left: 0.8rem;padding-bottom: 0.8rem;padding-top: 0.8rem;
+                    font-size: 1.3rem;
+                }
+                .tool-bar{
+                    position: absolute;right: 0.8rem;top: 0.3rem;
+                    padding-bottom: 0.4rem;padding-left: 0.8rem;
+                }
+                .media{
+                    position: relative;
+                    width: 254px;
+                    .tag{
+                        position: absolute;left: 10%;top: 1rem;
+                    }
+                    .time{
+                        position: absolute;right: 7%;bottom: 1.75em;
+                        background-color: rgba(0,0,0,0.3);
+                    }
+                }
+                .detail{
+                    padding: 0.4rem 1rem 0;
+                    font-size: 1.2rem;width: 254px;
+                    color: #000000;
+                }
+            }
         }
         &.inactive {
             //visibility: hidden;
             opacity: 0;
-        }
-        .share{
-            position: relative;
-            padding-bottom: 0.4rem;
-            background-color: rgba(255,255,255,0.5);
-            &.default{}
-            &.red{background-color: rgba(224,21,40,0.4);}
-            &.purple{background-color: rgba(198,19,157,0.4);}
-            &.orange{background-color: rgba(236,138,22,0.4);}
-            &.blue{background-color: rgba(19,108,193,0.4);}
-            &.green{background-color: rgba(55,199,20,0.4);}
-            &.yellow{background-color: rgba(255,242,25,0.4);}
-            .author{
-                max-width: 18rem;
-                padding-left: 0.8rem;padding-bottom: 0.8rem;padding-top: 0.8rem;
-                font-size: 1.3rem;
-            }
-            .tool-bar{
-                position: absolute;right: 0.8rem;top: 0.3rem;
-                padding-bottom: 0.4rem;padding-left: 0.8rem;
-            }
-            .media{
-                position: relative;
-                .tag{
-                    position: absolute;left: 10%;top: 1rem;
-                }
-                .time{
-                    position: absolute;right: 7%;bottom: 1.75em;
-                    background-color: rgba(0,0,0,0.3);
-                }
-            }
-            .detail{
-                padding: 0.4rem 1rem 0;
-                font-size: 1.2rem;
-                color: #000000;
-            }
         }
     }
 }
@@ -161,7 +161,6 @@ footer {
      -moz-transition: all 0.3s ease-out;
        -o-transition: all 0.3s ease-out;
           transition: all 0.3s ease-out;
-    background-color: rgba(255,255,255,0.4);
 }
 // wookmark 筛选框样式
 #filters {
@@ -202,6 +201,17 @@ footer {
         }
     }
 }
+#page-ground-nav {
+    padding-bottom: 0.4rem;
+    background-color:  @wookmark-meta-bg;
+    width: 254px;
+    .title {
+        padding: 12px 12px 0;
+    }
+    .loc {
+        padding: 0 12px;
+    }
+}
 
 
 // 返回顶部按钮
@@ -233,24 +243,24 @@ footer {
 
 /* 分享详情页面 */
 .shard-detail {
-    h2 {
-        margin: 0 auto;
-        max-width: 1040px;
-        margin-top: 2rem;
-        color: #FFFFFF;
-        span.am-text-lg .am-badge{
-            font-size: 16px;
-        }
-    }
     .content {
         margin: 0 auto;
         max-width: 1040px;
         margin-top: 2rem;
         color: #FFFFFF;
+        .page-title {
+            margin: 0 auto;
+            max-width: 1040px;
+            margin-top: 2rem;
+            color: #FFFFFF;
+            span.am-text-lg .am-badge{
+                font-size: 16px;
+            }
+        }
         .share {
             .info {
                 background-color: rgba(0,0,0,0.4);
-                padding: 0 16px;
+                padding: 4px 16px;
                 width: 100%;
                 margin-bottom: 16px;
             }
@@ -269,19 +279,22 @@ footer {
 }
 
 /* 广场页面横向瀑布流 */
-.ground-catalog {
+.index-catalog {
+    background-color: rgba(255,255,255,0.3);
     h2 {
         color: white;
     }
     .content {
-        .header {
-            padding: 15px;
-            background: url(../img/catalog-bg.png) repeat-x;
-            background-size: auto 100%;
-            font-size: 24px;
+        .header{
+            .title {
+                margin-left: 2px;
+                padding: 4px 8px;
+                width: 8em;height: 20px;line-height: 20px;
+                background: url(../img/flag-cutout.png) no-repeat scroll 100% 50% #0899D9;
+                font-size: 18px;color: white;
+            }
         }
         .body {
-            background: rgba(255,255,255,0.8);
             padding: 1px;
             .media {
                 position: relative;

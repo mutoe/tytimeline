@@ -3,41 +3,29 @@ namespace Home\Controller;
 use Think\Controller;
 class GroundController extends Controller {
 
-	public function index() {
-		//获取分类列表
-		$catalog = M('catalog');
-		$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> getField('catalog_id',true);//获取分类的ID数组
-		$this -> assign('catalog', $catalog_list);
+	public function index($content) {
+		if($content == "new")				{$order = "create_time desc";	$loc = "最新";}
+		elseif ($content == "hot")	{$order = "click desc";				$loc = "最热";}
+		elseif ($content == "rand")	{$order = "RAND()";						$loc = "随机推荐";}
+		else												{$order = "create_time desc";	$loc = "最新";}
 
-		//获取热门分享
+		// 初始化分享信息
 		$share = M('share');
-		$share_list = array();
-		$sort = I('get.sort','create_time');$sort .= ' desc';//获取排序方式
+		$data = $share -> limit(50) -> order( $order ) -> select();
+		$this -> assign('data', $data);
 
-		foreach ($catalog_list as $key => $catalog_id) {
-			$share_list[$key] = $share -> where('catalog_id=%d', $catalog_id) -> order($sort) -> limit(12) -> select();
+		// 初始化“喜欢”信息
+		if($user_id = is_login()) {
+			$user_info = M('user_info');
+			$like = $user_info -> where('user_id=%d', $user_id) -> getField('like_share');
+			$like_arr = explode(',', $like);
+			$this -> assign('like', $like_arr);
 		}
-		$this -> assign('share', $share_list);
-		$this -> assign('empty', '<div class="empty">没有数据</div>');
 
-
-		/*
-		//获取最新分享
-		$new_share = $share -> limit(0,8) -> order('create_time desc') -> select();
-		$this -> assign('new', $hot_share);*/
-
-		//获取热门标签
-		$tag = M('tag');
-		$hot_tag = $tag -> limit(0,16) -> order('total_share desc') -> select();
-		$this -> assign('tag', $hot_tag);
-
-		//获取狂热用户
-		$user_info = M('user_info');
-		$hot_user = $user_info -> limit(0,8) -> order('total_share desc') -> select();
-		$this -> assign('user', $hot_user);
+		// 当前位置
+		$this -> assign('location', $loc);
 
 		$this -> display();
 	}
-
 
 }

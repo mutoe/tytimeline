@@ -11,12 +11,8 @@
 				<div class="author">{$catalog.catalog_id|get_catalog_name}</a></div>
 				<div class="media am-g">
 					<div class="am-u-sm-12">
-						<a class="am-show-sm-down" href="{:U('Shard/detail','id='.$catalog['share_id'])}">
-							<img src="__PUBLIC__/{$catalog.savepath}t_{$catalog.savename}" width="162" height="{:get_t_height($catalog['width'],$catalog['height'],162)}"/>
-						</a>
-						<a class="am-show-md-up" href="{:U('Shard/detail','id='.$catalog['share_id'])}">
-							<img src="__PUBLIC__/{$catalog.savepath}t_{$catalog.savename}" width="254" height="{:get_t_height($catalog['width'],$catalog['height'],254)}"/>
-						</a>
+						<img class="am-show-sm-down" src="__PUBLIC__/{$catalog.savepath}t_{$catalog.savename}" width="162" height="{:get_t_height($catalog['width'],$catalog['height'],162)}"/>
+						<img class="am-show-md-up" src="__PUBLIC__/{$catalog.savepath}t_{$catalog.savename}" width="254" height="{:get_t_height($catalog['width'],$catalog['height'],254)}"/>
 					</div>
 				</div>
 				<div class="comment"></div>
@@ -25,14 +21,14 @@
   	<volist name="share" id="vo">
     	<li class="wookmark-box">
     		<div class="share">
-				<div class="author"><a href="{:U('User/index','user_id='.$vo['user_id'])}">@{$vo.user_id|get_nickname}</a></div>
+				<div class="author"><a href="__ROOT__/user/{$vo['user_id']}">@{$vo.user_id|get_nickname}</a></div>
 				<div class="media am-g">
 					<div class="am-u-sm-12">
 						<div class="tag am-hide-sm-only">{$vo.tag_id|show_tag}</div>
-						<a class="am-show-sm-down" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+						<a class="am-show-sm-down" href="__ROOT__/{$vo.share_id}">
 							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
 						</a>
-						<a class="am-show-md-up" href="{:U('Shard/detail','id='.$vo['share_id'])}">
+						<a class="am-show-md-up" href="__ROOT__/{$vo.share_id}">
 							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
 						</a>
 						<div class="time am-badge am-radius">{$vo.time|time_format="Y 年 m 月 d 日 H:i"}</div>
@@ -51,7 +47,7 @@
 				</div>
 				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail}</div>
 				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail}</div>
-				<div class="detail" style="color: #999;">分享在 <a href="{:U('Catalog/detail','id='.$vo['catalog_id'])}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
+				<div class="detail" style="color: #999;">分享在 <a href="__ROOT__/catalog/{$vo.catalog_id}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
 				<div class="comment"></div>
 			</div>
     	</li>
@@ -68,7 +64,7 @@
 <block name='js'>
 <script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	$('#wookmark li').wookmark({
+	$('#wookmark li.wookmark-box').wookmark({
 	  container: $('#wookmark'),
 	  fillEmptySpace: true,
 	  align: 'center',

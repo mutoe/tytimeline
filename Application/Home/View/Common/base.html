@@ -19,7 +19,7 @@
 
 <!--[if lte IE 9]>
 <script type="text/javascript">
-	location.href = "{:U('fuckIE')}";
+	location.href = "__ROOT__/FuckIE";
 </script>
 <p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，可能会出现糟糕的排版。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a> 以获得更好的体验！参考浏览器 Chrome 、 Firefox 、360极速浏览器</p>
 <![endif]-->
@@ -28,7 +28,7 @@
 
 <header id="head-topbar" class="am-topbar am-topbar-inverse" <block name='top-fixed'>data-am-sticky</block> >
   <h1 class="am-topbar-brand am-hide-md-only" style="color: white;">
-  	<a href="{:U('Index/index')}" class="am-text-ir">天佑时光轴</a>
+  	<a href="__ROOT__" class="am-text-ir">天佑时光轴</a>
   </h1>
 
   <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}">
@@ -43,10 +43,10 @@
 
   <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
     <ul class="am-nav am-nav-pills am-topbar-nav">
-      <li class="header-Index am-hide-lg-only"><a href="{:U('Index/index')}"><i class="am-icon-home"></i> 天佑时光轴</a></li>
-      <li class="header-Index am-show-lg-only"><a href="{:U('Index/index')}"><i class="am-icon-home"></i> 首页</a></li>
-      <li class="header-Ground"><a href="{:U('Ground/index')}"><i class="am-icon-leaf"></i> 广场</a></li>
-      <li class="header-Tag"><a href="{:U('Tag/index')}"><i class="am-icon-tags"></i> 标签</a></li>
+      <li class="header-Index am-hide-lg-only"><a href="__ROOT__"><i class="am-icon-home"></i> 天佑时光轴</a></li>
+      <li class="header-Index am-show-lg-only"><a href="__ROOT__"><i class="am-icon-home"></i> 首页</a></li>
+      <li class="header-Ground"><a href="__ROOT__/new"><i class="am-icon-leaf"></i> 广场</a></li>
+      <li class="header-Tag"><a href="__ROOT__/tag"><i class="am-icon-tags"></i> 标签</a></li>
       <li class="header-Time"><a href="{:U('Time/index')}"><i class="am-icon-clock-o"></i> 时光</a></li>
     </ul>
 
@@ -62,14 +62,14 @@
         	其他 <span class="am-icon-caret-down"></span>
         </button>
         <ul class="am-dropdown-content">
-        	<li><a href="{:U('Shard/random')}"><i class="am-icon-cube"></i> 试试手气</a></li>
+        	<li><a href="__ROOT__/rand"><i class="am-icon-cube"></i> 试试手气</a></li>
         <if condition="!session('?user_id')">
         	<li><a href="javascript: modalSign();"><i class="am-icon-terminal"></i> 注册</a></li>
         <else />
         <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
           <li><a href="{:U('Admin/index')}"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
         </if>
-          <li><a href="{:U('User/index')}"><i class="am-icon-user"></i> 个人中心</a></li>
+          <li><a href="__ROOT__/user"><i class="am-icon-user"></i> 个人中心</a></li>
           <li><a href="javascript: void(0);" onclick="checkLogout()"><i class="am-icon-sign-out"></i> 安全退出</a></li>
         </if>
           <li><a href="http://ty.cqjtu.edu.cn/story/"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>
@@ -78,7 +78,7 @@
     </div>
     <div class="am-topbar-right am-hide-sm-only" >
     <if condition="is_login()">
-    	<a class="am-topbar-btn am-btn-sm am-btn" href="{:U('User/index')}" style="color: white;">
+    	<a class="am-topbar-btn am-btn-sm am-btn" href="__ROOT__/user" style="color: white;">
 				<span style="color: #0D86C4;">{:get_usergroup(0,0)}</span> {:get_nickname()}
     	</a>
   	</if>

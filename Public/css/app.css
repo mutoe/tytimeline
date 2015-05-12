@@ -6,13 +6,13 @@ html {
   overflow-x: hidden;
 }
 body {
-  background: url(../img/bg-fixed.png) repeat, url(../img/bg.jpg) fixed;
+  background: #52BBDF url(../img/bg-fixed.png) repeat;
 }
 .bg-fix {
   background: url(../img/bg-fixed.png) repeat;
 }
 .am-topbar {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: #2088ab;
   z-index: 100;
 }
 .am-topbar .am-text-ir {
@@ -23,6 +23,9 @@ body {
   background: url(../img/logo.png) no-repeat left center;
   -webkit-background-size: 125px 24px;
   background-size: 125px 24px;
+}
+.am-topbar-inverse {
+  border-color: #fff;
 }
 ul.am-dropdown-content {
   background-color: rgba(0, 0, 0, 0.8);
@@ -103,72 +106,56 @@ footer .footer-link {
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
   display: none;
+  width: 254px;
 }
-#wookmark li.inactive {
-  opacity: 0;
-}
-#wookmark li .share {
+#wookmark li.wookmark-box .share {
   position: relative;
   padding-bottom: 0.4rem;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #ffffff;
 }
-#wookmark li .share.red {
-  background-color: rgba(224, 21, 40, 0.4);
-}
-#wookmark li .share.purple {
-  background-color: rgba(198, 19, 157, 0.4);
-}
-#wookmark li .share.orange {
-  background-color: rgba(236, 138, 22, 0.4);
-}
-#wookmark li .share.blue {
-  background-color: rgba(19, 108, 193, 0.4);
-}
-#wookmark li .share.green {
-  background-color: rgba(55, 199, 20, 0.4);
-}
-#wookmark li .share.yellow {
-  background-color: rgba(255, 242, 25, 0.4);
-}
-#wookmark li .share .author {
+#wookmark li.wookmark-box .share .author {
   max-width: 18rem;
   padding-left: 0.8rem;
   padding-bottom: 0.8rem;
   padding-top: 0.8rem;
   font-size: 1.3rem;
 }
-#wookmark li .share .tool-bar {
+#wookmark li.wookmark-box .share .tool-bar {
   position: absolute;
   right: 0.8rem;
   top: 0.3rem;
   padding-bottom: 0.4rem;
   padding-left: 0.8rem;
 }
-#wookmark li .share .media {
+#wookmark li.wookmark-box .share .media {
   position: relative;
+  width: 254px;
 }
-#wookmark li .share .media .tag {
+#wookmark li.wookmark-box .share .media .tag {
   position: absolute;
   left: 10%;
   top: 1rem;
 }
-#wookmark li .share .media .time {
+#wookmark li.wookmark-box .share .media .time {
   position: absolute;
   right: 7%;
   bottom: 1.75em;
   background-color: rgba(0, 0, 0, 0.3);
 }
-#wookmark li .share .detail {
+#wookmark li.wookmark-box .share .detail {
   padding: 0.4rem 1rem 0;
   font-size: 1.2rem;
+  width: 254px;
   color: #000000;
+}
+#wookmark li.inactive {
+  opacity: 0;
 }
 .wookmark-placeholder {
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  background-color: rgba(255, 255, 255, 0.4);
 }
 #filters {
   list-style-type: none;
@@ -208,6 +195,17 @@ footer .footer-link {
 #filters.catalog li:first-letter {
   font-size: 4.8rem;
 }
+#page-ground-nav {
+  padding-bottom: 0.4rem;
+  background-color: #ffffff;
+  width: 254px;
+}
+#page-ground-nav .title {
+  padding: 12px 12px 0;
+}
+#page-ground-nav .loc {
+  padding: 0 12px;
+}
 #returnTop {
   _display: none;
   position: fixed;
@@ -233,24 +231,24 @@ footer .footer-link {
   background-position: 0 -65px;
 }
 /* 分享详情页面 */
-.shard-detail h2 {
-  margin: 0 auto;
-  max-width: 1040px;
-  margin-top: 2rem;
-  color: #FFFFFF;
-}
-.shard-detail h2 span.am-text-lg .am-badge {
-  font-size: 16px;
-}
 .shard-detail .content {
   margin: 0 auto;
   max-width: 1040px;
   margin-top: 2rem;
   color: #FFFFFF;
 }
+.shard-detail .content .page-title {
+  margin: 0 auto;
+  max-width: 1040px;
+  margin-top: 2rem;
+  color: #FFFFFF;
+}
+.shard-detail .content .page-title span.am-text-lg .am-badge {
+  font-size: 16px;
+}
 .shard-detail .content .share .info {
   background-color: rgba(0, 0, 0, 0.4);
-  padding: 0 16px;
+  padding: 4px 16px;
   width: 100%;
   margin-bottom: 16px;
 }
@@ -263,29 +261,35 @@ footer .footer-link {
   color: black;
 }
 /* 广场页面横向瀑布流 */
-.ground-catalog h2 {
+.index-catalog {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.index-catalog h2 {
   color: white;
 }
-.ground-catalog .content .header {
-  padding: 15px;
-  background: url(../img/catalog-bg.png) repeat-x;
-  background-size: auto 100%;
-  font-size: 24px;
+.index-catalog .content .header .title {
+  margin-left: 2px;
+  padding: 4px 8px;
+  width: 8em;
+  height: 20px;
+  line-height: 20px;
+  background: url(../img/flag-cutout.png) no-repeat scroll 100% 50% #0899D9;
+  font-size: 18px;
+  color: white;
 }
-.ground-catalog .content .body {
-  background: rgba(255, 255, 255, 0.8);
+.index-catalog .content .body {
   padding: 1px;
 }
-.ground-catalog .content .body .media {
+.index-catalog .content .body .media {
   position: relative;
   float: right;
   overflow: hidden;
   margin: 1px;
 }
-.ground-catalog .content .body .media img {
+.index-catalog .content .body .media img {
   max-height: 300px;
 }
-.ground-catalog .content .body .media .info {
+.index-catalog .content .body .media .info {
   font-size: 12px;
   position: absolute;
   top: -300px;
@@ -299,11 +303,11 @@ footer .footer-link {
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
-.ground-catalog .content .body .media .info .detail {
+.index-catalog .content .body .media .info .detail {
   font-size: 16px;
   color: black;
 }
-.ground-catalog .content .body .empty {
+.index-catalog .content .body .empty {
   padding: 10px;
 }
 /*# sourceMappingURL=app.css.map */

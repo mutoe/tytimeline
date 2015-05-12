@@ -10,7 +10,7 @@
     <ul id="wookmark">
   	<volist name="list" id="vo">
     	<li class="wookmark-box">
-    		<a href="{:U('Shard/detail','id='.$vo['share_id'])}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"></a>
+    		<a href="__ROOT__/{$vo['share_id']}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"></a>
     	</li>
   	</volist>
     </ul>
@@ -25,7 +25,7 @@
 <block name='js'>
 <script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	$('#wookmark li').wookmark({
+	$('#wookmark li.wookmark-box').wookmark({
 	  container: $('#wookmark'),
 	  fillEmptySpace: true
 	});

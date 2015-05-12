@@ -22,7 +22,7 @@ class TagController extends BaseController {
 		$this -> assign('data', $data);
 
 		$share = M('share');
-		$map['tag_id'] = array('like', '%'.$tag_id.'%');
+		$map['tag_id'] = array('like', '%"'.$tag_id.'"%');
 		$list = $share -> where($map) -> order('create_time desc') -> select();
 		$this -> assign('list',$list);
 

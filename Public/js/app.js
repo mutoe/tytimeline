@@ -155,7 +155,7 @@ function modalSign() {
 function deleteShare(share_id) {
 	modalConfirm(function() {
 		$.ajax({
-			url: ROOT + 'Shard/deleteShare',
+			url: ROOT + '/Shard/deleteShare',
 			type: "POST",
 			data: {share_id: share_id},
 			success: function(data) {
