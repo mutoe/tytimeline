@@ -1,5 +1,12 @@
 <extend name="Common:base" />
 
+禁止首页缓存，以防止图片数据刷新时布局混乱的问题
+<block name="meta">
+<meta http-equiv="pragma" content="no-cach" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+</block>
+
 <block name="banner">
 <div id="top-banner" class="am-slider am-slider-default" data-am-flexslider="{slideshowSpeed: 7500,controlNav: false,directionNav: false}">
   <ul class="am-slides">
