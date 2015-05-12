@@ -39,7 +39,7 @@
 					</div>
 					<div class="am-input-group am-input-group-dange">
 						<label for="datetimepicker">拍摄时间</label>
-						<span class="am-padding-left-sm am-text-sm am-text-primary">已经根据您的照片信息自动填入时间</span>
+						<span class="am-padding-left-sm am-text-sm am-text-primary">如果您的照片存在exif信息，那么已经根据您的照片信息自动填入时间</span>
 						<input id="datetimepicker" type="text" value="{$data.time|time_format='Y-m-d H:i'}" class="am-form-field" readonly>
 					</div>
 					<div class="am-cf">
@@ -49,19 +49,6 @@
 			</fieldset>
 		</form>
 	</div>
-
-<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
-  <div class="am-modal-dialog">
-    <div class="am-modal-hd">天佑时光轴</div>
-    <div class="am-modal-bd" id="alert-info">
-      上传失败了 (⊙o⊙)噢！No!<br />
-      <small style="color: #DD514C;">参考可能原因：<span id="alert-error-info"></span></small>
-    </div>
-    <div class="am-modal-footer">
-      <span class="am-modal-btn" id="alert-btn">好吧</span>
-    </div>
-  </div>
-</div>
 
 </div>
 </block>
@@ -93,35 +80,28 @@ $(".tag-badge").on('click', function() {
 });
 
 function modi() {
-	$(document).ready(function(){
-		$.ajax({
-			url: "{:U('Shard/modi')}",
-			type: 'POST',
-			data:{
-				share_id: parseInt($("#help_inline").text()),
-				tag_id: $("#doc-ipt-tag").val(),
-				detail: $("#doc-ipt-detail").val(),
-				catalog_id: $("#doc-cho-catalog").val(),
-				time: $("#datetimepicker").val()
-			},
-			success: function(data) {
-				if(data.status) {
-					console.log(data.info);
-					//alert成功
-					$("#alert-btn").text('哦也 XD');
-					$("#alert-info").html('<span style="color: #4DB14D;">碎片信息修改成功了！</span>');
-					$("#my-alert").modal('open');
-					window.location.href = "{:U('detail')}?id="+$("#help_inline").text();
-				} else {
-					console.log(data.info);
-					$("#alert-info").html('上传失败了 (⊙o⊙)噢！No!<br /><small style="color: #DD514C;">参考可能原因：<span id="alert-error-info"></span></small>');
-					$("#alert-error-info").text(data.info);
-					$('#my-alert').modal('open');
-				}
+	$.ajax({
+		url: "{:U('Shard/modi')}",
+		type: 'POST',
+		data:{
+			share_id: {$data.share_id},
+			tag_id: $("#doc-ipt-tag").val(),
+			detail: $("#doc-ipt-detail").val(),
+			catalog_id: $("#doc-cho-catalog").val(),
+			time: $("#datetimepicker").val()
+		},
+		success: function(data) {
+			if(data.status) {
+				modalPopup('哦也 XD');
+				setTimeout(function() {
+					window.location.href = "__ROOT__/" + $("#help_inline").text();
+				}, 1200);
+			} else {
+				modalPopup('失败了，参考可能原因:'+ data.info);
 			}
-		});
-		return false;//为了防止刷新
+		}
 	});
+	return false;//为了防止刷新
 }
 </script>
 </block>

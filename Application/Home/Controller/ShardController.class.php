@@ -8,19 +8,34 @@ class ShardController extends BaseController {
 	public function detail($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
 		$share = M('share');
+
 		// 获取分享详情
-		$data = $share -> where('share_id=%d',$share_id) -> find();
-		if(!$data) $this -> error('抱歉，该条数据可能已被删除');
+		$data = $share -> find($share_id);
+		if(!$data) $this -> error('抱歉，该条数据不存在，它可能已被删除');
 		$share -> where('share_id=%d', $share_id) -> setInc('click');	// 点击量自增
 		$this -> assign('data', $data);
+
 		// 获取评论
 		$comment = M('comment');
 		$comments = $comment -> where('share_id=%d', $share_id) -> limit(8) -> order('create_time desc') -> select();
 		$this -> assign('comment', $comments);
+
 		// 获取用户详情
 		$user = M('user_info');
 		$user_info = $user -> where('user_id=%d', $data['user_id']) -> find();
 		$this -> assign('user', $user_info);
+
+		// 获取最近9条分享
+		$new_share = $share -> where('user_id=%d', $data['user_id']) -> limit(9) -> order('create_time desc') -> select();
+		$this -> assign('new_share', $new_share);
+
+		// 获取该分类下的热门分享
+		$cata_hot = $share -> where('catalog_id=%d', $data['catalog_id']) -> limit(6) -> order('click desc') -> select();
+		$this -> assign('cata_hot', $cata_hot);
+
+		// 随便看看
+		$rand = $share -> order('RAND()') -> limit(1) -> find();
+		$this -> assign('rand', $rand);
 
 		$this -> display();
 	}

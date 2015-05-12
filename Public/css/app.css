@@ -250,7 +250,8 @@ footer .footer-link {
   font-size: 16px;
 }
 .shard-detail .content .share .info {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #555;
   padding: 4px 16px;
   width: 100%;
   margin-bottom: 16px;
@@ -260,8 +261,27 @@ footer .footer-link {
   padding: 15px;
   color: black;
 }
-.shard-detail .content .user-info .detail {
+.shard-detail .content .other-info .box {
+  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #555;
+}
+.shard-detail .content .other-info .box .detail {
   color: black;
+}
+.shard-detail .content .other-info .box .new-share > li {
+  padding-bottom: 2px;
+}
+.shard-detail .content .other-info .box .new-share > li .media {
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+}
+.shard-detail .content .other-info .box .new-share > li .media img {
+  background: url(../img/checker-10x10.gif) repeat scroll transparent;
+}
+.shard-detail .content .other-info .box .rand img {
+  width: 100%;
 }
 /* 广场页面横向瀑布流 */
 .index-catalog {

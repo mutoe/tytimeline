@@ -262,7 +262,8 @@ footer {
         }
         .share {
             .info {
-                background-color: rgba(0,0,0,0.4);
+                background-color: rgba(255,255,255,0.4);
+                color: #555;
                 padding: 4px 16px;
                 width: 100%;
                 margin-bottom: 16px;
@@ -273,9 +274,29 @@ footer {
                 color: black;
             }
         }
-        .user-info {
-            .detail {
-                color: black;
+        .other-info {
+            .box {
+                padding: 16px;
+                background-color: rgba(255,255,255,0.7);
+                color: #555;
+                .detail {
+                    color: black;
+                }
+                .new-share {
+                    & > li {
+                        padding-bottom: 2px;
+                        .media {
+                            width: 72px;height: 72px;
+                            overflow: hidden;
+                            img {
+                                background: url(../img/checker-10x10.gif) repeat scroll transparent;
+                            }
+                        }
+                    }
+                }
+                .rand img {
+                    width: 100%;
+                }
             }
         }
     }
