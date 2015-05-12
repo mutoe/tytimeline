@@ -9,9 +9,38 @@
   <div class="am-u-sm-12">
     <ul id="wookmark">
   	<volist name="list" id="vo">
-    	<li class="wookmark-box">
-    		<a href="__ROOT__/{$vo['share_id']}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"></a>
-    	</li>
+		<li class="wookmark-box">
+			<div class="share">
+				<div class="author"><a href="__ROOT__/user/{$vo['user_id']}">@{$vo.user_id|get_nickname}</a></div>
+				<div class="media am-g">
+					<div class="am-u-sm-12">
+						<div class="tag am-hide-sm-only">{$vo.tag_id|show_tag}</div>
+						<a class="am-show-sm-down" href="__ROOT__/{$vo.share_id}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
+						</a>
+						<a class="am-show-md-up" href="__ROOT__/{$vo.share_id}">
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
+						</a>
+						<div class="time am-badge am-radius">{$vo.time|time_format="m 月 d 日 H:i"}</div>
+					</div>
+				</div>
+				<div class="tool-bar am-hide-sm-only">
+					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
+					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
+					<button class="am-badge am-round am-badge-danger like-btn" onclick="like({$vo.share_id},this);">
+						<if condition="get_like_status($vo['share_id'])">
+							<i class="am-icon-heart"></i>
+						<else />
+							<i class="am-icon-heart-o"></i>
+						</if>
+					</button>
+				</div>
+				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail|substring='50'}</div>
+				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail|substring='80'}</div>
+				<div class="detail" style="color: #555;">分享在 <a href="__ROOT__/catalog/{$vo['catalog_id']}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
+				<div class="comment"></div>
+			</div>
+		</li>
   	</volist>
     </ul>
 
@@ -25,9 +54,11 @@
 <block name='js'>
 <script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	$('#wookmark li.wookmark-box').wookmark({
-	  container: $('#wookmark'),
-	  fillEmptySpace: true
-	});
+$("#wookmark li.wookmark-box").wookmark({
+	container: $("#wookmark"),
+	offset: 24,
+	autoResize: true,
+	align: 'center'
+});
 </script>
 </block>
