@@ -2,7 +2,7 @@
 return array(
 
 	// 定义默认访问模块
-	'MODULE_ALLOW_LIST'	=> array('Home', 'Admin'),
+	'MODULE_ALLOW_LIST'	=> array('Home', 'Admin', 'M'),
 	'DEFAULT_MODULE'		=> 'Home',
 
 	'URL_MODEL'					=> '1', // URL模式

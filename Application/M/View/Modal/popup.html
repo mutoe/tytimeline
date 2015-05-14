@@ -1,0 +1,20 @@
+<div class="am-modal am-modal-prompt" tabindex="-1" id="modal-popup">
+<div class="am-modal-dialog">
+	<if condition="$status == 'true'">
+	<a id="smile" data-am-modal-close class="am-text-success am-icon-smile-o am-icon-md" href="javascript: void(0);"></a>
+	<div class="am-modal-hd am-text-success">{$title|default="成功了"}</div>
+	<else />
+	<a id="smile" class="am-text-danger am-icon-times-circle am-icon-md" href="javascript: void(0);" onclick="$('#modal-popup').modal('close');"></a>
+	<div class="am-modal-hd am-text-danger">{$title|default="出错了"}</div>
+	</if>
+  <div class="am-modal-bd">{$info}</div>
+  <div class="am-modal-footer">
+	<if condition="$status == 'true'">
+    <span class="am-modal-btn">(≧▽≦)</span>
+	<else />
+    <span class="am-modal-btn">(ノ=Д=)ノ┻━┻</span>
+	</if>
+  </div>
+
+</div>
+</div>
