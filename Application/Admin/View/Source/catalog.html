@@ -3,13 +3,13 @@
 <block name='main'>
 <div class="admin-content">
 
-	<div class="am-cf am-padding">
-		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">分类管理</strong> / <small>Catalog Manage</small>
+	<div class="am-padding">
+		<div class="am-fl"><strong class="am-text-primary am-text-lg">分类管理</strong> / <small>Catalog Manage</small></div>
 		<div class="am-input-group am-input-group-sm am-u-sm-4 am-fr">
 			<input type="text" class="am-form-field">
 			<span class="am-input-group-btn"><button class="am-btn am-btn-default" type="button">搜索</button></span>
 		</div>
-		</div>
+		<a href="{:U('addCatalog')}" class="am-btn am-btn-warning am-btn-sm am-fr">新增分类</a href="addCatalog">
 	</div>
 
 	<div class="am-g">
@@ -19,25 +19,26 @@
 					<thead>
 						<tr>
 							<th class="table-id">ID</th>
-							<th class="table-type">标签</th>
-							<th class="table-title">描述</th>
-							<th class="table-author">上传者</th>
-							<th class="table-date">创建日期</th>
+							<th>名称</th>
+							<th>权重</th>
+							<th>状态</th>
+							<th>总分享数</th>
 							<th class="table-set">操作</th>
 						</tr>
 					</thead>
 					<tbody>
 					<volist name="data" id="vo">
-						<tr>
-							<td><a href="#"><span class="am-badge am-badge-primary am-text-sm am-round">{$vo.share_id}</span></a></td>
-							<td>{$vo.tag_id|get_tag}</td>
-							<td>{$vo.detail}</td>
-							<td>{$vo.user_id|get_nickname}</td>
-							<td>{$vo.create_time|time_format}</td>
+						<tr data-catalog-id="{$vo.catalog_id}">
+							<td><a href="#"><span class="am-badge am-badge-primary am-text-sm am-round">{$vo.catalog_id}</span></a></td>
+							<td>{$vo.catalog_id|get_catalog_name}</td>
+							<td>{$vo.sort}</td>
+							<td>{$vo.status}</td>
+							<td>{$vo.total_share}</td>
 							<td>
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
-										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="window.location='deletePic?pid={$vo.id}'"><span class="am-icon-trash-o"></span> 删除</button>
+										<a class="am-btn am-btn-primary am-btn-xs" href="{:U('modifyCatalog','catalog_id='.$vo['catalog_id'])}">修改</a>
+										<button type="button" class="am-btn am-btn-link am-btn-xs am-text-danger" onclick="deleteCatalog({$vo.catalog_id})"><span class="am-icon-trash-o"></span> 删除</button>
 									</div>
 								</div>
 							</td>
@@ -62,4 +63,26 @@
 
 	</div>
 </div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+  function deleteCatalog(catalog_id) {
+  	modalConfirm(function() {
+  		$.ajax({
+  			type:"post",
+  			url:"deleteCatalog",
+  			data: {catalog_id: catalog_id},
+  			success: function(data) {
+  				if (data.status) {
+						$("tr[data-catalog-id="+ catalog_id +"]").remove();
+						modalPopup("删除分类成功");
+  				} else {
+  					modalPopup("删除失败了:" + data.info, false);
+  				}
+  			}
+  		});
+  	}, "你确实要删除这个分类吗?");
+  }
+</script>
 </block>

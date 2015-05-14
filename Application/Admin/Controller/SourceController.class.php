@@ -51,6 +51,40 @@ class SourceController extends BaseController {
 		$this -> display();
 	}
 
+	public function modifyCatalog($catalog_id = 0) {
+		if(!$catalog_id) $this -> error("参数有误！");
+		$catalog = M('catalog');
+		$data = $catalog -> find($catalog_id);
+		$this -> assign('data', $data);
+
+		$this -> display('addCatalog');
+	}
+
+	public function submitCatalog() {
+		$catalog = M('catalog');
+		$data = I('post.');
+
+		if($data['catalog_id']) {
+			$result = $catalog -> save($data);
+		} else {
+			$result = $catalog -> add($data);
+		}
+		if($result !== flase) $this -> success();
+		else $this -> error( $catalog -> getError() );
+	}
+
+	public function deleteCatalog($catalog_id = 0) {
+		if(!$catalog_id) $this -> error("参数有误！");
+		$catalog = M('catalog');
+		$result = $catalog -> delete($catalog_id);
+		if($result) {
+			$this -> success();
+		} else {
+			$info = $catalog -> getError();
+			$this -> error( $info );
+		}
+	}
+
 	/**
 	 * 标签列表管理
 	 */
@@ -203,33 +237,5 @@ class SourceController extends BaseController {
 			$this -> display();
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

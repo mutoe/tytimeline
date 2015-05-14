@@ -1,0 +1,88 @@
+<extend name='Common:base' />
+
+<block name='main'>
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">分类</strong> / <small>Catalog</small>
+		</div>
+	</div>
+
+	<div class="am-tabs am-margin" data-am-tabs>
+		<ul class="am-tabs-nav am-nav am-nav-tabs">
+			<if condition="empty($data)">
+			<li class="am-active"><a href="#tab1">新增分类</a></li>
+			<else />
+			<li class="am-active"><a href="#tab1">修改分类</a></li>
+			</if>
+		</ul>
+
+		<div class="am-tabs-bd">
+			<div class="am-tab-panel am-fade am-in am-active" id="tab1">
+				<form class="am-form" id="form-add-catalog">
+					<if condition="!empty($data)">
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">ID</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" name="catalog_id" value="{$data.catalog_id}" readonly></div>
+					</div>
+					</if>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">名称</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" name="catalog_name" value="{$data.catalog_name}"></div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">权重</div>
+						<div class="am-u-sm-4 am-u-end"><input type="number" class="am-input-sm" name="sort" value="{$data.sort|default=0}"></div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">状态</div>
+						<div class="am-u-sm-4 am-u-end">
+				      <select class="am-input-sm" name="status">
+				        <option value="2" <eq name="data.status" value="2">selected</eq>>首页不显示</option>
+				        <option value="1" <eq name="data.status" value="1">selected</eq>>正常</option>
+				        <option value="0" <eq name="data.status" value="0">selected</eq>>禁用</option>
+				      </select>
+						</div>
+					</div>
+					<if condition="!empty($data)">
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">总分享数</div>
+						<div class="am-u-sm-4 am-u-end"><input type="number" class="am-input-sm" readonly value="{$data.sort}"></div>
+					</div>
+					</if>
+
+					<div class="am-margin">
+						<button type="submit" class="am-btn am-btn-primary am-btn-sm" onclick="return submitCatalog()">提交保存</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+  function submitCatalog() {
+  	if ($("input[name='catalog_name']").val().length < 2) return false;
+  	$.ajax({
+  		type:"post",
+  		url:"{:U('submitCatalog')}",
+  		data: $("#form-add-catalog").serialize(),
+  		success: function(data) {
+  			if (data.status) {
+  				modalPopup("操作成功！");
+  				self.location = document.referrer;
+  			} else {
+  				modalPopup("失败了:" + data.info, false);
+  			}
+  		}
+  	});
+  	return false;
+  }
+</script>
+</block>
