@@ -223,15 +223,18 @@ footer {
 /* 分享详情页面 */
 .shard-detail {
     .content {
-        margin: 0 auto;
+        margin: 0 auto;margin-top: 2rem;
         max-width: 1152px;
-        margin-top: 2rem;
-        color: #FFFFFF;
+        //color: #FFFFFF;
         .page-title {
-            margin: 0 auto;
+            margin-top: 2rem;margin-bottom: 10px;
+            padding: 10px 2em;
             max-width: 1040px;
-            margin-top: 2rem;
+            background-color: #555;
             color: #FFFFFF;
+            h2 {
+                margin-bottom: 0;
+            }
             span.am-text-lg .am-badge{
                 font-size: 16px;
             }
@@ -264,14 +267,25 @@ footer {
                         .media {
                             width: 72px;height: 72px;
                             overflow: hidden;
-                            img {
-                                background: url(../img/checker-10x10.gif) repeat scroll transparent;
-                            }
                         }
                     }
                 }
                 .rand img {
                     width: 100%;
+                }
+            }
+        }
+        .comment {
+            .am-comment-meta {
+                color: #777;
+            }
+            .am-comment-bd {
+                background-color: #EEEEEE;
+                color: #666;
+            }
+            .form {
+                fieldset {
+                    padding: 0;
                 }
             }
         }

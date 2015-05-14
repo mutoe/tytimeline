@@ -12,7 +12,7 @@
 
 <div class="content">
   <div class="am-u-md-9 share">
-		<div class="am-cf page-title">
+		<div class="am-g page-title">
 			<h2 class="am-fl">时光碎片 {$data.share_id} : <span class="am-text-lg am-margin-left">{$data.tag_id|show_tag}</span></h2>
 	  	<if condition="get_auth('delete', 0, $data['share_id'])">
 	    <div class="am-btn-group am-btn-group-xs am-fr">
@@ -51,7 +51,7 @@
 		</div>
 
 
-    <div class="am-g">
+    <div class="am-g comment">
     	<hr class="am-article-divider blog-hr">
 
 			<volist name="comment" id="vo">
@@ -73,17 +73,17 @@
 			      </if>
 			    </header>
 
-			    <div class="am-comment-bd" style="background-color: rgba(0,0,0,0.4);">{$vo.detail}</div>
+			    <div class="am-comment-bd">{$vo.detail}</div>
 			  </div>
 				<br />
 			</article>
 			</volist>
 
-			<form class="am-form" data-am-validator>
+			<form class="am-form form" data-am-validator>
 				<fieldset>
 				<div class="am-form-group">
-		      <label for="doc-ta-1">我要吐槽 <span class="am-text-sm am-text-warning">请合理吐槽</span></label>
-		      <textarea id="doc-ipt-comment" minlength="2" maxlength="255" rows="3" placeholder="请不要超过255字"></textarea>
+		      <label for="doc-ipt-comment" class="title">我要吐槽 <span class="am-text-sm am-text-warning">请合理吐槽</span></label>
+		      <textarea id="doc-ipt-comment" required minlength="2" maxlength="255" rows="3" placeholder="请不要超过255字"></textarea>
 					<input type="hidden" value="{$data.share_id}" name="share_id"></input>
 		    </div>
 				<input type="submit" class="am-btn am-btn-primary" value="吐" onclick="return submitComment()"></input>
@@ -187,6 +187,10 @@ function delComment(comment_id) {
 function submitComment() {
 	var detail = $("#doc-ipt-comment");
 	var share_id = {$data.share_id};
+	if (detail.val().length < 2) {
+		modalPopup("吐槽也要输入点东西嘛 -_-; (请输入两个以上的字)", false);
+		return false;
+	}
 	$.ajax({
 		type:"post",
 		url: ROOT + "/Shard/submit_comment",

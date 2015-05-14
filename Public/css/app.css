@@ -212,15 +212,19 @@ footer .footer-link {
 /* 分享详情页面 */
 .shard-detail .content {
   margin: 0 auto;
-  max-width: 1152px;
   margin-top: 2rem;
-  color: #FFFFFF;
+  max-width: 1152px;
 }
 .shard-detail .content .page-title {
-  margin: 0 auto;
-  max-width: 1040px;
   margin-top: 2rem;
+  margin-bottom: 10px;
+  padding: 10px 2em;
+  max-width: 1040px;
+  background-color: #555;
   color: #FFFFFF;
+}
+.shard-detail .content .page-title h2 {
+  margin-bottom: 0;
 }
 .shard-detail .content .page-title span.am-text-lg .am-badge {
   font-size: 16px;
@@ -253,11 +257,18 @@ footer .footer-link {
   height: 72px;
   overflow: hidden;
 }
-.shard-detail .content .other-info .box .new-share > li .media img {
-  background: url(../img/checker-10x10.gif) repeat scroll transparent;
-}
 .shard-detail .content .other-info .box .rand img {
   width: 100%;
+}
+.shard-detail .content .comment .am-comment-meta {
+  color: #777;
+}
+.shard-detail .content .comment .am-comment-bd {
+  background-color: #EEEEEE;
+  color: #666;
+}
+.shard-detail .content .comment .form fieldset {
+  padding: 0;
 }
 /* 广场页面横向瀑布流 */
 .index-catalog {

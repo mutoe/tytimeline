@@ -4,13 +4,13 @@
 <div class="am-g">
 <div class="am-u-sm-centered am-u-sm-12 am-u-lg-10">
 
-	<h2 style="color: white;">热门标签</h2>
-	<div class="am-g" style="margin-bottom: 2rem;">
+	<div class="am-g am-g-fixed am-u-sm-centered" style="margin-bottom: 2rem;">
+		<h2>热门标签</h2>
 		<ol id="filters" class="am-u-sm-12">
-      <li class="am-u-md-2 am-u-lg-1 am-u-end" data-filter="all">全部</li>
+      <li class="am-u-md-3 am-u-lg-2 am-u-sm-6 am-u-end" data-filter="all">全部</li>
 			<volist name="tag" id="vo">
 				<if condition="get_tag(str2json($vo['tag_id']))">
-					<li class="am-u-md-2 am-u-lg-1 am-u-end" data-filter="{$vo.tag_id}">{$vo.tag_id|str2json|get_tag}</li>
+					<li class="am-u-md-3 am-u-lg-2 am-u-sm-6 am-u-end" data-filter="{$vo.tag_id}">{$vo.tag_id|str2json|get_tag}</li>
 				</if>
       </volist>
     </ol>
@@ -75,7 +75,7 @@
         autoResize: true,
         align: 'center',
         container: $('#wookmark'),
-        offset: 4,
+        offset: 16,
         fillEmptySpace: true
       });
       /**

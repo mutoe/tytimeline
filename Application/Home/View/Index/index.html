@@ -26,14 +26,14 @@
 <div class="am-g am-g-fixed">
 
 	<!-- 分类模块 -->
-	<div class="am-u-sm-12 index-catalog">
 		<foreach name="catalog" item="group" key="k">
+	<div class="am-u-sm-12 index-catalog am-margin-bottom-lg">
 		<div class="am-margin-top-lg am-margin-bottom-lg am-cf content">
 			<div class="header">
 				<span class="title">{$group|get_catalog_name}&nbsp;&nbsp;</span>
 				<span class="more am-text-sm am-margin-left-sm"><a href="__ROOT__/catalog/{$group}"> 查看更多 <i class="am-icon-angle-double-right"></i></a></span>
 			</div>
-			<div class="am-u-sm-12 body am-margin-top-sm am-margin-bottom" data-cataid="{$group}">
+			<div class="am-u-sm-12 body am-margin-top" data-cataid="{$group}">
 				<volist name="share[$k]" id="vo">
 					<div class="media" data-row="{$group}">
 						<a href="__ROOT__/{$vo.share_id}">
@@ -50,8 +50,8 @@
 				</volist>
 			</div>
 		</div>
-		</foreach>
 	</div>
+		</foreach>
 
 
 </div>
