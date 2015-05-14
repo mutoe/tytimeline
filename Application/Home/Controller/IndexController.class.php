@@ -10,7 +10,7 @@ class IndexController extends BaseController {
 
 		//获取分类列表
 		$catalog = M('catalog');
-		$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> getField('catalog_id',true);//获取分类的ID数组
+		$catalog_list = $catalog -> where('status>0') -> order('sort desc') -> getField('catalog_id',true);//获取分类的ID数组
 		$this -> assign('catalog', $catalog_list);
 
 		//获取热门分享
@@ -18,7 +18,7 @@ class IndexController extends BaseController {
 		$share_list = array();
 
 		foreach ($catalog_list as $key => $catalog_id) {
-			$share_list[$key] = $share -> where('catalog_id=%d', $catalog_id) -> order('click desc') -> limit(15) -> select();
+			$share_list[$key] = $share -> where('catalog_id=%d AND status>0', $catalog_id) -> order('click desc') -> limit(15) -> select();
 		}
 		$this -> assign('share', $share_list);
 		$this -> assign('empty', '<div class="empty">没有数据</div>');

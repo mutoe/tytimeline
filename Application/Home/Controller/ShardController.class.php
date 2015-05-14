@@ -161,7 +161,7 @@ class ShardController extends BaseController {
 			$this -> assign('hot_tag', $tags);
 
 			$catalog = M('catalog');
-			$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> select();
+			$catalog_list = $catalog -> where('status>0') -> order('sort desc') -> select();
 			$this -> assign('catalog', $catalog_list);
 
 			$this -> display();
@@ -341,10 +341,10 @@ class ShardController extends BaseController {
 		// 刷新分类信息下的分享数目
 		$cata = $share -> where('share_id=%d', $share_id) -> getField('catalog_id');
 		if(!$cata) return false;
-		$data = $share -> where('catalog_id=%d', $cata) -> field('share_id') -> select();
+		$data = $share -> where('catalog_id=%d AND status>0', $cata) -> field('share_id') -> select();
 		$count = count($data);
 		$catalog = M('catalog');
-		$catalog -> where('catalog_id=%d', $cata) -> setField('total_share', $count);
+		$catalog -> where('catalog_id=%d AND status>0', $cata) -> setField('total_share', $count);
 
 	}
 
