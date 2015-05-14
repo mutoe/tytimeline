@@ -7,9 +7,9 @@
   <meta name="keywords" content="index">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="__PUBLIC__/i/favicon.png">
-  <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/i/app-icon72x72@2x.png">
+
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.css"/>
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/common.css"/>
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/admin.css"/>
   <block name='css'></block>
 </head>
@@ -40,7 +40,7 @@
           <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
         </ul>
       </li>
-      <li><a href="{:U('Home/User/logout')}" id="admin-fullscreen"><span class="am-icon-sign-out"></span> <span class="admin-fullText">退出登陆</span></a></li>
+      <li><a href="{:U('Base/logout')}" id="admin-fullscreen"><span class="am-icon-sign-out"></span> <span class="admin-fullText">退出登陆</span></a></li>
     </ul>
   </div>
 </header>
@@ -72,6 +72,7 @@
         <li><a href="{:U('Source/tag')}" class="am-cf"><span class="am-icon-tags"></span> 标签管理</a></li>
         <li><a href="{:U('Source/shard')}"><span class="am-icon-th"></span> 碎片管理</a></li>
         <li><a href="{:U('Source/banner')}"><span class="am-icon-photo"></span> 轮播图管理</a></li>
+        <li><a href="{:U('Source/catalog')}"><span class="am-icon-photo"></span> 分类管理</a></li>
       </ul>
     </li>
     <li class="admin-parent am-panel am-panel-default">
@@ -107,25 +108,23 @@
 </footer>
 </block>
 
-
-<!--[if lt IE 9]>
-<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="__PUBLIC__/js/rem.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="__PUBLIC__/js/respond.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="__PUBLIC__/js/amazeui.legacy.js" type="text/javascript" charset="utf-8"></script>
-<![endif]-->
+<div id="modal-container"></div>
 
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="__PUBLIC__/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="__PUBLIC__/js/amazeui.js" type="text/javascript" charset="utf-8"></script>
 <!--<![endif]-->
-<!--<script src="__PUBLIC__/js/admin.js" type="text/javascript" charset="utf-8"></script>-->
+
 <script type="text/javascript">
 (function($) {
 	$('#collapse-nav-{$Think.CONTROLLER_NAME}').addClass('am-in');
 })(jQuery);
+var ROOT = "__ROOT__/Admin";
 </script>
+
+<script src="__PUBLIC__/js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/js/app.js" type="text/javascript" charset="utf-8"></script>
 <block name='js'></block>
+
 </body>
 </html>

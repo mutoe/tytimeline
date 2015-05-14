@@ -11,6 +11,7 @@
 
   <link rel="icon" type="image/png" href="__PUBLIC__/i/favicon.png" />
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.css" />
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/common.css" />
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/app.css" />
   <block name="css"></block>
 
@@ -53,7 +54,7 @@
 
     <form class="am-topbar-form am-topbar-right am-form-inline am-show-lg-only" role="search" >
       <div class="am-form-group">
-        <input type="text" class="am-form-field am-input-sm" placeholder="搜索" style="padding: 0.55em;">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索" style="height: 36px;">
       </div>
     </form>
 
@@ -123,9 +124,10 @@
 (function($) {
 	$(".header-{$Think.CONTROLLER_NAME}").addClass('am-active');
 })(jQuery);
-var ROOT = "__MODULE__";
+var ROOT = "__ROOT__";
 </script>
 
+<script src="__PUBLIC__/js/common.js" type="text/javascript" charset="utf-8"></script>
 <script src="__PUBLIC__/js/app.js" type="text/javascript" charset="utf-8"></script>
 
 <block name="js"></block>

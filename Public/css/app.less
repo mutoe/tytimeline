@@ -1,4 +1,4 @@
-@bg-color: #52BBDF;
+@bg-color: #E1E1E1;
 
 * {
 	padding: 0;margin: 0;
@@ -7,7 +7,8 @@ html {
 	overflow-x: hidden;
 }
 body {
-    background: @bg-color url(../img/bg-fixed.png) repeat;
+    //background: @bg-color url(../img/bg-fixed.png) repeat;
+    background: @bg-color;
 }
 .am-g-fixed {
     max-width: 1152px;
@@ -18,7 +19,7 @@ body {
 
 // 顶部导航栏
 .am-topbar{
-    background-color: darken(@bg-color, 20%);
+    //background-color: darken(@bg-color, 20%);
     z-index: 100;
     .am-text-ir {
         display: block;
@@ -83,33 +84,8 @@ footer {
     }
 }
 
-
-// 模态窗口
-#modal-login .am-modal-dialog {
-    legend {
-        padding: 10px;
-        .logo {
-            display: inline-block;line-height: 1em;
-            height: 20px;width: 60px;
-            background: url(../img/logo-o.png) no-repeat #A4241F;
-            background-size: 60px 20px;
-        }
-    }
-    p {
-        margin-top: 0;margin-bottom: 0;
-    }
-    #modal-popover-sign {
-        margin: 10px 0 0;
-    }
-}
-#smile {
-    position: absolute;top: 8px;right: 8px;
-}
-
 // wookmark 瀑布流样式
 @wookmark-meta-bg: rgba(255,255,255,1);
-
-
 #wookmark{
     position:relative;
     list-style: none;
@@ -172,10 +148,10 @@ footer {
     padding-bottom: 2rem;
     padding-left: 0;
     li {
-        background-color: rgba(255,255,255,0.2);
+        background-color: white;
         font-size: 12px;
         padding-top: 6px;padding-bottom: 4px;
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid #eee;
         cursor: pointer;
       -webkit-transition: all 0.15s ease-out;
          -moz-transition: all 0.15s ease-out;
@@ -304,7 +280,7 @@ footer {
 
 /* 广场页面横向瀑布流 */
 .index-catalog {
-    background-color: rgba(255,255,255,0.3);
+    background-color: #f6f6f6;
     h2 {
         color: white;
     }
