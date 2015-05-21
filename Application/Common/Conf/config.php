@@ -5,10 +5,10 @@ return array(
 	'MODULE_ALLOW_LIST'	=> array('Home', 'Admin'),
 	'DEFAULT_MODULE'		=> 'Home',
 
-	'URL_MODEL'					=> '1', // URL模式
+	'URL_MODEL'					=> '2', // URL模式
 
 	'TMPL_PARSE_STRING'	=> array(
-     '__ROOT__' => '/timeline/index.php',
+     '__ROOT__' => './',
 	),
 
 	// 数据库配置信息
