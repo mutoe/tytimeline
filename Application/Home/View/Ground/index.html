@@ -28,6 +28,9 @@
 							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
 						</a>
 						<a class="am-show-md-up" href="/{$vo.share_id}">
+							<img class="lazy"
+							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+							data-original="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
 						</a>
 						<div class="time am-badge am-radius">{$vo.time|time_format="m 月 d 日 H:i"}</div>
 					</div>
@@ -63,5 +66,13 @@ $("#wookmark li.wookmark-box").wookmark({
 	autoResize: true,
 	align: 'center'
 });
+</script>
+
+<script src="__PUBLIC__/js/jquery.lazyload.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$("img.lazy").show().lazyload({
+		threshold : 400,
+		effect : "fadeIn"
+	});
 </script>
 </block>
