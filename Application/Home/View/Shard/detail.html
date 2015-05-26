@@ -57,7 +57,7 @@
 			<volist name="comment" id="vo">
 			<article class="am-comment" data-comment-id="{$vo.comment_id}">
 			  <a href="__ROOT__/user/{$vo['user_id']}">
-			    <img class="am-comment-avatar" alt=""/> <!-- 评论者头像 -->
+			    <img class="am-comment-avatar" alt="" src="{:U('Base/avatar','user_id='.$vo['user_id'])}"/> <!-- 评论者头像 -->
 			  </a>
 
 			  <div class="am-comment-main">

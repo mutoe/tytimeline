@@ -23,4 +23,9 @@ class BaseController extends CommonController {
 		return $user -> where('user_id=%d',$user_id) -> save($data);
 	}
 
+	public function avatar($user_id = 0) {
+		$url = 'http://bbs.cqjtu.edu.cn/uc_server/avatar.php?uid='.$user_id.'&size=big';
+		echo file_get_contents($url);
+	}
+
 }
