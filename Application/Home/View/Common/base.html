@@ -30,14 +30,14 @@
 
 <header id="head-topbar" class="am-topbar am-topbar-inverse" <block name='top-fixed'>data-am-sticky</block> >
   <h1 class="am-topbar-brand am-hide-md-only" style="color: white;">
-  	<a href="__ROOT__" class="am-text-ir">天佑时光轴</a>
+  	<a href="/" class="am-text-ir">天佑时光轴</a>
   </h1>
 
   <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}">
   	<span class="am-sr-only">导航切换</span>
 		<span class="am-icon-bars"></span>
   </button>
-  <if condition="!session('?user_id')">
+  <if condition="!is_login()">
 		<a class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-primary am-show-sm-only" href="{:U('Login/index')}"><span class="am-icon-user" style="color: white;"></span></a>
   <else />
 		<a class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-danger am-show-sm-only" href="{:U('Shard/add')}"><span class="am-icon-camera" style="color: white;"></span></a>
@@ -45,11 +45,11 @@
 
   <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
     <ul class="am-nav am-nav-pills am-topbar-nav">
-      <li class="header-Index am-hide-lg-only"><a href="__ROOT__"><i class="am-icon-home"></i> 天佑时光轴</a></li>
-      <li class="header-Index am-show-lg-only"><a href="__ROOT__"><i class="am-icon-home"></i> 首页</a></li>
-      <li class="header-Ground"><a href="__ROOT__/new"><i class="am-icon-leaf"></i> 广场</a></li>
-      <li class="header-Tag"><a href="__ROOT__/tag"><i class="am-icon-tags"></i> 标签</a></li>
       <li class="header-Time"><a href="{:U('Time/index')}"><i class="am-icon-clock-o"></i> 时光</a></li>
+      <li class="header-Index am-hide-lg-only"><a href="/"><i class="am-icon-home"></i> 天佑时光轴</a></li>
+      <li class="header-Index am-show-lg-only"><a href="/"><i class="am-icon-home"></i> 首页</a></li>
+      <li class="header-Ground"><a href="/new"><i class="am-icon-leaf"></i> 广场</a></li>
+      <li class="header-Tag"><a href="/tag"><i class="am-icon-tags"></i> 标签</a></li>
     </ul>
 
     <form class="am-topbar-form am-topbar-right am-form-inline am-show-lg-only" role="search" >
@@ -64,28 +64,28 @@
         	其他 <span class="am-icon-caret-down"></span>
         </button>
         <ul class="am-dropdown-content">
-        	<li><a href="__ROOT__/rand"><i class="am-icon-cube"></i> 试试手气</a></li>
-        <if condition="!session('?user_id')">
-        	<li><a href="javascript: modalSign();"><i class="am-icon-terminal"></i> 注册</a></li>
+        	<li><a href="/rand"><i class="am-icon-cube"></i> 试试手气</a></li>
+        <if condition="!is_login()">
+        	<li><a href="javascript: void(0);" onclick="modalSign()"><i class="am-icon-terminal"></i> 注册</a></li>
         <else />
         <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
           <li><a href="{:U('Admin/index')}"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
         </if>
-          <li><a href="__ROOT__/user"><i class="am-icon-user"></i> 个人中心</a></li>
+          <li><a href="/user"><i class="am-icon-user"></i> 个人中心</a></li>
           <li><a href="javascript: void(0);" onclick="checkLogout()"><i class="am-icon-sign-out"></i> 安全退出</a></li>
         </if>
-          <li><a href="http://ty.cqjtu.edu.cn/story/"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>
+          <li><a href="http://ty.cqjtu.edu.cn"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>
         </ul>
       </div>
     </div>
     <div class="am-topbar-right am-hide-sm-only" >
     <if condition="is_login()">
-    	<a class="am-topbar-btn am-btn-sm am-btn" href="__ROOT__/user" style="color: white;">
+    	<a class="am-topbar-btn am-btn-sm am-btn" href="/user" style="color: white;">
 				<span style="color: #0D86C4;">{:get_usergroup(0,0)}</span> {:get_nickname()}
     	</a>
   	</if>
   	<if condition="!is_login()">
-    	<a href="javascript: modalLogin();" class="am-btn am-btn-danger am-topbar-btn am-btn-sm" style="color: white;"><i class="am-icon-sign-in"></i> 登录</a>
+    	<a href="javascript: void(0);" onclick="modalLogin()" class="am-btn am-btn-danger am-topbar-btn am-btn-sm" style="color: white;"><i class="am-icon-sign-in"></i> 登录</a>
   	<else />
   		<a href="{:U('Shard/add')}" class="am-btn am-btn-danger am-topbar-btn am-btn-sm" style="color: white;"><i class="am-icon-camera"></i> 时光</a>
   	</if>
@@ -101,7 +101,7 @@
 <block name="footer">
 <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer style="margin-top: 3rem;">
   <div class="am-footer-miscs">
-    <p class="footer-text">CopyRight©2015 <a class="footer-link" href="http://ty.cqjtu.edu.cn/story/" title="天佑工作室" target="_blank" class="">TianYou Network Studio</a>.</p>
+    <p class="footer-text">CopyRight©2015 <a class="footer-link" href="//ty.cqjtu.edu.cn/story/" title="天佑工作室" target="_blank" class="">TianYou Network Studio</a>.</p>
     <!--<p>京ICP备13033158</p>-->
   </div>
 </footer>
