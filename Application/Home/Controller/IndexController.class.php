@@ -10,7 +10,7 @@ class IndexController extends BaseController {
 
 		//获取分类列表
 		$catalog = M('catalog');
-		$catalog_list = $catalog -> where('status>0') -> order('sort desc') -> getField('catalog_id',true);//获取分类的ID数组
+		$catalog_list = $catalog -> where('status=1') -> order('sort desc') -> getField('catalog_id',true);//获取分类的ID数组
 		$this -> assign('catalog', $catalog_list);
 
 		//获取热门分享
