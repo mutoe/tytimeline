@@ -12,4 +12,27 @@ class BaseController extends CommonController {
 		}
 	}
 
+	public function clearCache($dir = "./Application/Runtime/Cache"){
+		if(!IS_AJAX) $this -> error("非法操作！");
+		$auth = substr($dir,0,27);
+		if($auth != "./Application/Runtime/Cache") $this -> error("非法操作！");
+	  //先删除目录下的文件：
+	  $dh = opendir($dir);
+	  while ($file = readdir($dh)) {
+	    if($file != "." && $file != "..") {
+	    	$fullpath = $dir. "/" .$file;
+	    	if(!is_dir($fullpath)) {
+	      	unlink($fullpath);
+	      } else {
+	      	$this -> clearCache($fullpath);
+	      }
+	    }
+	  }
+	  closedir($dh);
+	  rmdir($dir);
+		if(rmdir("./Application/Runtime/Cache")) {
+	    $this -> success();
+	  }
+	}
+
 }

@@ -30,6 +30,7 @@
   <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 
     <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li><a href="javascript: void(0)" onclick="clearCache()">清除缓存</a></li>
       <li><a href="{:U('Home/Index/index')}"><span class="am-icon-envelope-o"></span>返回前台</a></li>
       <li class="am-dropdown" data-am-dropdown>
         <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -124,6 +125,7 @@ var ROOT = "__ROOT__/Admin";
 
 <script src="__PUBLIC__/js/common.js" type="text/javascript" charset="utf-8"></script>
 <script src="__PUBLIC__/js/app.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/js/admin.js" type="text/javascript" charset="utf-8"></script>
 <block name='js'></block>
 
 </body>
