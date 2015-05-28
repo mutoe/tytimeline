@@ -1,12 +1,5 @@
 <extend name="Common:base" />
 
-禁止首页缓存，以防止图片数据刷新时布局混乱的问题
-<block name="meta">
-<meta http-equiv="pragma" content="no-cach" />
-<meta http-equiv="cache-control" content="no-cache" />
-<meta http-equiv="expires" content="0" />
-</block>
-
 <block name="banner">
 <div id="top-banner" class="am-slider am-slider-default" data-am-flexslider="{slideshowSpeed: 7500,controlNav: false,directionNav: false}">
   <ul class="am-slides">
@@ -128,5 +121,42 @@
 			});
 		}
 	}
+</script>
+</block>
+
+首页缓存修正
+<block name="meta">
+<script type="text/javascript">
+/**
+ * cookie 操作
+ * @param {String} name
+ * @param {String} value
+ * @param {Number} expiresHours
+ */
+function addCookie(name,value,expiresHours) {
+	var cookieString = name +"="+ escape(value);
+	//判断是否设置过期时间
+	if(expiresHours > 0) {
+		var date = new Date();
+		date.setTime(date.getTime + expiresHours * 3600 * 1000);
+		cookieString = cookieString +"; expires="+ date.toGMTString();
+	}
+	document.cookie = cookieString;
+}
+
+function getCookie(name){
+	var strCookie = document.cookie;
+	var arrCookie = strCookie.split("; ");
+	for(var i = 0; i < arrCookie.length; i++){
+		var arr = arrCookie[i].split("=");
+		if(arr[0] == name) return arr[1];
+	}
+	return "";
+}
+
+if (getCookie("timeline-index-cache") != 1 ) {
+	addCookie("timeline-index-cache", 1, 3/60);
+	location.reload(true);
+}
 </script>
 </block>

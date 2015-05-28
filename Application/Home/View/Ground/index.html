@@ -11,23 +11,23 @@
 				</span>
 				<hr />
 				<ul>
-					<li><a href="/new">最新</a></li>
-					<li><a href="/hot">最热</a></li>
-					<li><a href="/rand">随机推荐</a></li>
+					<li><a href="__ROOT__/new">最新</a></li>
+					<li><a href="__ROOT__/hot">最热</a></li>
+					<li><a href="__ROOT__/rand">随机推荐</a></li>
 				</ul>
 			</div>
 		</li>
 		<volist name="data" id="vo">
 		<li class="wookmark-box">
 			<div class="share">
-				<div class="author"><a href="/user/{$vo['user_id']}">@{$vo.user_id|get_nickname}</a></div>
+				<div class="author"><a href="__ROOT__/user/{$vo['user_id']}">@{$vo.user_id|get_nickname}</a></div>
 				<div class="media am-g">
 					<div class="am-u-sm-12">
 						<div class="tag am-hide-sm-only">{$vo.tag_id|show_tag}</div>
-						<a class="am-show-sm-down" href="/{$vo.share_id}">
+						<a class="am-show-sm-down" href="__ROOT__/{$vo.share_id}">
 							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
 						</a>
-						<a class="am-show-md-up" href="/{$vo.share_id}">
+						<a class="am-show-md-up" href="__ROOT__/{$vo.share_id}">
 							<img class="lazy"
 							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
 							data-original="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail|substring='50'}</div>
 				<div class="detail am-show-md-up" style="max-width: 254px;">{$vo.detail|substring='80'}</div>
-				<div class="detail" style="color: #555;">分享在 <a href="/catalog/{$vo['catalog_id']}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
+				<div class="detail" style="color: #555;">分享在 <a href="__ROOT__/catalog/{$vo['catalog_id']}">{$vo.catalog_id|get_catalog_name}</a> 于 {$vo.create_time|get_timing}前</div>
 				<div class="comment"></div>
 			</div>
 		</li>
