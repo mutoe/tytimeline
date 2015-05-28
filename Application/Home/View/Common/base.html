@@ -30,7 +30,7 @@
 
 <header id="head-topbar" class="am-topbar am-topbar-inverse" <block name='top-fixed'>data-am-sticky</block> >
   <h1 class="am-topbar-brand am-hide-md-only" style="color: white;">
-  	<a href="/" class="am-text-ir">天佑时光轴</a>
+  	<a href="__ROOT__/" class="am-text-ir">天佑时光轴</a>
   </h1>
 
   <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}">
@@ -45,11 +45,11 @@
 
   <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
     <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li class="header-Index am-hide-lg-only"><a href="__ROOT__/"><i class="am-icon-home"></i> 天佑时光轴</a></li>
+      <li class="header-Index am-show-lg-only"><a href="__ROOT__/"><i class="am-icon-home"></i> 首页</a></li>
+      <li class="header-Ground"><a href="__ROOT__/new"><i class="am-icon-leaf"></i> 广场</a></li>
+      <li class="header-Tag"><a href="__ROOT__/tag"><i class="am-icon-tags"></i> 标签</a></li>
       <li class="header-Time"><a href="{:U('Time/index')}"><i class="am-icon-clock-o"></i> 时光</a></li>
-      <li class="header-Index am-hide-lg-only"><a href="/"><i class="am-icon-home"></i> 天佑时光轴</a></li>
-      <li class="header-Index am-show-lg-only"><a href="/"><i class="am-icon-home"></i> 首页</a></li>
-      <li class="header-Ground"><a href="/new"><i class="am-icon-leaf"></i> 广场</a></li>
-      <li class="header-Tag"><a href="/tag"><i class="am-icon-tags"></i> 标签</a></li>
     </ul>
 
     <form class="am-topbar-form am-topbar-right am-form-inline am-show-lg-only" role="search" >
@@ -64,14 +64,14 @@
         	其他 <span class="am-icon-caret-down"></span>
         </button>
         <ul class="am-dropdown-content">
-        	<li><a href="/rand"><i class="am-icon-cube"></i> 试试手气</a></li>
+        	<li><a href="__ROOT__/rand"><i class="am-icon-cube"></i> 试试手气</a></li>
         <if condition="!is_login()">
         	<li><a href="javascript: void(0);" onclick="modalSign()"><i class="am-icon-terminal"></i> 注册</a></li>
         <else />
         <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
-          <li><a href="{:U('Admin/index')}"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
+          <li><a href="{:U('Admin/index')}" target="_blank"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
         </if>
-          <li><a href="/user"><i class="am-icon-user"></i> 个人中心</a></li>
+          <li><a href="__ROOT__/user"><i class="am-icon-user"></i> 个人中心</a></li>
           <li><a href="javascript: void(0);" onclick="checkLogout()"><i class="am-icon-sign-out"></i> 安全退出</a></li>
         </if>
           <li><a href="http://ty.cqjtu.edu.cn"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>

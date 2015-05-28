@@ -185,9 +185,9 @@ function show_tag($json, $color = true, $css = false) {
 					$result .= '<button alt="点击添加到标签" data-tag-id="'.$tag_value['tag_name'].'" class="tag-badge am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</button>&nbsp;';
 				} else {
 					if( C("URL_MODEL") == 1 ) {
-						$result .= '<a href="/index.php/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
+						$result .= '<a href="'.__ROOT__.'/index.php/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
 					} else {
-						$result .= '<a href="/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
+						$result .= '<a href="'.__ROOT__.'/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
 					}
 				}
 			}

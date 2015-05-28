@@ -8,7 +8,7 @@ return array(
 	'URL_MODEL'					=> '2', // URL模式
 
 	'TMPL_PARSE_STRING'	=> array(
-     '__ROOT__' => './',
+     '__ROOT__' => '',
 	),
 
 	// 数据库配置信息
