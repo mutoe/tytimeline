@@ -12,6 +12,15 @@ class CommonController extends Controller {
 	}
 
 	/**
+	 * 异步获取用户名
+	 */
+	public function get_nickname($user_id = 0) {
+		if(!IS_AJAX) $this -> error("非法请求！");
+		$nickname = get_nickname($user_id);
+		$this -> success($nickname);
+	}
+
+	/**
 	 * IE9 友好弹出
 	 */
 	public function fuckIE() {

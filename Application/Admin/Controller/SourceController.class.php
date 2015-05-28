@@ -172,11 +172,10 @@ class SourceController extends BaseController {
 		} else {
 			// 写入数据库
 			$banner = M('banner');
-			$user_id = is_login();
 			$data = array(
-				'source' => $user_id,
 				'savename' => $info['savename'],
 				'create_time' => time(),
+				'create_user' => is_login(),
 				'status' => '-1',
 			);
 			$result = $banner -> add( $data );//return $banner_id
@@ -193,6 +192,8 @@ class SourceController extends BaseController {
 		$banner = M('banner');
 		$data = $banner -> find($banner_id);
 		if(I('post.w') > 0) {
+			$user_id = I('post.source', 0) ? I('post.source') : is_login();
+
 			$image = new \Think\Image();
 			$image -> open('./public/img/banner/'. $data['savename']);
 
@@ -226,6 +227,7 @@ class SourceController extends BaseController {
 			$image -> save('./public/img/banner/t_'. $data['savename'] );
 
 			//更改轮播图状态
+			$banner -> where('banner_id=%d', $banner_id) -> setField('source', $user_id);
 			$banner -> where('banner_id=%d', $banner_id) -> setField('status', 1);
 
 			$this -> success('成功了', U('banner'));
@@ -238,4 +240,22 @@ class SourceController extends BaseController {
 		}
 	}
 
+	public function bannerModi($banner_id = 0) {
+		if(!$banner_id) $this -> error('参数错误！');
+		$banner = M('banner');
+		$data = $banner -> find($banner_id);
+		$this -> assign('data', $data);
+
+		$this -> display();
+	}
+
+	public function bannerModiSubmit($banner_id = 0) {
+		if(!$banner_id) $this -> error('参数错误！');
+		$banner = M('banner');
+		$data = I('post.');
+		$data['banner_id'] = $banner_id;
+		$result = $banner -> save($data);
+		if($result !== false) $this -> success("修改成功");
+		else $this -> error( $banner -> getError() );
+	}
 }

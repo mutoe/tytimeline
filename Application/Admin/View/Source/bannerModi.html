@@ -1,0 +1,86 @@
+<extend name='Common:base' />
+
+<block name='main'>
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">轮播图</strong> / <small>Banner</small>
+		</div>
+	</div>
+
+	<div class="am-tabs am-margin" data-am-tabs>
+		<ul class="am-tabs-nav am-nav am-nav-tabs">
+			<li class="am-active"><a href="#tab1">修改轮播图</a></li>
+		</ul>
+
+		<div class="am-tabs-bd">
+			<div class="am-tab-panel am-fade am-in am-active" id="tab1">
+				<form class="am-form" method="post">
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">ID</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" value="{$data.banner_id}" readonly></div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">引用源</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" value="{$data.source}:{$data.source|get_nickname}" readonly></div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">状态</div>
+						<div class="am-u-sm-4 am-u-end">
+							<div class="am-btn-group am-btn-group-sm doc-js-btn-1" data-am-button>
+							  <label data-status="1" class="am-btn am-btn-primary"><input type="radio" name="status" value="1"> 正常</label>
+							  <label data-status="0" class="am-btn am-btn-primary"><input type="radio" name="status" value="0"> 隐藏</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">权重</div>
+						<div class="am-u-sm-4 am-u-end"><input type="number" class="am-input-sm" name="sort" value="{$data.sort}"></div>
+					</div>
+
+					<div class="am-u-sm-3 am-u-end am-margin-top">
+						<input type="submit" value="提交" class="am-btn am-btn-block am-btn-primary" onclick="return submitFun()" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+  $(function() {
+  	el = $(".doc-js-btn-1").children('label[data-status="{$data.status}"]');
+  	el.addClass("am-active");
+  	el.children('input').attr('checked','checked');
+  });
+
+  function submitFun() {
+    var $radios = $('input[name="status"]');
+  	console.log($(".am-form").serialize());
+
+  	$.ajax({
+  		type: "post",
+  		url: "{:U('bannerModiSubmit')}?banner_id={$data.banner_id}",
+			data: $(".am-form").serialize(),
+			success: function(data) {
+				if (data.status) {
+					modalPopup(data.info);
+					setTimeout(function() {
+						location.href = "{:U('banner')}";
+					}, 1000);
+				} else {
+					modalPopup("出错了:"+ data.info ,false);
+				}
+			}
+  	});
+  	return false;
+  }
+</script>
+</block>
