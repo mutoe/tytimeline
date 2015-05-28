@@ -5,7 +5,7 @@ class IndexController extends BaseController {
 	public function index() {
 		// 初始化首页轮播图
 		$banner = M('banner');
-		$ban = $banner -> where('status=1') -> order('sort desc') -> select();
+		$ban = $banner -> where('status=1') -> order('sort desc,create_time desc') -> select();
 		$this -> assign('banner', $ban);
 
 		//获取分类列表

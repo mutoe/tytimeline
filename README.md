@@ -11,6 +11,7 @@ Update Log
 * 增加了banner管理面板
 
 ### fixed ###
+* 修正了首页轮播图排序问题
 * 修正了__ROOT__地址问题
 * 修复了banner引用用户水印问题
 
