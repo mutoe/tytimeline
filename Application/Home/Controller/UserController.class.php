@@ -100,4 +100,32 @@ class UserController extends BaseController {
 		$this -> display();
 	}
 
+	/**
+	 * 已经收藏的分享
+	 */
+	public function like($user_id = 0) {
+		if(!$user_id) $user_id = is_login();
+		if(!$user_id) $this -> error("要收藏分享，请先登陆！", U('Login/index'));
+
+		// 加载个人信息
+		$user = M('user');
+		$data = $user -> where('user_id=%d',$user_id) -> field('password,email', true) -> find();
+		$user_info = M('user_info');
+		$user_info_data = $user_info -> where('user_id=%d',$user_id) -> find();
+		$this -> assign('user', $data);
+		$this -> assign('user_info', $user_info_data);
+
+		// 获取收藏列表
+		$user_info = M('user_info');
+		$like_share = $user_info -> where('user_id=%d', $user_id) -> getField('like_share');
+
+		$list = json_decode($like_share);
+		$share = M('share');
+		$map['share_id'] = array('IN', $list);
+		$data = $share -> where($map) -> select();
+		$this -> assign('list', $data);
+
+		$this -> display();
+	}
+
 }

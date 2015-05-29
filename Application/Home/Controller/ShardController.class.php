@@ -224,6 +224,7 @@ class ShardController extends BaseController {
 		$user_id = is_login();
 		if(!$user_id) $this -> error('请先登录');
 
+
 		$user_info = M('user_info');
 		$like_list = $user_info -> where('user_id=%d', $user_id) -> getField('like_share');
 		$like_array = json_decode($like_list);
@@ -233,7 +234,7 @@ class ShardController extends BaseController {
 
 			// 如果喜欢过了，那么取消喜欢
 			foreach ($like_array as $key=>$value) if($value == $share_id) {
-				unset($like_array[$key]);
+				array_splice($like_array, $key, 1);
 				$flag = false;
 				break;
 			}

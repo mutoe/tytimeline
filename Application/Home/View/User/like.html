@@ -1,11 +1,13 @@
 <extend name="Common:base" />
 
 <block name="main">
-<div class="am-g am-g-fixed">
-	<h3>个人中心</h3>
+<div class="am-g am-g-fixed am-margin-top-xl">
 	<ul id="wookmark" class="am-center" style="padding: 0;">
 		<li class="wookmark-box">
 			<section class="am-panel am-panel-default user-info-box" style="margin-bottom: 0;">
+				<div class="am-panel-bd">
+					<h3>{$user.user_id|get_nickname}的收藏</h3>
+				</div>
 	      <div class="am-panel-hd">
 	      	<span class="am-badge-primary am-badge am-show-sm-only">{$user.user_id|get_usergroup=0}</span><a href="__ROOT__/user/{$user.user_id}" class="am-show-sm-only am-text-xs">@{$user.user_id|get_nickname}</a>
 	      	<a href="__ROOT__/user/{$user.user_id}" class="am-show-md-up"><span class="am-badge-primary am-badge">{$user.user_id|get_usergroup=0}</span> @{$user.user_id|get_nickname}</a>
@@ -29,17 +31,13 @@
 	      	</ul>
 	      	<hr />
 	        <p style="text-indent: 1.5em;">{$user_info.detail|default="碎片主人很懒，什么也没有留下。"}</p>
-	        <if condition="$user_info['user_id'] eq is_login()">
-	        <hr />
-	        <a class="am-btn am-btn-primary am-btn-sm" href="{:U('User/modiUserInfo')}">修改个人信息</a>
-	        </if>
 	      </div>
 	    </section>
 		</li>
-		<volist name="share" id="vo">
+		<volist name="list" id="vo">
 		<li class="wookmark-box">
 			<div class="share">
-				<div class="author am-show-md-up">发表于 {$vo.create_time|get_timing}前</div>
+				<div class="author am-show-md-up"><a href="__ROOT__/user/{$vo.user_id}">@{$vo.user_id|get_nickname}</a> 发表于 {$vo.create_time|get_timing}前</div>
 				<div class="author am-show-sm-only"> {$vo.create_time|get_timing}前</div>
 				<div class="media am-g">
 					<div class="am-u-sm-12">
@@ -55,7 +53,13 @@
 				</div>
 				<div class="tool-bar">
 					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
-					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
+					<button class="am-badge am-round am-badge-danger like-btn" onclick="like({$vo.share_id},this);">
+						<if condition="get_like_status($vo['share_id'])">
+							<i class="am-icon-heart"></i>
+						<else />
+							<i class="am-icon-heart-o"></i>
+						</if>
+					</button>
 				</div>
 				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail|substring='50'}</div>
 				<div class="detail am-show-md-up" style="max-width: 243px;">{$vo.detail|substring='80'}</div>

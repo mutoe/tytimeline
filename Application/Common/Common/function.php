@@ -25,6 +25,7 @@ function get_usergroup($user_id = 0, $show_id = true) {
 	$result = $group -> where('group_id=%d', $groupid) -> getField('name');
 	return $result;
 }
+
 function devide_month($ym) {
 	$year = substr($ym, 0, 4);
 	$month = substr($ym, 4, 2);
@@ -223,7 +224,7 @@ function get_like_status($share_id = 0, $user_id = 0) {
 
 	$user = M('user_info');
 	$like_str = $user -> where('user_id=%d', $user_id) -> getField('like_share');
-	$like_arr = explode(',', $like_str);
+	$like_arr = json_decode($like_str);
 	return in_array($share_id, $like_arr);
 }
 
