@@ -65,7 +65,7 @@ class LoginController extends BaseController {
 				if($uid > 0) {
 					$username = strtolower($username);
 					$this -> sign_from_uc($uid, $username, $uc_password, $email);
-					$this -> init_user_info($uid);//初始化用户信息
+					$this -> init_user_info($uid);	// 初始化用户信息
 
 					// 开始登陆
 					//if(I('post.remember-me')){
@@ -135,5 +135,44 @@ class LoginController extends BaseController {
 		}
 	}
 
+	/**
+	 * 外网用户注册
+	 */
+	public function register() {
+		$this -> display();
+	}
+
+	public function checkRegister() {
+		$data = I('post.');
+
+		// 检查用户名密码是否被占用
+		$uc = new \Ucenter\Client\Client();
+		$temp['email'] = mb_convert_encoding($data['email'],'gbk','utf-8');
+		$ucresult = uc_user_checkemail($temp['email']);
+		if($ucresult == -6) $this -> error('该 Email 已经被注册');
+		$temp['nickname'] = mb_convert_encoding($data['nickname'],'gbk','utf-8');
+		$ucresult = uc_user_checkname($temp['nickname']);
+		if($ucresult == -3) $this -> error('用户名已经存在');
+
+		// 通过检查，开始注册
+		$user = M("User");
+		$max_id = $user -> max('user_id');
+		if($max_id < 10000000) $uid = 10000001;
+		else $uid = $max_id++;
+		$data['user_id'] = $uid;
+		$data['nickname'] = $data['nickname'];
+		$data['password'] = md5($data['password']);
+		$data['email'] = $data['email'];
+		$data['create_time'] = time();
+		$data['lastlogin_time'] = time();
+		$data['group_id'] = 9;	// 设置用户组为非在校用户
+		$result = $user -> add($data);
+		if($result) {
+			$this -> init_user_info($uid);	// 初始化用户信息
+			$this -> success($uid);
+		} else {
+			$this -> error("数据写入失败");
+		}
+	}
 
 }

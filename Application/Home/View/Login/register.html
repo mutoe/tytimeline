@@ -1,0 +1,51 @@
+<extend name="Common:base" />
+
+<block name="main">
+<div class="am-g am-g-fixed">
+
+<div class="am-u-md-8 am-u-sm-10 am-u-sm-centered">
+  <h2 class="am-padding-top">非在校用户注册</h2>
+  <p><span class="am-text-warning">请注意:从此入口进行注册登陆在发表分享时会受到内容审核限制。</span><a href="http://bbs.cqjtu.edu.cn/register.php" target="_blank">移步在校注册入口</a></p>
+  <hr />
+  <form method="post" class="am-form" data-am-validator>
+  	<fieldset>
+	    <label for="email">邮箱:</label>
+	    <input type="email" name="email" id="email" required />
+	    <label class="am-padding-top" for="nickname">用户名:</label>
+	    <input type="text" name="nickname" id="nickname" minlength="2" maxlength="24">
+	    <label class="am-padding-top" for="passwd">密码:</label>
+	    <input type="password" name="password" id="passwd" minlength="6" maxlength="16">
+	    <div class="am-padding-top">
+	      <input type="submit" value="注册" class="am-btn am-btn-primary" onclick="return register();">
+	    </div>
+    </fieldset>
+  </form>
+  <hr>
+</div>
+
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+	function register() {
+		$.ajax({
+			type:"post",
+			url:"{:U('Login/checkRegister')}",
+			data: $(".am-form").serialize(),
+			success: function(data) {
+				console.log(data);
+				if(data.status) {
+					modalPopup("注册成功！");
+					setTimeout(function() {
+						modalLogin();
+					}, 1200);
+				} else {
+					modalPopup("注册失败:"+ data.info, false);
+				}
+			}
+		});
+		return false;
+	}
+</script>
+</block>
