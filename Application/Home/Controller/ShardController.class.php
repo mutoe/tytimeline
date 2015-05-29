@@ -258,15 +258,6 @@ class ShardController extends BaseController {
 	}
 
 	/**
-	 * 试试手气
-	 */
-	public function random() {
-		$share = M('share');
-		$share_id = $share -> order('Rand()') -> limit(1) -> getField('share_id');
-		$this -> redirect('Shard/detail','id='.$share_id);
-	}
-
-	/**
 	 * 提交评论
 	 */
 	public function submit_comment($share_id = 0) {
