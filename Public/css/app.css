@@ -320,4 +320,7 @@ footer .footer-link {
 .index-catalog .content .body .empty {
   padding: 10px;
 }
+.user-modi-user-info > div {
+  background-color: white;
+}
 /*# sourceMappingURL=app.css.map */

@@ -29,7 +29,7 @@
 	        <p>&nbsp;&nbsp;&nbsp;{$user_info.detail|default="碎片主人很懒，什么也没有留下。"}</p>
 	        <if condition="$user_info['user_id'] eq is_login()">
 	        <hr />
-	        <p class="am-text-sm">修改个人信息请移步 <a href="http://bbs.cqjtu.edu.cn/memcp.php">论坛-个人中心</a> 。</p>
+	        <a class="am-btn am-btn-primary am-btn-sm" href="{:U('User/modiUserInfo')}">修改个人信息</a>
 	        </if>
 	      </div>
 	    </section>

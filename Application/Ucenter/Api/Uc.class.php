@@ -117,36 +117,36 @@ abstract class Uc extends Controller{
 		}
 		return 1;
 	}
-	
+
 	public function synlogout() {
 		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
 		dsetcookie('Example_auth', '', -86400 * 365);
 	}
-	
+
 	public function updatebadwords() {
 		$cachefile = APP_PATH.'Ucenter/Client/uc_client/data/cache/badwords.php';
 		$s = "<?php\r\n";
 		$s .= '$_CACHE[\'badwords\'] = '.var_export($this->post, TRUE).";\r\n";
 		file_put_contents($cachefile,$s);
-		return 1;			
-	}	
-	
+		return 1;
+	}
+
 	public function updatehosts() {
 		$cachefile = APP_PATH.'Ucenter/Client/uc_client/data/cache/hosts.php';
 		$s = "<?php\r\n";
 		$s .= '$_CACHE[\'hosts\'] = '.var_export($this->post, TRUE).";\r\n";
 		file_put_contents($cachefile,$s);
-		fclose($fp);		
+		fclose($fp);
 	}
-	
+
 	public function updateapps() {
 		$cachefile = APP_PATH.'Ucenter/Client/uc_client/data/cache/apps.php';
 		$s = "<?php\r\n";
 		$s .= '$_CACHE[\'apps\'] = '.var_export($this->post, TRUE).";\r\n";
 		file_put_contents($cachefile,$s);
-		return 1;		
-	}	
-	
+		return 1;
+	}
+
 	public function updateclient() {
 		$cachefile = APP_PATH.'Ucenter/Client/uc_client/data/cache/setting.php';
 		$s = "<?php\r\n";
@@ -154,6 +154,6 @@ abstract class Uc extends Controller{
 		file_put_contents($cachefile,$s);
 		return 1;
 	}
-	
+
 }
 
