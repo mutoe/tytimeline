@@ -221,43 +221,39 @@ class ShardController extends BaseController {
 	 */
 	public function like($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
-		if(!is_login()) $this -> error('请先登录');
+		$user_id = is_login();
+		if(!$user_id) $this -> error('请先登录');
+
 		$user_info = M('user_info');
-		$like_list = $user_info -> where('user_id=%d', is_login()) -> getField('like_share');
-		$like_array = explode(',', $like_list);
+		$like_list = $user_info -> where('user_id=%d', $user_id) -> getField('like_share');
+		$like_array = json_decode($like_list);
+
 		// 取得喜欢状态
-		$flag = true;
-		foreach ($like_array as $key => $value) {
+		if( in_array($share_id, $like_array) ) {
+
 			// 如果喜欢过了，那么取消喜欢
-			if($value == $share_id) {
-				unset($like_array[$key]);	// 移出此元素
-				$like_list = implode(',', $like_array);
+			foreach ($like_array as $key=>$value) if($value == $share_id) {
+				unset($like_array[$key]);
 				$flag = false;
 				break;
 			}
-		}
-		//“喜欢”操作
-		if($flag) {
-			$like_list .= ','.$share_id;
-			$like_list = trim($like_list,',');
-		}
-		// 保存数据
-		$data['user_id'] = is_login();
-		$data['like_share'] = $like_list;
-		$result = $user_info -> save($data);
-		if($result) {
-			// 碎片表被喜欢数更新
-			$share = M('share');
-			if($flag) $result = $share -> where('share_id=%d',$share_id) -> setInc('be_like');
-			else $result = $share -> where('share_id=%d',$share_id) -> setDec('be_like');
-
-			if($result) {
-				$this -> success($flag ?"1":"0");
-			} else {
-				$this -> error('数据表更新出错,请联系管理员:'.$share -> getDbError());
-			}
 		} else {
-			$this -> error("用户数据出错了,请联系管理员:".$user_info -> getDbError());
+			// 还没喜欢，写入数据
+			array_push($like_array, $share_id);
+			$flag = true;
+		}
+		$like_list = json_encode($like_array);	// 封装数据
+
+		// 保存数据
+		$result = $user_info -> where('user_id=%d', $user_id) -> setField('like_share', $like_list);
+		if($result) {
+
+			// 数据更新
+			$this -> refreshTotalShare($share_id);
+
+			$this -> success($flag ?"1":"0");
+		} else {
+			$this -> error("出错了:".$user_info -> getError());
 		}
 	}
 
