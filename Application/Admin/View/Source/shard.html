@@ -19,6 +19,7 @@
 					<thead>
 						<tr>
 							<th class="table-id">ID</th>
+							<th class="table-id">缩略图</th>
 							<th class="table-type">分类</th>
 							<th class="table-type">标签</th>
 							<th class="table-title">描述</th>
@@ -31,6 +32,7 @@
 					<volist name="data" id="vo">
 						<tr>
 							<td><a href="{:U(Home/Shard/detail)}?share_id={$vo.share_id}"><span class="am-badge am-badge-primary am-text-sm am-round">{$vo.share_id}</span></a></td>
+							<td><a href="__PUBLIC__/{$vo.savepath}{$vo.savename}"><img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" style="max-height: 60px;" /></a></td>
 							<td>{$vo.catalog_id|get_catalog_name}</td>
 							<td>{$vo.tag_id|get_tag}</td>
 							<if condition="mb_strlen($vo['detail'],'utf-8') gt 16">
