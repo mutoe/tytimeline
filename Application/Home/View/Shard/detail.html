@@ -13,7 +13,11 @@
 <div class="content">
   <div class="am-u-md-9 share">
 		<div class="am-g page-title">
-			<h2 class="am-fl">时光碎片 {$data.share_id} : <span class="am-text-lg am-margin-left">{$data.tag_id|show_tag}</span></h2>
+			<h2 class="am-fl">
+				<span class="am-icon-fire am-text-danger am-margin-right"> {$data.heat} ℃</span>
+				时光碎片 {$data.share_id}
+				<span class="am-text-lg am-margin-left">{$data.tag_id|show_tag}</span>
+			</h2>
 	  	<if condition="get_auth('delete', 0, $data['share_id'])">
 	    <div class="am-btn-group am-btn-group-xs am-fr">
 			  <a href="{:U('Shard/modi','share_id='.$data['share_id'])}" class="am-btn am-radius am-btn-secondary">修改</a>
@@ -32,9 +36,23 @@
 			<a id="imgbox" href="__PUBLIC__/{$data.savepath}{$data.savename}" title="{$data.tag_id|get_tag}">
 				<img class="am-img-responsive" style="padding: 10px;background-color: white;" alt="{$data.tag_id|str2json|get_tag}" src="__PUBLIC__/{$data.savepath}{$data.savename}" />
 			</a>
-			<p style="padding: 8px;margin: 0;color: #555;">
-				<if condition="substr($data['time'],0,8) eq substr($data['create_time'],0,8)">上传<else />拍摄</if>于
-				{$data.time|time_format='Y 年 n 月 j 日 H:i'} ( {$data.time|get_timing}前 ) <span style="color: black;"> [ ↑ 点击上方查看大图 ↑ ] </span></p>
+			<div>
+				<p class="am-fl" style="padding: 8px;margin: 0;color: #555;">
+					<if condition="substr($data['time'],0,8) eq substr($data['create_time'],0,8)">上传<else />拍摄</if>于
+					{$data.time|time_format='Y 年 n 月 j 日 H:i'} ( {$data.time|get_timing}前 ) <span style="color: black;"> [ ↑ 点击上方查看大图 ↑ ] </span></p>
+				<div class="am-btn-group am-btn-group-sm am-fr am-padding-top-xs">
+					<span class="am-badge am-round"><i class="am-icon-heart"></i> {$data.be_like}</span>
+					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$data.click}</span>
+					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$data.total_comments}</span>
+					<button class="am-badge am-round am-badge-danger like-btn" onclick="like({$data.share_id},this);">
+						<if condition="get_like_status($data['share_id'])">
+							已收藏 <i class="am-icon-heart"></i>
+						<else />
+							喜欢 <i class="am-icon-heart-o"></i>
+						</if>
+					</button>
+				</div>
+			</div>
   	</div>
   	<if condition="strlen($data['detail']) gt 0">
 		<div class="am-g">

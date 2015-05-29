@@ -28,4 +28,14 @@ class BaseController extends CommonController {
 		echo file_get_contents($url);
 	}
 
+	protected function setHeat() {
+		$share = M('share');
+		$list = $share -> getField('share_id', true);
+		$shard = A('Shard');
+		foreach ($list as $value) {
+			$result = $shard -> get_heat($value);
+		}
+		$list = $share -> getField('share_id,heat');
+	}
+
 }

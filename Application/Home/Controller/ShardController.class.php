@@ -7,12 +7,16 @@ class ShardController extends BaseController {
 	 */
 	public function detail($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
-		$share = M('share');
+
+		// 刷新分享数据
+		$this -> get_heat($share_id);					// 刷新热度
+		$this -> refreshShareData($share_id);	// 刷新分享数据
 
 		// 获取分享详情
+		$share = M('share');
 		$data = $share -> find($share_id);
 		if(!$data) $this -> error('抱歉，该条数据不存在，它可能已被删除');
-		$share -> where('share_id=%d', $share_id) -> setInc('click');	// 点击量自增
+		$share -> where('share_id=%d', $share_id) -> setInc('click', 1, 30);	// 点击量自增
 		$this -> assign('data', $data);
 
 		// 获取评论
@@ -38,6 +42,47 @@ class ShardController extends BaseController {
 		$this -> assign('rand', $rand);
 
 		$this -> display();
+	}
+
+	/**
+	 * 计算热度
+	 */
+	public function get_heat($share_id) {
+		$share = M('share');
+		$data = $share -> find($share_id);
+
+		$timing = ( time() - $data['create_time'] ) / 3600 / 24;	// 差值时间（天）
+		$click = $data['click'];																	// 点击量
+		$be_like = $data['be_like'];															// 被收藏数
+		$total_comment = $data['total_comments'];									// 被评论数
+		$new_share_fix = 100 * 7 / ( 7 + $timing );								// 新作修正系数
+		$during_fix = 90 / ( 90 + $timing );											// 旧作品修正系数
+
+		$heat = ( $click + $be_like*6 + $total_comment*4  + $new_share_fix ) * $during_fix;
+		$heat = 1 - 62 / ( 62 + $heat );
+		$heat = sprintf("%.1f", $heat * 100);
+		$result = $share -> where('share_id=%d', $share_id) -> setField('heat', $heat);
+		return $result ? $heat : false;
+	}
+
+	/**
+	 * 刷新分享数据
+	 */
+	public function refreshShareData($share_id) {
+		$share = M('share');
+		$data = $share -> find($share_id);
+
+		// 刷新评论数
+		$comment = M('comment');
+		$data['total_comments'] = $comment -> where('share_id=%d', $share_id) -> count();
+
+		// 刷新喜欢数
+		$user_info = M('user_info');
+		$map['like_share'] = array('LIKE', '%"'.$share_id.'"%');
+		$data['be_like'] = $user_info -> where($map) -> count();
+
+		$result = $share -> field('share_id,total_comments,be_like') -> save($data);
+		return $result;
 	}
 
 	/**
