@@ -70,9 +70,6 @@
         <if condition="!is_login()">
         	<li><a href="javascript: void(0);" onclick="modalSign()"><i class="am-icon-terminal"></i> 注册</a></li>
         <else />
-        <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
-          <li><a href="{:U('Admin/index')}" target="_blank"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
-        </if>
           <li><a href="__ROOT__/user"><i class="am-icon-user"></i> 个人中心</a></li>
           <li><a href="javascript: void(0);" onclick="checkLogout()"><i class="am-icon-sign-out"></i> 安全退出</a></li>
         </if>
@@ -81,9 +78,12 @@
       </div>
     </div>
     <div class="am-topbar-right am-hide-sm-only" >
+    <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
+  		<a class="am-topbar-btn am-btn-sm am-btn" href="{:U('Admin/index')}" target="_blank"><i class="am-icon-external-link-square"></i> 进入后台</a>
+    </if>
     <if condition="is_login()">
-    	<a class="am-topbar-btn am-btn-sm am-btn" href="/user" style="color: white;">
-				<span style="color: #0D86C4;">{:get_usergroup(0,0)}</span> {:get_nickname()}
+    	<a class="am-topbar-btn am-btn-sm am-btn" href="__ROOT__/user" style="color: white;">
+				<span class="am-text-warning">{:get_usergroup(0,0)}</span> {:get_nickname()}
     	</a>
   	</if>
   	<if condition="!is_login()">
