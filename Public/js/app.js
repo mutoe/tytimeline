@@ -14,8 +14,28 @@
 		scrollTop > 660 ? $("#returnTop").css("bottom", "30px") : $("#returnTop").css("bottom", "-100px");
 	});
 
+	$("#search-box").children('input').on('focus', function() {
+		var el = $(this);
+		el.animate({width: '12em'}, 'fast');
+		el.next('button').fadeIn();
+	});
+	$("#search-box").children('input').on('blur', function() {
+		var el = $(this).next('button');
+		el.fadeOut();
+		el.prev('input').animate({width: '6em'}, 'fast');
+	});
+
 })(jQuery);
 
+/**
+ * 搜索
+ */
+function search() {
+	var content = $("#search-box").children('input').val();
+	console.log(content);
+	location.href = ROOT + "/search/" + content;
+	return false;
+}
 
 /**
  * “喜欢”

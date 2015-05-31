@@ -1,0 +1,132 @@
+<extend name='Common:base' />
+
+<block name="css">
+<style type="text/css">
+    body {
+    	background-image: url(__PUBLIC__/img/timeline-v2/bg.jpg);
+    	background-position: 30% 80%;
+    }
+</style>
+</block>
+
+<block name="search-box"></block>
+
+<block name="main">
+<div class="am-g am-g-fixed page-search">
+	<div class="am-u-sm-12 am-u-md-10 am-u-lg-8 am-u-sm-centered box am-margin-top-xl">
+		<form class="am-form">
+			<div class="am-input-group">
+	      <input type="text" class="am-form-field" id="search-content" value="{$content}" />
+	      <span class="am-input-group-btn">
+	        <button class="am-btn am-btn-primary" type="submit" onclick="return search()" style="width: 8em;">搜索</button>
+	      </span>
+    	</div>
+		</form>
+	</div>
+</div>
+
+<div class="am-g page-search">
+	<div class="am-u-sm-12 content">
+		<if condition="$count eq 0">
+		<h2 class="am-text-center">天佑时光轴</h2>
+		<h6 class="am-text-center">很抱歉，没能够为你找到相关信息...</h6>
+		<div class="am-u-sm-3 am-u-md-2 am-u-sm-centered"><button class="am-btn am-btn-secondary am-btn-block" onclick="history.go(-1)">返回</button></div>
+		<else />
+		<h6 class="am-text-center">共找到相关信息 {$count} 条，其中有
+			<if condition="count($user) gt 0"><span class="am-text-lg"> 用户 {$user|count} 个 </span></if>
+			<if condition="count($tag) gt 0"><span class="am-text-lg"> 标签 {$tag|count} 个 </span></if>
+			<if condition="count($share) gt 0"><span class="am-text-lg"> 分享 {$share|count} 条 </span></if>
+		</h6>
+			<ul id="wookmark" class="am-u-sm-12 am-u-md-10 am-u-sm-centered am-center" style="margin-top: 6rem;">
+				<volist name="user" id="vo">
+				<li class="wookmark-box">
+<section class="am-panel am-panel-default user-info-box" style="margin-bottom: 0;">
+  <div class="am-panel-hd">
+  	<span class="am-badge-primary am-badge am-show-sm-only">{$vo.user_id|get_usergroup=0}</span>
+  	<a href="__ROOT__/user/{$vo.user_id}" class="am-show-sm-only am-text-xs am-text-warning">@{$vo.user_id|get_nickname}</a>
+  	<a href="__ROOT__/user/{$vo.user_id}" class="am-show-md-up"><span class="am-badge-primary am-badge">{$vo.user_id|get_usergroup=0}</span> @{$vo.user_id|get_nickname}</a>
+  </div>
+  <div class="am-panel-bd">
+  	<ul class="am-avg-sm-3">
+  		<li><a href="__ROOT__/user/{$vo.user_id}" class="am-center am-text-center">
+  			<span class="am-center am-text-center"><i class="am-icon-puzzle-piece"></i>
+  			<span class="am-hide-sm-only">分享</span></span>{$vo.total_share}</a></li>
+  		<li><a href="{:U('user/like')}?user_id={$vo.user_id}" class="am-center am-text-center">
+  			<span class="am-center am-text-center"><i class="am-icon-eye"></i> <span class="am-hide-sm-only">收藏</span>
+  			</span>{:count(json_decode($vo['like_share']))-1}</a></li>
+  		<li><a class="am-center am-text-center">
+  			<span class="am-center am-text-center"><i class="am-icon-users"></i>
+  			<span class="am-hide-sm-only">粉丝</span></span>{$vo.fans}</a></li>
+  	</ul>
+  	<if condition="!empty($vo['detail'])">
+	  	<hr />
+	    <p style="text-indent: 1.5em;">{$vo.detail}</p>
+  	</if>
+  </div>
+</section>
+				</li>
+				</volist>
+				<volist name="tag" id="vo">
+				<li class="wookmark-box">
+					<div class="am-panel am-panel-default tag-box">
+					  <div class="am-panel-bd">
+							<a href="__ROOT__/tag/{$vo.tag_id}"><span class="am-badge am-text-lg am-badge-warning">{$vo.tag_name}</span></a>
+							<hr />
+					    该标签下有 {$vo.total_share} 个分享
+					  </div>
+					</div>
+				</li>
+				</volist>
+				<volist name="share" id="vo">
+				<li class="wookmark-box">
+					<div class="share">
+						<div class="author"><a href="__ROOT__/user/{$vo['user_id']}">@{$vo.user_id|get_nickname}</a></div>
+						<div class="media am-g">
+							<div class="am-u-sm-12">
+								<a href="__ROOT__/{$vo.share_id}">
+									<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
+								</a>
+							</div>
+						</div>
+						<div class="tool-bar am-hide-sm-only">
+							<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
+							<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
+							<button class="am-badge am-round am-badge-danger like-btn" onclick="like({$vo.share_id},this);">
+								<if condition="get_like_status($vo['share_id'])">
+									<i class="am-icon-heart"></i>
+								<else />
+									<i class="am-icon-heart-o"></i>
+								</if>
+							</button>
+						</div>
+						<div class="detail" style="max-width: 254px;">{$vo.detail}</div>
+					</div>
+				</li>
+				</volist>
+			</ul>
+		</if>
+	</div>
+
+</div>
+</block>
+
+<block name="js">
+<script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$('#wookmark li.wookmark-box').wookmark({
+		container: $('#wookmark'),
+		align: 'center',
+		autoResize: true,
+		offset: 16
+	});
+
+	function search() {
+		var content = $("#search-content").val();
+		location.href = ROOT + "/search/" + content;
+		return false;
+	}
+</script>
+</block>
+</block>
+
+<block name="footer"></block>

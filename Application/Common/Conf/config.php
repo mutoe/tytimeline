@@ -37,6 +37,7 @@ return array(
 
 		// 公共控制器
 	  'FuckIE'				=> array('Base/FuckIE'),
+	  'search/:content'	=> array('Search/search'),
 
 		// 广场
 	  'hot'						=> array('Ground/index', 'content=hot'),

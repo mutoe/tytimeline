@@ -29,6 +29,24 @@ body {
 .am-topbar-inverse {
   border-color: #fff;
 }
+#search-box {
+  position: relative;
+}
+#search-box button {
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  padding: 0.5em 0.75em;
+}
+.page-search .logo {
+  padding: 20px;
+}
+.page-search .box {
+  height: 100px;
+}
+.page-search .tag-box {
+  width: 254px;
+}
 ul.am-dropdown-content {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 100;

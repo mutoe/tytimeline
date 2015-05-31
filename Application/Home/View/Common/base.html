@@ -51,12 +51,14 @@
       <li class="header-Tag"><a href="__ROOT__/tag"><i class="am-icon-tags"></i> 标签</a></li>
       <li class="header-Time"><a href="{:U('Time/index')}"><i class="am-icon-clock-o"></i> 时光</a></li>
     </ul>
-
-    <form class="am-topbar-form am-topbar-right am-form-inline am-show-lg-only" role="search" >
-      <div class="am-form-group">
-        <input type="text" class="am-form-field am-input-sm" placeholder="搜索" style="height: 36px;">
+		<block name="search-box">
+    <form class="am-topbar-form am-topbar-right am-form-inline am-show-lg-only" role="search">
+      <div id="search-box" class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索" style="height: 36px;width: 6em;">
+        <button type="submit" class="am-btn am-btn-xs am-btn-primary" style="display: none;" onclick="return search()">搜索</button>
       </div>
     </form>
+		</block>
 
     <div class="am-topbar-right am-form-inline">
       <div class="am-dropdown am-hide-sm-only" data-am-dropdown="{boundary: '.am-topbar'}">
