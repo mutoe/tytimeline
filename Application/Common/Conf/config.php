@@ -51,7 +51,8 @@ return array(
 		'tag/:tag_id\d'	=> array('Tag/detail'),
 
 		// 用户
-		'user/:user_id\d'		=> array('User/index'),
+		'user/:user_id\d'				=> array('User/index'),
+		'user/like/:user_id\d'	=> array('User/like'),
 
 		// 分享
 		':share_id\d'		=> array('Shard/detail'),

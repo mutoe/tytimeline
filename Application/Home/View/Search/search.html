@@ -38,32 +38,9 @@
 			<if condition="count($share) gt 0"><span class="am-text-lg"> 分享 {$share|count} 条 </span></if>
 		</h6>
 			<ul id="wookmark" class="am-u-sm-12 am-u-md-10 am-u-sm-centered am-center" style="margin-top: 6rem;">
-				<volist name="user" id="vo">
+				<volist name="user" id="user_info">
 				<li class="wookmark-box">
-<section class="am-panel am-panel-default user-info-box" style="margin-bottom: 0;">
-  <div class="am-panel-hd">
-  	<span class="am-badge-primary am-badge am-show-sm-only">{$vo.user_id|get_usergroup=0}</span>
-  	<a href="__ROOT__/user/{$vo.user_id}" class="am-show-sm-only am-text-xs am-text-warning">@{$vo.user_id|get_nickname}</a>
-  	<a href="__ROOT__/user/{$vo.user_id}" class="am-show-md-up"><span class="am-badge-primary am-badge">{$vo.user_id|get_usergroup=0}</span> @{$vo.user_id|get_nickname}</a>
-  </div>
-  <div class="am-panel-bd">
-  	<ul class="am-avg-sm-3">
-  		<li><a href="__ROOT__/user/{$vo.user_id}" class="am-center am-text-center">
-  			<span class="am-center am-text-center"><i class="am-icon-puzzle-piece"></i>
-  			<span class="am-hide-sm-only">分享</span></span>{$vo.total_share}</a></li>
-  		<li><a href="{:U('user/like')}?user_id={$vo.user_id}" class="am-center am-text-center">
-  			<span class="am-center am-text-center"><i class="am-icon-eye"></i> <span class="am-hide-sm-only">收藏</span>
-  			</span>{:count(json_decode($vo['like_share']))-1}</a></li>
-  		<li><a class="am-center am-text-center">
-  			<span class="am-center am-text-center"><i class="am-icon-users"></i>
-  			<span class="am-hide-sm-only">粉丝</span></span>{$vo.fans}</a></li>
-  	</ul>
-  	<if condition="!empty($vo['detail'])">
-	  	<hr />
-	    <p style="text-indent: 1.5em;">{$vo.detail}</p>
-  	</if>
-  </div>
-</section>
+					<include file="Common/user" head="" btn="0" />
 				</li>
 				</volist>
 				<volist name="tag" id="vo">

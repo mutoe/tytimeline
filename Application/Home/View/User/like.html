@@ -4,37 +4,7 @@
 <div class="am-g am-g-fixed am-margin-top-xl">
 	<ul id="wookmark" class="am-center" style="padding: 0;">
 		<li class="wookmark-box">
-			<section class="am-panel am-panel-default user-info-box" style="margin-bottom: 0;">
-				<div class="am-panel-bd">
-					<h3>{$user.user_id|get_nickname}的收藏</h3>
-				</div>
-	      <div class="am-panel-hd">
-	      	<span class="am-badge-primary am-badge am-show-sm-only">{$user.user_id|get_usergroup=0}</span><a href="__ROOT__/user/{$user.user_id}" class="am-show-sm-only am-text-xs">@{$user.user_id|get_nickname}</a>
-	      	<a href="__ROOT__/user/{$user.user_id}" class="am-show-md-up"><span class="am-badge-primary am-badge">{$user.user_id|get_usergroup=0}</span> @{$user.user_id|get_nickname}</a>
-	      </div>
-	      <div class="am-panel-bd">
-	      	<ul class="am-avg-sm-3">
-	      		<li>
-	      			<a href="__ROOT__/user/{$user.user_id}" class="am-center am-text-center">
-	      				<span class="am-center am-text-center"><i class="am-icon-puzzle-piece"></i> <span class="am-hide-sm-only">分享</span></span>{$user_info.total_share}
-	      			</a>
-	      		</li>
-	      		<li>
-	      			<a href="{:U('user/like')}?user_id={$user.user_id}" class="am-center am-text-center">
-	      			<span class="am-center am-text-center"><i class="am-icon-eye"></i> <span class="am-hide-sm-only">收藏</span></span>{:count(json_decode($user_info['like_share']))-1}
-	      			</a>
-	      		</li>
-	      		<li>
-	      			<a class="am-center am-text-center"><span class="am-center am-text-center"><i class="am-icon-users"></i> <span class="am-hide-sm-only">粉丝</span></span>{$user_info.fans}
-	      			</a>
-	      		</li>
-	      	</ul>
-			  	<if condition="!empty($user_info['detail'])">
-				  	<hr />
-				    <p style="text-indent: 1.5em;">{$user_info.detail}</p>
-			  	</if>
-	      </div>
-	    </section>
+			<include file="Common/user" head="" btn="0" />
 		</li>
 		<volist name="list" id="vo">
 		<li class="wookmark-box">

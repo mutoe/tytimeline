@@ -109,17 +109,10 @@
 			</form>
 
     </div>
-  </div>
+</div>
 
   <div class="am-u-md-3 blog-sidebar other-info">
-  	<div class="box">
-    	<span class="am-badge-primary am-badge">{$data.user_id|get_usergroup=0}</span> <a href="__ROOT__/user/{$data['user_id']}">@{$data.user_id|get_nickname}</a><br />
-    	<span class="am-text-sm">关注：{$user.like|default='0'} 粉丝：{$user.fans} 分享：{$user.total_share}</span>
-	  	<if condition="!empty($user['detail'])">
-		  	<hr />
-		    <p style="text-indent: 1.5em;">{$user.detail}</p>
-	  	</if>
-  	</div>
+		<include file="Common/user" head="" btn="0" />
 
   	<div class="box am-margin-top">
   		<h5>{$user.user_id|get_nickname} 的近期分享</h5>
