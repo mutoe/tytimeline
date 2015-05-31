@@ -21,8 +21,10 @@
 	});
 	$("#search-box").children('input').on('blur', function() {
 		var el = $(this).next('button');
-		el.fadeOut();
-		el.prev('input').animate({width: '6em'}, 'fast');
+		setTimeout(function() {
+			el.fadeOut();
+			el.prev('input').animate({width: '6em'}, 'slow');
+		}, 1000);
 	});
 
 })(jQuery);
