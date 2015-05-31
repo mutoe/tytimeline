@@ -16,12 +16,46 @@
 
 
 <block name='main'>
-<div class="am-g am-g-fixed">
+<div class="am-g am-g-fixed am-padding-top-xl">
+
+	<!-- 标签模块 -->
+	<div class="am-u-sm-12 page-index am-margin-bottom-lg">
+		<div class="am-margin-top-lg am-margin-bottom-lg am-cf active-tag">
+			<div class="header">
+				<span class="title">热门标签&nbsp;&nbsp;&nbsp;</span>
+				<span class="more am-text-sm am-margin-left-sm"><a href="__ROOT__/tag"> 查看更多 <i class="am-icon-angle-double-right"></i></a></span>
+			</div>
+			<div class="body">
+				<ul class="am-avg-sm-2 am-avg-md-4">
+				<volist name="active_tag" id="tag">
+					<li class="am-margin-top content">
+						<div class="box">
+				  		<div class="info am-padding-top-sm am-padding-left-sm">
+								<a href="__ROOT__/tag/{$tag.tag_id}" title="{$tag.tag_id|str2json|get_tag}"><span class="am-badge am-text-lg am-badge-warning">{$tag.tag_id|str2json|get_tag}</span></a>
+								<span class="am-text-sm">该标签下共有 {$tag.total_share} 条分享</span>
+				  		</div>
+				  		<hr />
+				  		<ul class="new-share am-avg-sm-3">
+				  			<volist name="tag['hot_share']" id="vo">
+				  			<li class="pic">
+									<a href="__ROOT__/{$vo.share_id}" title="$vo.tag_id|get_tag">
+										<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" title="{$vo.tag_id|get_tag}" style='<gt name="vo.width" value="$vo.height">height<else />width</gt>: 100%;' />
+									</a>
+				  			</li>
+				  			</volist>
+				  		</ul>
+						</div>
+					</li>
+				</volist>
+				</ul>
+			</div>
+		</div>
+	</div>
 
 	<!-- 分类模块 -->
-		<foreach name="catalog" item="group" key="k">
-	<div class="am-u-sm-12 index-catalog am-margin-bottom-lg">
-		<div class="am-margin-top-lg am-margin-bottom-lg am-cf content">
+	<foreach name="catalog" item="group" key="k">
+	<div class="am-u-sm-12 page-index am-margin-bottom-lg">
+		<div class="am-margin-top-lg am-margin-bottom-lg am-cf catalog">
 			<div class="header">
 				<span class="title">{$group|get_catalog_name}&nbsp;&nbsp;</span>
 				<span class="more am-text-sm am-margin-left-sm"><a href="__ROOT__/catalog/{$group}"> 查看更多 <i class="am-icon-angle-double-right"></i></a></span>
@@ -44,8 +78,47 @@
 			</div>
 		</div>
 	</div>
-		</foreach>
+	</foreach>
 
+	<!-- 用户模块 -->
+	<div class="am-u-sm-12 page-index am-margin-bottom-lg">
+		<div class="am-margin-top-lg am-margin-bottom-lg am-cf active-user">
+			<div class="header">
+				<span class="title">活跃用户&nbsp;&nbsp;</span>
+				<!--<span class="more am-text-sm am-margin-left-sm"><a href="__ROOT__/user/{$group}"> 查看更多 <i class="am-icon-angle-double-right"></i></a></span>-->
+			</div>
+			<div class="body">
+				<ul class="am-avg-sm-2 am-avg-md-4">
+				<volist name="active_user" id="user_info">
+					<li class="am-margin-top content">
+						<div class="box">
+				  		<div class="info am-padding-top-sm am-padding-left-sm am-cf">
+								<a href="__ROOT__/user/{$user_info.user_id}" title="@{$user_info.user_id|get_nickname}"><img class="am-fl" src="{:U('Base/avatar','user_id='.$user_info['user_id'])}"/></a>
+								<div class="detail am-fl am-margin-left-sm">
+						  		<span class="am-badge-primary am-badge am-show-sm-only">{$user_info.user_id|get_usergroup=0}</span>
+						  		<a href="__ROOT__/user/{$user_info.user_id}" class="am-show-sm-only am-text-xs">@{$user_info.user_id|get_nickname}</a>
+		  						<a href="__ROOT__/user/{$user_info.user_id}" class="am-show-md-up"><span class="am-badge-primary am-badge">{$user_info.user_id|get_usergroup=0}</span><br /> @{$user_info.user_id|get_nickname}</a>
+								</div>
+				  		</div>
+				  		<hr />
+				  		<ul class="new-share am-avg-sm-3">
+				  			<volist name="user_info['new_share']" id="vo">
+				  			<li class="pic">
+									<a href="__ROOT__/{$vo.share_id}" title="$vo.tag_id|get_tag">
+										<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" title="{$vo.tag_id|get_tag}" style='<gt name="vo.width" value="$vo.height">height<else />width</gt>: 100%;' />
+									</a>
+				  			</li>
+				  			</volist>
+				  		</ul>
+				  		<hr />
+							<include file="Common/user" btn="2" head="" />
+						</div>
+					</li>
+				</volist>
+				</ul>
+			</div>
+		</div>
+	</div>
 
 </div>
 </block>
@@ -97,7 +170,7 @@
 		// 根据行数据处理
 		var parentWidth = $('.body').innerWidth();	// 获取父容器宽度
 		var ht = imgHeight;	// 初始图像高度
-		for (var i = 1 ; i < 4 ; i++ ) {
+		for (var i = 1 ; i < 3 ; i++ ) {
 			// 获取该行宽度，并计算出图像铺满时的高度
 			$(".media[data-row='"+ catalog[c] +"-"+ i +"']:last").each(function() {
 				var el = $(this);
@@ -113,8 +186,8 @@
 				el.css('float', 'left');
 			});
 		}
-		// 只显示三行
-		for (var i = 4 ; i <= r ; i++) {
+		// 只显示两行
+		for (var i = 3 ; i <= r ; i++) {
 			$(".media[data-row='"+ catalog[c] +"-"+ i +"']").each(function() {
 				var el = $(this);
 				el.addClass('am-hide');

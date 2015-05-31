@@ -289,13 +289,13 @@ footer .footer-link {
   padding: 0;
 }
 /* 广场页面横向瀑布流 */
-.index-catalog {
+.page-index {
   background-color: #f6f6f6;
 }
-.index-catalog h2 {
+.page-index h2 {
   color: white;
 }
-.index-catalog .content .header .title {
+.page-index .header .title {
   margin-left: 2px;
   padding: 4px 8px;
   width: 8em;
@@ -305,19 +305,19 @@ footer .footer-link {
   font-size: 18px;
   color: white;
 }
-.index-catalog .content .body {
+.page-index .catalog .body {
   padding: 1px;
 }
-.index-catalog .content .body .media {
+.page-index .catalog .body .media {
   position: relative;
   float: right;
   overflow: hidden;
   margin: 1px;
 }
-.index-catalog .content .body .media img {
+.page-index .catalog .body .media img {
   max-height: 300px;
 }
-.index-catalog .content .body .media .info {
+.page-index .catalog .body .media .info {
   font-size: 12px;
   position: absolute;
   top: -300px;
@@ -331,12 +331,38 @@ footer .footer-link {
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
-.index-catalog .content .body .media .info .detail {
+.page-index .catalog .body .media .info .detail {
   font-size: 16px;
   color: black;
 }
-.index-catalog .content .body .empty {
+.page-index .catalog .body .empty {
   padding: 10px;
+}
+.page-index .active-user .content,
+.page-index .active-tag .content {
+  padding: 8px;
+  border-right: 4px solid #ddd;
+}
+.page-index .active-user .content > .box,
+.page-index .active-tag .content > .box {
+  margin: 0 4px;
+}
+.page-index .active-user .content:nth-of-type(4n),
+.page-index .active-tag .content:nth-of-type(4n) {
+  border-right: 0px solid;
+  padding-right: 12px;
+}
+.page-index .active-user .content .pic,
+.page-index .active-tag .content .pic {
+  width: 83px;
+  height: 83px;
+  margin: 0 1px 1px 0;
+  overflow: hidden;
+}
+.page-index .active-user hr,
+.page-index .active-tag hr {
+  border-width: 4px 0 0;
+  border-color: #ddd;
 }
 .user-modi-user-info > div {
   background-color: white;

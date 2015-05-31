@@ -312,21 +312,21 @@ footer {
 }
 
 /* 广场页面横向瀑布流 */
-.index-catalog {
+.page-index {
     background-color: #f6f6f6;
     h2 {
         color: white;
     }
-    .content {
-        .header{
-            .title {
-                margin-left: 2px;
-                padding: 4px 8px;
-                width: 8em;height: 20px;line-height: 20px;
-                background: url(../img/flag-cutout.png) no-repeat scroll 100% 50% #0899D9;
-                font-size: 18px;color: white;
-            }
+    .header{
+        .title {
+            margin-left: 2px;
+            padding: 4px 8px;
+            width: 8em;height: 20px;line-height: 20px;
+            background: url(../img/flag-cutout.png) no-repeat scroll 100% 50% #0899D9;
+            font-size: 18px;color: white;
         }
+    }
+    .catalog {
         .body {
             padding: 1px;
             .media {
@@ -357,6 +357,28 @@ footer {
             .empty {
                 padding: 10px;
             }
+        }
+    }
+    .active-user,.active-tag {
+        .content {
+            padding: 8px;
+            border-right: 4px solid #ddd;
+            & > .box {
+                margin: 0 4px;
+            }
+            &:nth-of-type(4n) {
+                border-right: 0px solid;
+                padding-right: 12px;
+            }
+            .pic {
+                 width: 83px;height: 83px;
+                 margin: 0 1px 1px 0;
+                 overflow: hidden;
+            }
+        }
+        hr {
+            border-width: 4px 0 0;
+            border-color: #ddd;
         }
     }
 }

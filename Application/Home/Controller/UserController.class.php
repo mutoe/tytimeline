@@ -15,6 +15,7 @@ class UserController extends BaseController {
 		// 加载个人信息
 		$user = M('user');
 		$data = $user -> where('user_id=%d',$user_id) -> field('password,email', true) -> find();
+		if($data == false) $this -> error('该用户不存在！');
 		$user_info = M('user_info');
 		$user_info_data = $user_info -> where('user_id=%d',$user_id) -> find();
 		$this -> assign('user', $data);
