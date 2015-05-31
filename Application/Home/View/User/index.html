@@ -27,8 +27,10 @@
 	      			</a>
 	      		</li>
 	      	</ul>
-	      	<hr />
-	        <p style="text-indent: 1.5em;">{$user_info.detail|default="碎片主人很懒，什么也没有留下。"}</p>
+			  	<if condition="!empty($user_info['detail'])">
+				  	<hr />
+				    <p style="text-indent: 1.5em;">{$user_info.detail}</p>
+			  	</if>
 	        <if condition="$user_info['user_id'] eq is_login()">
 	        <hr />
 	        <a class="am-btn am-btn-primary am-btn-sm" href="{:U('User/modiUserInfo')}">修改个人信息</a>

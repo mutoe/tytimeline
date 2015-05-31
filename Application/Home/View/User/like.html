@@ -29,8 +29,10 @@
 	      			</a>
 	      		</li>
 	      	</ul>
-	      	<hr />
-	        <p style="text-indent: 1.5em;">{$user_info.detail|default="碎片主人很懒，什么也没有留下。"}</p>
+			  	<if condition="!empty($user_info['detail'])">
+				  	<hr />
+				    <p style="text-indent: 1.5em;">{$user_info.detail}</p>
+			  	</if>
 	      </div>
 	    </section>
 		</li>
