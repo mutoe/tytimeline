@@ -111,7 +111,8 @@ function deleteShare(share_id) {
 				if (data.status) {
 					modalPopup("删除成功，正在返回...");
 					setTimeout(function() {
-						self.location = document.referrer;
+						history.go(-2);
+            location.reload();
 					},1000);
 				} else {
 					modalPopup(data.info, false);

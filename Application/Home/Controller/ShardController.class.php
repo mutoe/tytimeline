@@ -277,6 +277,7 @@ class ShardController extends BaseController {
 
 		$user_info = M('user_info');
 		$like_list = $user_info -> where('user_id=%d', $user_id) -> getField('like_share');
+    if(empty($like_list)) $like_list = "[]";
 		$like_array = json_decode($like_list);
 
 		// 取得喜欢状态
