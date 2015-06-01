@@ -16,7 +16,7 @@ class ShardController extends BaseController {
 		$share = M('share');
 		$data = $share -> find($share_id);
 		if(!$data) $this -> error('抱歉，该条数据不存在，它可能已被删除');
-		$share -> where('share_id=%d', $share_id) -> setInc('click', 1, 30);	// 点击量自增
+		$share -> where('share_id=%d', $share_id) -> setInc('click', 1, 3);	// 点击量自增
 		$this -> assign('data', $data);
 
 		// 获取评论
