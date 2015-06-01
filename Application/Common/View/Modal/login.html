@@ -12,7 +12,7 @@
 			    <div class="am-u-sm-10"><input type="password" id="modal-passwd" name="password" minlength="3" maxlength="32"></div>
 	  		</div>
 		    <div class="am-g am-padding-top">
-		      <input id="modal-login-button" type="submit" class="am-btn am-btn-primary am-fr" onclick="return checkLogin();" value="登录" />
+		      <input id="modal-login-button" type="submit" class="am-btn am-btn-primary am-fr" value="登录" />
 		      <a id="modal-login-sign" class="am-btn am-btn-default am-fr am-margin-right" href="javascript: void(0);"><i class="am-icon-question-circle"></i> 没有帐号</a>
 		    </div>
 		    <div id="modal-login-popover" class="am-alert am-alert-warning am-text-sm">本站已接入校内论坛，请使用论坛帐号进行登陆。</div>
@@ -21,12 +21,11 @@
 	</div>
 </div>
 <script type="text/javascript">
-function checkLogin() {
+var signButton = $("#modal-login-sign");
+signButton.on('click', function() {
 	$("#modal-login").modal('close');
 	modalSign();
-	return false;
-}
-/*
+});/*
 signButton.on('mouseover', function() {
 	$('#modal-login-popover').removeClass('am-hide');
 });
@@ -75,5 +74,6 @@ $('#modal-login-button').click(function () {
 			}
 		}
 	});
+	return false;
 });
 </script>
