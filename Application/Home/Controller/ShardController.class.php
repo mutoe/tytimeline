@@ -150,10 +150,13 @@ class ShardController extends BaseController {
 				$share -> where('share_id=%d', $result) -> save($data2);
 
 		    // 生成缩略图
-		    $image -> thumb(360, 2500) -> save('./Public/'.$info['savepath']. 't_'. $info['savename'] );
+		    $image -> thumb(480, 5000) -> save('./Public/'.$info['savepath']. 't_'. $info['savename'] );
+
+        // 保存原始图片
+        rename('./Public/'. $info['savepath']. $info['savename'] , './Public/'. $info['savepath'] . "o_" . $info['savename'] );
 
 				// 嵌入水印
-		    $image -> open('./Public/'. $info['savepath']. $info['savename'] );
+		    $image -> open('./Public/'. $info['savepath'] . "o_" . $info['savename'] );
 				$image -> text( '            '. C('WATERMARK_TEXT') ,'./Public/fonts/msyhbd.ttf', 14, '#ffffff40', 8 , -50 );
 				$image -> text( "@". get_nickname($user_id) ,'./Public/fonts/msyhbd.ttf', 20, '#ffffff40', 8 , -20 );
 				$image -> save('./Public/'. $info['savepath']. $info['savename'] );
