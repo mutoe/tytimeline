@@ -132,16 +132,18 @@ class ShardController extends BaseController {
 			$result = $share -> add($data);//return $share_id
 
 			if($result) {
-				// 总分享数自增
-				$user_info = M('user_info');
-				$user_info -> where('user_id=%d',$user_id) -> setInc('total_share');
+				// 各项数据刷新
+				$this -> refreshTotalShare($result);
+
 				// 初始化image类
 		    $image = new \Think\Image();
 		    $image -> open('./Public/'. $info['savepath']. $info['savename'] );
+
 				// 计算宽高
 				$size = $image -> size();
 				$data2['width'] = $size[0];
 				$data2['height'] = $size[1];
+
 				// 如果是壁纸，自动添加1号标签
 				$is_wallpaper = $this -> isWallpaper( $data2['width'] , $data2['height'] );
 				if( $is_wallpaper ) $data2['tag_id'] = '["1"]';
