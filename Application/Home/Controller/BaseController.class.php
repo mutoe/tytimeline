@@ -4,6 +4,7 @@ use Common\Controller\CommonController;
 
 class BaseController extends CommonController {
 	protected function _initialize() {
+	  parent::_initialize();
 		if(I('cookie.user_id',0)) {//如果cookie不为空
 			if(is_null(session('user_id'))) {//如果未登录
 				if($this -> checkpwd(cookie('user_id'), cookie('user_mm'))) {

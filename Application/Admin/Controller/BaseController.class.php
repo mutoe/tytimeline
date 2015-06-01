@@ -3,7 +3,8 @@ namespace Admin\Controller;
 use Common\Controller\CommonController;
 class BaseController extends CommonController {
 
-	public function _initialize() {
+	protected function _initialize() {
+	  parent::_initialize();
 		// 如果没有登陆就踢回
 		if(!is_login()) {
 			$this -> error('你还没有登陆', U('Home/Login/index'));
