@@ -30,7 +30,7 @@ class IndexController extends BaseController {
 
 		//获取热门标签
 		$tag = M('tag');
-		$hot_tag = $tag -> limit(4) -> order('total_share desc') -> where('total_share>=3 and tag_name!=""') -> select();
+		$hot_tag = $tag -> limit(4) -> order('status desc,total_share desc') -> where('total_share>=3 and tag_name!="" or status>=100') -> select();
 		foreach ($hot_tag as $key => $value) {
 			$map['tag_id'] = array('LIKE', '%"'.$value['tag_id'].'"%');
 			$hot_tag[$key]['hot_share'] = $share -> where($map) -> order('heat desc') -> limit(3) -> field('share_id,savepath,savename,width,height,tag_id') -> select();

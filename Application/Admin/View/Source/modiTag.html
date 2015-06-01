@@ -1,0 +1,73 @@
+<extend name='Common:base' />
+
+<block name='main'>
+<div class="admin-content">
+
+	<div class="am-cf am-padding">
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">标签</strong> / <small>Tag</small>
+		</div>
+	</div>
+
+	<div class="am-tabs am-margin" data-am-tabs>
+		<ul class="am-tabs-nav am-nav am-nav-tabs">
+			<li class="am-active"><a href="#tab1">修改标签</a></li>
+		</ul>
+
+		<div class="am-tabs-bd">
+			<div class="am-tab-panel am-fade am-in am-active" id="tab1">
+				<form class="am-form" id="form-modi-tag">
+					<if condition="!empty($data)">
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">ID</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" name="tag_id" value="{$data.tag_id}" readonly></div>
+					</div>
+					</if>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">名称</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" name="tag_name" value="{$data.tag_name}"></div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">状态</div>
+						<div class="am-u-sm-4"><input type="number" class="am-input-sm" name="status" value="{$data.status}"></div>
+						<div class="am-u-sm-4 am-u-end">0: 隐藏, 1:正常, >1:推荐，数字越大权重越高 >=100:首页推荐</div>
+					</div>
+
+					<div class="am-g am-margin-top-sm">
+						<div class="am-u-sm-2 am-text-right">总分享数</div>
+						<div class="am-u-sm-4 am-u-end"><input type="text" class="am-input-sm" readonly value="{$data.total_share}"></div>
+					</div>
+
+					<div class="am-g am-margin">
+						<button type="submit" class="am-btn am-btn-primary am-btn-sm am-u-sm-offset-2 am-u-md-2 am-u-lg-1" onclick="return submitModiTag()">提交保存</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+  function submitModiTag() {
+  	if ($("input[name='tag_name']").val().length < 1) return false;
+  	$.ajax({
+  		type:"post",
+  		url:"{:U('submitModiTag')}",
+  		data: $("#form-modi-tag").serialize(),
+  		success: function(data) {
+  			if (data.status) {
+  				modalPopup("操作成功！");
+  				self.location = document.referrer;
+  			} else {
+  				modalPopup("失败了:" + data.info, false);
+  			}
+  		}
+  	});
+  	return false;
+  }
+</script>
+</block>

@@ -15,6 +15,7 @@
 						<tr>
 							<th>ID</th>
 							<th>标题</th>
+							<th>状态</th>
 							<th>总碎片数</th>
 							<th>创建者</th>
 							<th>创建时间</th>
@@ -26,11 +27,13 @@
 							<tr>
 								<td>{$vo.tag_id}</td>
 								<td><a href="#">{$vo.tag_name}</a></td>
+								<td>{$vo.status}</td>
 								<td>{$vo.total_share}</td>
 								<td>{$vo.create_user|get_nickname}</td>
 								<td>{$vo.create_time|time_format} <span class="am-text-warning">约 {$vo.create_time|get_timing}前</span></td>
 								<td>
 									<div class="am-btn-toolbar"><div class="am-btn-group am-btn-group-xs">
+										<a class="am-btn am-btn-secondary am-btn-xs" href="{:U('modiTag')}?tag_id={$vo.tag_id}"> 修改</a>
 										<a data-id="{$vo.tag_id}" class="am-btn am-btn-default am-btn-xs am-text-danger delete-confirm"><span class="am-icon-trash-o"></span> 删除</a>
 									</div></div>
 								</td>

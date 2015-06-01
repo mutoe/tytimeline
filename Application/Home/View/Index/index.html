@@ -22,7 +22,7 @@
 	<div class="am-u-sm-12 page-index am-margin-bottom-lg">
 		<div class="am-margin-top-lg am-margin-bottom-lg am-cf active-tag">
 			<div class="header">
-				<span class="title">热门标签&nbsp;&nbsp;&nbsp;</span>
+				<span class="title">热门话题&nbsp;&nbsp;&nbsp;</span>
 				<span class="more am-text-sm am-margin-left-sm"><a href="__ROOT__/tag"> 查看更多 <i class="am-icon-angle-double-right"></i></a></span>
 			</div>
 			<div class="body">
@@ -100,7 +100,7 @@
 		  						<a href="__ROOT__/user/{$user_info.user_id}" class="am-show-md-up"><span class="am-badge-primary am-badge">{$user_info.user_id|get_usergroup=0}</span><br /> @{$user_info.user_id|get_nickname}</a>
 								</div>
 				  		</div>
-				  		<hr />
+				  		<hr>
 				  		<ul class="new-share am-avg-sm-3">
 				  			<volist name="user_info['new_share']" id="vo">
 				  			<li class="pic">
@@ -110,7 +110,7 @@
 				  			</li>
 				  			</volist>
 				  		</ul>
-				  		<hr />
+				  		<hr>
 							<include file="Common/user" btn="2" head="" />
 						</div>
 					</li>

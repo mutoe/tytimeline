@@ -91,11 +91,36 @@ class SourceController extends BaseController {
 	public function tag($sort = 'tag_id') {
 		$tag = M('tag');
 		$sort .= ' desc';
+    $sort = "status desc," . $sort;
 		$data = $tag -> order($sort) -> select();
 		$this -> assign('data', $data);
 
 		$this -> display();
 	}
+
+  /**
+   * 修改标签操作
+   */
+  public function modiTag($tag_id = 0) {
+    $tag = M('tag');
+    $data = $tag -> find($tag_id);
+    $this -> assign('data', $data);
+
+    $this -> display();
+  }
+
+  public function submitModiTag() {
+    if(!IS_AJAX) $this -> error("非法请求！");
+  	$data = I('post.');
+    $tag = M('tag');
+    $result = $tag -> save($data);
+    if($result) {
+      $this -> success();
+    } else {
+      $info = $tag -> getError();
+      $this -> error($info);
+    }
+  }
 
 	/**
 	 * 删除标签操作
