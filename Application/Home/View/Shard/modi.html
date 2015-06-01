@@ -15,7 +15,7 @@
 			<input type="hidden" name="share_id" id="share_id" value="{$data.share_id}" />
 			<label>标签</label><span class="am-text-xs"> 按下回车键确认标签 请不要超过 7 个标签 每个标签 8 个字以内</span><br />
 			<input id="doc-ipt-tag" name="tag_id" type="text" value="{$data.tag_id|get_tag}" data-role="tagsinput" />
-			<br /><span class="am-text-sm hot-tag">热门标签：{$hot_tag|show_tag=true,true}</span>
+			<br /><span class="am-text-sm hot-tag">热门标签：{$hot_tag|show_tag=1,true}</span>
 		</div>
 		<form class="am-form" method="post">
 			<fieldset style="padding: 0;">

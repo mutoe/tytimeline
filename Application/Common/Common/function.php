@@ -165,7 +165,7 @@ function str2json($string) {
 /**
  * 输出tag列表 前端badge形式
  */
-function show_tag($json, $color = true, $css = false) {
+function show_tag($json, $opacity = 0.6, $css = false) {
 	if(S('tag')) {
 		$tag_list = S('tag');
 	} else {
@@ -174,9 +174,7 @@ function show_tag($json, $color = true, $css = false) {
 		S('tag', $tag_list);
 	}
 	$array = json_decode($json);
-	if($color) {
-		$color_list = array('','am-badge-primary','am-badge-danger','am-badge-warning','am-badge-success','am-badge-secondary');
-	} else $color_list = array('');
+	$color_list = array('am-badge-primary','am-badge-danger','am-badge-warning','am-badge-success','am-badge-secondary');
 	$result = '';
 	foreach ($array as $tag_id) {
 		foreach ($tag_list as $tag_value) {
@@ -186,9 +184,9 @@ function show_tag($json, $color = true, $css = false) {
 					$result .= '<button alt="点击添加到标签" data-tag-id="'.$tag_value['tag_name'].'" class="tag-badge am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</button>&nbsp;';
 				} else {
 					if( C("URL_MODEL") == 1 ) {
-						$result .= '<a href="'.__ROOT__.'/index.php/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
+						$result .= '<a href="'.__ROOT__.'/index.php/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'" style="opacity:'. $opacity .';">'.$tag_value['tag_name'].'</span></a>&nbsp;';
 					} else {
-						$result .= '<a href="'.__ROOT__.'/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
+						$result .= '<a href="'.__ROOT__.'/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'" style="opacity:'. $opacity .';">'.$tag_value['tag_name'].'</span></a>&nbsp;';
 					}
 				}
 			}
