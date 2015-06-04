@@ -115,7 +115,7 @@
 		<include file="Common/user" head="" btn="0" />
 
   	<div class="box am-margin-top">
-  		<h5>{$user.user_id|get_nickname} 的近期分享</h5>
+  		<h5>{$user_info.user_id|get_nickname} 的近期分享</h5>
   		<ul class="new-share am-avg-sm-3">
   			<volist name="new_share" id="vo">
   				<gt name="vo.width" value="$vo.height">
