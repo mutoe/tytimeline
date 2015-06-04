@@ -6,6 +6,14 @@
 		<li class="wookmark-box">
 			<include file="Common/user" head="" btn="0" />
 		</li>
+		<eq name="no_data" value="1">
+    <li class="wookmark-box">
+      <div class="share">
+        <div class="detail am-show-sm-only" style="max-width: 162px;">该用户还没有收藏任何分享。。。</div>
+        <div class="detail am-show-md-up" style="max-width: 243px;">该用户还没有收藏任何分享。。。</div>
+      </div>
+    </li>
+		</eq>
 		<volist name="list" id="vo">
 		<li class="wookmark-box">
 			<div class="share">

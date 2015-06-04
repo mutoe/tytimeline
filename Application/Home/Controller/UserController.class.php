@@ -121,10 +121,15 @@ class UserController extends BaseController {
 		$like_share = $user_info -> where('user_id=%d', $user_id) -> getField('like_share');
 
 		$list = json_decode($like_share);
-		$share = M('share');
-		$map['share_id'] = array('IN', $list);
-		$data = $share -> where($map) -> select();
-		$this -> assign('list', $data);
+    if(count($list) > 0) {
+  		$share = M('share');
+  		$map['share_id'] = array('IN', $list);
+  		$data = $share -> where($map) -> select();
+  		$this -> assign('list', $data);
+    } else {
+      $no_data = 1;
+      $this -> assign('no_data', $no_data);
+    }
 
 		$this -> display();
 	}
