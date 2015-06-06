@@ -1,5 +1,10 @@
 (function($) {
 
+  // 最小高度
+  if ($(window).height() > $('body').height()) {
+    $('footer').css( "margin-top", $(window).height() - $('body').height() + 40);
+  }
+
 	/**
 	 * 返回顶部
 	 */
