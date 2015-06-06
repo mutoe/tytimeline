@@ -8,6 +8,7 @@ Update Log
 ----
 ### add ###
 * 增加了用户操作活动提示信息
+* 增加了处理用户反馈系统
 
 ### change ###
 * 修改了modalConfirm参数表

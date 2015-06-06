@@ -38,4 +38,13 @@ class BaseController extends CommonController {
 		$list = $share -> getField('share_id,heat');
 	}
 
+  /**
+   * 用户反馈处理方法
+   */
+  public function handleFeedbackResult($result, $feedback_id = 0) {
+    if(!is_admin() or !IS_AJAX or $feedback_id == 0) $this -> error("非法请求！");
+    $admin = A('Admin/Base');
+    $admin -> handleFeedbackResult($result, $feedback_id);
+  }
+
 }
