@@ -45,11 +45,13 @@ class CommonController extends Controller {
 	/**
 	 * 异步加载模态窗口
 	 */
-	public function syncHtml($modal = 'login', $info = null, $status = null, $title = null) {
+	public function syncHtml($modal = 'login', $info = null, $status = null, $title = null, $yes = null, $no = null) {
 		if(!IS_AJAX) $this -> error("非法访问");
 		$data['info'] = $info;
 		$data['status'] = $status == 'success';
 		$data['title'] = $title;
+		$data['yes'] = $yes;
+		$data['no'] = $no;
 		$this -> assign($data);
 
 		$content = $this -> fetch('./Application/Common/View/Modal/'. $modal .'.html');

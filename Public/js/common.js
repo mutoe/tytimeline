@@ -26,14 +26,16 @@ function modalPopup(info,status,title) {
 	});
 }
 
-function modalConfirm(fun,info,title) {
+function modalConfirm(fun,info,title,fun2,yes,no) {
 	$.ajax({
 		url: ROOT + "/Base/syncHtml",
 		type: "POST",
 		data: {
 			modal: 'confirm',
 			info: info,
-			title: title
+			title: title,
+			yes: yes,
+			no: no
 		},
 		success: function(data) {
 			if (data.status) {
@@ -46,7 +48,14 @@ function modalConfirm(fun,info,title) {
 						} else {
 							location.href = fun;
 						}
-	        }
+          },
+          onCancel: function(options) {
+            if (typeof fun2 === 'function') {
+              fun2();
+            } else {
+              location.href = fun2;
+            }
+          }
 	      });
 			} else {
 				modalPopup(data.info, false);
