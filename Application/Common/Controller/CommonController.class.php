@@ -59,4 +59,20 @@ class CommonController extends Controller {
 		else $this -> error("异步加载模态窗口失败，请确认存在该方法:". $modal);
 	}
 
+  /**
+   * 推送通知
+   */
+  protected function setNotice($type, $user_id, $share_id = 0, $attach = '') {
+    $notice = M('notice');
+    $data['type'] = $type;
+    $data['operator'] = is_login();
+    $data['user_id'] = $user_id;
+    $data['create_time'] = time();
+    $data['share_id'] = $share_id;
+    $data['attach'] = $attach;
+    $data['status'] = 1;
+    $result = $notice -> add($data);
+    return $result;
+  }
+
 }

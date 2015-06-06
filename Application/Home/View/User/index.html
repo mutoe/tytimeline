@@ -6,6 +6,11 @@
 		<li class="wookmark-box">
 			<include file="Common/user" head="个人中心" btn="1" />
 		</li>
+		<volist name="notices" id="notice">
+		<li class="wookmark-box">
+		  <include file="Common/notice" />
+		</li>
+		</volist>
 		<volist name="share" id="vo">
 		<li class="wookmark-box">
 			<div class="share">

@@ -6,6 +6,9 @@ Update Log
 ----
 [1.2.0.150606b]
 ----
+### add ###
+* 增加了用户操作活动提示信息
+
 ### change ###
 * 修改了modalConfirm参数表
 
