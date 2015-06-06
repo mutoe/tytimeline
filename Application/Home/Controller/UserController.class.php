@@ -21,6 +21,21 @@ class UserController extends BaseController {
 		$this -> assign('user', $data);
 		$this -> assign('user_info', $user_info_data);
 
+    if($user_id == is_login()) {
+      // 加载未读信息
+      $notice = M('notice');
+      $data = $notice -> where('status=1 AND user_id=%d', $user_id) -> select();
+      if(is_admin()) {
+        $feedback = M('feedback');
+        $data1 = $feedback -> where('status=1') -> select();
+        foreach ($data1 as $key => $value) {$data1[$key]['type'] = 91;}
+        if($data == null) $data = $data1;
+        else array_splice($data, 0, 0, $data1);
+      }
+      $this -> assign('notices', $data);
+    }
+
+
 		$this -> display();
 	}
 
@@ -133,5 +148,44 @@ class UserController extends BaseController {
 
 		$this -> display();
 	}
+
+	/**
+	 * 加载通知
+	 */
+	public function notice() {
+		if(!$user_id) $user_id = is_login();
+		if(!$user_id) $this -> error("请先登录！", U('Login/index') );
+
+		// 加载个人信息
+		$user = M('user');
+		$data = $user -> where('user_id=%d',$user_id) -> field('password,email', true) -> find();
+		$user_info = M('user_info');
+		$user_info_data = $user_info -> where('user_id=%d',$user_id) -> find();
+		$this -> assign('user', $data);
+		$this -> assign('user_info', $user_info_data);
+
+		// 删除已读的三个月前的信息
+		$notice = M('notice');
+    $foo = array();
+    $bar = $notice -> where('status=0 and user_id=%d', $user_id) -> getField('notice_id,create_time');
+    foreach ($bar as $key => $value) {
+    	$triming = time() - $value;
+      if($triming > 3600 * 24 * 90) array_push($foo, $key);
+    }
+    $map['notice_id'] = array('IN', $foo);
+    $notice -> where($map) -> delete();
+
+    // 加载未读信息
+		$unread = $notice -> where('status>=0 and user_id=%d', $user_id) -> select();
+		$this -> assign('notices', $unread);
+
+		$this -> display();
+	}
+  public function readNotice($notice_id = 0) {
+    if(!$notice_id or !IS_AJAX) $this -> error('非法请求！');
+    $notice = M('notice');
+    $notice -> where('notice_id=%d', $notice_id) -> setField('status', 0);
+    $this -> success();
+  }
 
 }

@@ -127,3 +127,14 @@ function deleteShare(share_id) {
 	},"你确实要删除这条纪录吗?");
 	return false;
 }
+
+function readNotice(noticeID, el) {
+	$.ajax({
+		type:"post",
+		url: ROOT + "/user/readNotice",
+		data: {notice_id: noticeID},
+		success: function(data) {
+		  $(el).removeClass('am-btn-primary').addClass('am-btn-default').text('朕已阅').attr('disabled', 'disabled');
+		}
+	});
+}

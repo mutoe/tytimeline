@@ -36,4 +36,18 @@ class BaseController extends CommonController {
 	  }
 	}
 
+  /**
+   * 用户反馈处理方法
+   */
+  public function handleFeedbackResult($result, $feedback_id = 0) {
+    if(!is_admin() or !IS_AJAX or $feedback_id == 0) $this -> error("非法请求！");
+    $feedback = M('feedback');
+    $data['feedback_id'] = $feedback_id;
+    $data['handle_user'] = is_login();
+    $data['handle_time'] = time();
+    $data['status'] = $result == "true" ? 0 : -1;
+    $feedback -> save($data);
+    $this -> success();
+  }
+
 }

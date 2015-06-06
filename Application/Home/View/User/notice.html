@@ -1,0 +1,30 @@
+<extend name="Common:base" />
+
+<block name="main">
+<div class="am-g">
+	<ul id="wookmark" class="am-u-sm-centered am-u-sm-12 am-u-md-10 am-margin-top-xl">
+		<li class="wookmark-box">
+			<include file="Common/user" btn="0" head="通知中心" />
+		</li>
+		<volist name="notices" id="notice">
+		<li class="wookmark-box">
+			<include file="Common/notice" />
+		</li>
+		</volist>
+
+	</ul>
+
+</div>
+</block>
+
+<block name='js'>
+<script src="__PUBLIC__/js/jquery.wookmark.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$('#wookmark li.wookmark-box').wookmark({
+		container: $('#wookmark'),
+		align: 'center',
+		autoResize: true,
+		offset: 16
+	});
+</script>
+</block>

@@ -70,7 +70,7 @@
         <if condition="!is_login()">
         	<li><a href="javascript: void(0);" onclick="modalSign()"><i class="am-icon-terminal"></i> 注册</a></li>
         <else />
-          <li><a href="__ROOT__/user"><i class="am-icon-user"></i> 个人中心</a></li>
+          <li><a href="{:U('user/notice')}"><i class="am-icon-user"></i> 通知中心</a></li>
           <li><a href="javascript: void(0);" onclick="checkLogout()"><i class="am-icon-sign-out"></i> 安全退出</a></li>
         </if>
           <li><a href="http://ty.cqjtu.edu.cn"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>

@@ -45,16 +45,34 @@ class CommonController extends Controller {
 	/**
 	 * 异步加载模态窗口
 	 */
-	public function syncHtml($modal = 'login', $info = null, $status = null, $title = null) {
+	public function syncHtml($modal = 'login', $info = null, $status = null, $title = null, $yes = null, $no = null) {
 		if(!IS_AJAX) $this -> error("非法访问");
 		$data['info'] = $info;
 		$data['status'] = $status == 'success';
 		$data['title'] = $title;
+		$data['yes'] = $yes;
+		$data['no'] = $no;
 		$this -> assign($data);
 
 		$content = $this -> fetch('./Application/Common/View/Modal/'. $modal .'.html');
 		if($content) $this -> success($content);
 		else $this -> error("异步加载模态窗口失败，请确认存在该方法:". $modal);
 	}
+
+  /**
+   * 推送通知
+   */
+  protected function setNotice($type, $user_id, $share_id = 0, $attach = '') {
+    $notice = M('notice');
+    $data['type'] = $type;
+    $data['operator'] = is_login();
+    $data['user_id'] = $user_id;
+    $data['create_time'] = time();
+    $data['share_id'] = $share_id;
+    $data['attach'] = $attach;
+    $data['status'] = 1;
+    $result = $notice -> add($data);
+    return $result;
+  }
 
 }

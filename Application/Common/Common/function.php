@@ -51,8 +51,9 @@ function is_login() {
  */
 function is_admin($user_id = 0) {
 	$admin_group = array(
-		1, //超级管理员
-		2, //站点管理员
+		1, // 超级管理员
+		2, // 站点管理员
+		3, // 站点编辑
 	);
 	$user_id != 0 or $user_id = I('session.user_id');
 	$user = D('user');
@@ -87,7 +88,7 @@ function get_auth($method, $user_id = 0, $id = 0) {
 			$share = M('share');
 			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
 			if($data == $user_id) return 1;
-			return $auth[2];
+			return is_admin() ? 2 : $auth[2];
 			break;
 		case 'like':
 			return $auth[3];
@@ -99,19 +100,19 @@ function get_auth($method, $user_id = 0, $id = 0) {
 			$share = M('share');
 			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
 			if($data == $user_id) return 1;
-			return $auth[5];
+			return is_admin() ? 2 : $auth[5];
 			break;
 		case 'delete':
 			$share = M('share');
 			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
 			if($data == $user_id) return 1;
-			return $auth[6];
+			return is_admin() ? 2 : $auth[6];
 			break;
 		case 'manage_comment':
 			$comment = M('comment');
 			$data = $comment -> where('comment_id=%d', $id) -> getField('user_id');
 			if($data == $user_id) return 1;
-			return $auth[7];
+			return is_admin() ? 2 : $auth[7];
 			break;
 		case 'admin_page':
 			return $auth[8];

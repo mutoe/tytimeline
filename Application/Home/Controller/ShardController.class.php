@@ -192,7 +192,14 @@ class ShardController extends BaseController {
 	public function modi($share_id = 0) {
 		$temp = M('share');
 		//检查权限
-		if(!get_auth('modify', 0, $share_id)) $this -> error('非法操作！');
+		if(is_admin()) {
+      // 推送通知
+      $this -> setNotice(12, $data['user_id'], $share_id);
+    } else {
+      // 检查是否有删除权限
+  		if(!get_auth('modify', 0, $share_id)) $this -> error('非法操作！');
+    }
+
 		if(!I('param.time', 0)) {	//如果不是提交请求
 
 			$share = M('share');
@@ -235,7 +242,9 @@ class ShardController extends BaseController {
 	}
 
 	/**
-	 * 删除分享
+	 * 删除分享 (伪)
+   * 此处删除只是标记分享status为0
+   * @author mt
 	 */
 	public function deleteShare($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
@@ -243,27 +252,22 @@ class ShardController extends BaseController {
 		$data = $share -> where('share_id=%d',$share_id) -> find();
 		if(!$data) $this -> error('该条数据不存在！');
 		// 检查权限
-		if(!get_auth('delete', 0, $share_id)) $this -> error('非法操作！');	// 如果不是自己的分享并且没有删除权限
-
-		$address = './Public/'.$data['savepath'].$data['savename'];
-		$address_t = './Public/'.$data['savepath'].'t_'.$data['savename'];
-		$result = file_exists($address) ? unlink($address) : true;
-		$result = file_exists($address_t) ? unlink($address_t) : true;
-		if($result) {
-			// 删除数据
-			$result = $share -> delete();
-
-			// 重新计算标签下分享数目
-			$this -> refreshTotalShare($share_id);
-
-			if($result) {
-				$this -> success('删除成功，正在跳转到首页...', U('Index/index'));
-			} else {
-				$this -> error('删除失败，请联系管理员.删除数据失败');
-			}
+		if(is_admin()) {
+		  // 推送通知
+			$this -> setNotice(13, $data['user_id'], $share_id);
 		} else {
-			$this -> error('删除失败，请联系管理员.移除资源出错');
+			// 检查是否有删除权限
+			if(!get_auth('delete', 0, $share_id)) $this -> error('非法操作！');
 		}
+
+		// 通过权限检查，标记字段为已删除
+		$share -> where('share_id=%d', $share_id) -> setField('status', 0);
+
+		// 刷新各项类目分享数据
+		$this -> refreshTotalShare($share_id);
+
+		$this -> success('删除成功，正在跳转到首页...', U('Index/index'));
+
 	}
 
 	/**
@@ -303,6 +307,11 @@ class ShardController extends BaseController {
 			// 数据更新
 			$this -> refreshTotalShare($share_id);
 
+      // 推送通知
+      $share = M('share');
+      $o = $share -> where('share_id=%d', $share_id) -> getField('user_id');
+      $this -> setNotice(22, $o, $share_id);
+
 			$this -> success($flag ?"1":"0");
 		} else {
 			$this -> error("出错了:".$user_info -> getError());
@@ -324,8 +333,14 @@ class ShardController extends BaseController {
 		$result = $comment -> add($data);	// return了一个comment_id
 
 		if($result) {
+		  // 数据刷新
 			$share = M('share');
 			$share -> where('share_id=%d', $share_id) -> setInc('total_comments');
+
+      // 推送通知
+      $o = $share -> where('share_id=%d', $share_id) -> getField('user_id');
+      $this -> setNotice(21, $o, $share_id);
+
 			$this -> success('成功了！');
 		} else {
 			$this -> error('数据写入失败');
@@ -363,6 +378,7 @@ class ShardController extends BaseController {
 		foreach ($tags as $value) {
 			if(!$value) return false;
 			$map['tag_id'] = array('like', '%"'. $value .'"%');
+			$map['status'] = array('gt', '0');
 			$data = $share -> where($map) -> field('share_id') -> select();
 			$count = count($data);
 			$tag = M('tag');
@@ -372,7 +388,7 @@ class ShardController extends BaseController {
 		// 刷新用户信息下的分享数目
 		$user = $share -> where('share_id=%d', $share_id) -> getField('user_id');
 		if(!$user) return false;
-		$data = $share -> where('user_id=%d', $user) -> field('share_id') -> select();
+		$data = $share -> where('user_id=%d AND status>0', $user) -> field('share_id') -> select();
 		$count = count($data);
 		$user_info = M('user_info');
 		$user_info -> where('user_id=%d', $user) -> setField('total_share', $count);
