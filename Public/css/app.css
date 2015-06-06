@@ -80,18 +80,37 @@ ul.am-dropdown-content:after {
   bottom: 60px;
   right: 100px;
 }
-footer {
-  background-color: rgba(255, 255, 255, 0.5) !important;
+.footer {
+  margin-top: 40px;
+  background: #fff none repeat scroll 0% 0%;
+  color: #999;
+  padding: 30px 0px 15px;
+  font-size: 1.4rem;
 }
-footer .footer-text {
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
-  color: black;
+.footer .amz-fd {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 10px;
 }
-footer .footer-link {
-  color: #009CDA;
+.footer .amz-fd a {
+  display: block;
+  width: 92px;
+  height: 30px;
+  text-indent: -9999px;
+  background: #F37B1D url(../img/logo-o.png) no-repeat scroll left center;
+  background-size: 92px 30px;
+}
+.footer .amz-links {
+  display: inline-block;
+}
+.footer .footer-img {
+  margin-top: 16px;
+  display: block;
+  width: 340px;
+  height: 100px;
+  text-indent: -9999px;
+  background: #5DD595 url(../img/footer.png) no-repeat 50% 50%;
+  background-size: 400px 100px;
 }
 #wookmark {
   position: relative;
