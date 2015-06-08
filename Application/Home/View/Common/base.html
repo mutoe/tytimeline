@@ -83,6 +83,9 @@
     </if>
     <if condition="is_login()">
     	<a class="am-topbar-btn am-btn-sm am-btn" href="__ROOT__/user" style="color: white;">
+    	  <if condition="!empty($unread_notice)">
+    	  <span class="" id="unreadNotice"><i class="am-icon-bullhorn"></i> ({$unread_notice})</span>
+        </if>
 				<span class="am-text-warning">{:get_usergroup(0,0)}</span> {:get_nickname()}
     	</a>
   	</if>
@@ -144,6 +147,14 @@ var ROOT = "__ROOT__";
 
 <script src="__PUBLIC__/js/common.js" type="text/javascript" charset="utf-8"></script>
 <script src="__PUBLIC__/js/app.js" type="text/javascript" charset="utf-8"></script>
+
+<if condition="!empty($unread_notice)">
+<script type="text/javascript">
+	setInterval(function(){
+    $("#unreadNotice").fadeOut(300).fadeIn(300);
+	},1500);
+</script>
+</if>
 
 <block name="js"></block>
 

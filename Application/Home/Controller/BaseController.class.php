@@ -13,7 +13,17 @@ class BaseController extends CommonController {
 				}
 			}
 		}
-		//dump(I('session.'));
+
+    // 检查是否存在未读通知 MARK 运行效率问题
+    $user_id = is_login();
+    if($user_id) {
+      $notice = M('notice');
+      $count = $notice -> where('user_id=%d AND status=1', $user_id) -> count();
+      $user_info = M('user_info');
+      $user_info -> where('user_id=%d', $user_id) -> setField('unread_notice', $count);
+      $this -> assign('unread_notice', $count);
+    }
+
 	}
 
 	protected function set_loginfo($user_id) {
