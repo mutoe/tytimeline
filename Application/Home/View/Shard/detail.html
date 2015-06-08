@@ -60,6 +60,66 @@
 		</div>
   	</if>
 
+    <div class="share-api-button am-cf">
+      <div class="share-btn-qq am-fl" style="margin-top: 4px;">
+        <script type="text/javascript">
+          (function(){
+          var p = {
+            url:location.href, /*获取URL，可加上来自分享到QQ标识，方便统计*/
+            desc:"<if condition="get_tag($data['tag_id']) neq ''">#{$data.tag_id|get_tag='# #'}#</if> ",/*默认分享理由(可选)*/
+            summary:'来自 @{$data.user_id|get_nickname} 的分享\n{$data.detail}',/*分享摘要(可选)*/
+            title:'天佑时光轴 - 印象交大分享平台',/*分享标题(可选)*/
+            site:'天佑时光轴 pic.cqjtu.edu.cn',/*分享来源 如：腾讯网(可选)*/
+            pics:'__ROOT__/Public/{$data.savepath}{$data.savename}', /*分享图片的路径(可选)*/
+            style:'102',
+            width:63,
+            height:24
+          };
+          var s = [];
+          for(var i in p){
+          s.push(i + '=' + encodeURIComponent(p[i]||''));
+          }
+          document.write(['<a class="qcShareQQDiv" href="http://connect.qq.com/widget/shareqq/index.html?',s.join('&'),'" target="_blank">分享到QQ</a>'].join(''));
+          })();
+          </script>
+          <script src="http://connect.qq.com/widget/loader/loader.js" widget="shareqq" charset="utf-8"></script>
+      </div>
+      <div class="share-btn-qzone am-fl" style="margin-top: 4px;margin-left: 3px;width: 67px;overflow: hidden;">
+        <script type="text/javascript">
+          (function(){
+          var p = {
+            url:location.href,
+            showcount:'0',/*是否显示分享总数,显示：'1'，不显示：'0' */
+            desc:"<if condition="get_tag($data['tag_id']) neq ''">#{$data.tag_id|get_tag='# #'}#</if> ",/*默认分享理由(可选)*/
+            summary:'来自 @{$data.user_id|get_nickname} 的分享\n{$data.detail}',/*分享摘要(可选)*/
+            title:'天佑时光轴 - 印象交大分享平台',/*分享标题(可选)*/
+            site:'天佑时光轴 pic.cqjtu.edu.cn',/*分享来源 如：腾讯网(可选)*/
+            pics:'__ROOT__/Public/{$data.savepath}{$data.savename}', /*分享图片的路径(可选)*/
+            style:'102',
+            width:88,
+            height:30
+          };var s = [];
+          for(var i in p){s.push(i + '=' + encodeURIComponent(p[i]||''));}
+          document.write(['<a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?',s.join('&'),'" target="_blank">分享</a>'].join(''));
+          })();
+          </script>
+          <script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
+      </div>
+      <div class="share-btn-t am-fl" style="margin-top: 0px;">
+        <div id="qqwb_share__" data-appkey="801567960" data-icon="1" data-counter="0" data-counter_pos="right"
+              data-content="<if condition="get_tag($data['tag_id']) neq ''">#{$data.tag_id|get_tag='# #'}#</if> {$data.detail} ——天佑时光轴 印象交大分享平台"
+              data-pic="__ROOT__/Public/{$data.savepath}{$data.savename}">
+        </div>
+      </div>
+      <div class="share-btn-sina am-fl" style="margin-top: 5px;margin-left: 3px;">
+        <wb:share-button appkey="3551039231" addition="simple" type="button"
+            default_text="<if condition="get_tag($data['tag_id']) neq ''">%23{$data.tag_id|get_tag='%23 %23'}%23</if> {$data.detail} ——天佑时光轴 印象交大分享平台"
+            pic="__ROOT__/Public/{$data.savepath}{$data.savename}">
+        </wb:share-button>
+      </div>
+
+    </div>
+
 		<div id="imgbox-info" class="am-hide">
 			<div class="am-g" style="background-color: #CECECE;">
 				<div class="tag am-fl am-margin-left-sm">{$data.tag_id|show_tag="1"}</div>
@@ -68,46 +128,54 @@
 			<div class="detail am-text-default am-text-truncate" style="text-indent: 1.5em;">{$data.detail}</div>
 		</div>
 
-
-    <div class="am-g comment">
+    <div class="am-g">
     	<hr class="am-article-divider blog-hr">
+      <div class="am-u-sm-12 am-u-md-8 comment">
 
-			<volist name="comment" id="vo">
-			<article class="am-comment" data-comment-id="{$vo.comment_id}">
-			  <a href="__ROOT__/user/{$vo['user_id']}">
-			    <img class="am-comment-avatar" alt="" src="{:U('Base/avatar','user_id='.$vo['user_id'])}"/> <!-- 评论者头像 -->
-			  </a>
+  			<volist name="comment" id="vo">
+  			<article class="am-comment" data-comment-id="{$vo.comment_id}">
+  			  <a href="__ROOT__/user/{$vo['user_id']}">
+  			    <img class="am-comment-avatar" alt="" src="{:U('Base/avatar','user_id='.$vo['user_id'])}"/> <!-- 评论者头像 -->
+  			  </a>
 
-			  <div class="am-comment-main">
-			    <header class="am-comment-hd">
-			      <div class="am-comment-meta am-fl">
-			        <a href="__ROOT__/user/{$vo['user_id']}" class="am-comment-author"><span class="am-text-warning">@{$vo.user_id|get_nickname}</span></a>
-			        评论于 {$vo.create_time|get_timing}前
-			      </div>
-			      <if condition="get_auth('manage_comment', 0, $vo['comment_id'])">
-			      <div class="am-fr am-vertical-align">
-			      	<button class="am-text-sm am-vertical-align-middle am-badge" onclick="delComment({$vo.comment_id});" style="margin-right: 1rem;">删除该条 <i class="am-icon-times"></i></button>
-			      </div>
-			      </if>
-			    </header>
+  			  <div class="am-comment-main">
+  			    <header class="am-comment-hd">
+  			      <div class="am-comment-meta am-fl">
+  			        <a href="__ROOT__/user/{$vo['user_id']}" class="am-comment-author"><span class="am-text-warning">@{$vo.user_id|get_nickname}</span></a>
+  			        评论于 {$vo.create_time|get_timing}前
+  			      </div>
+  			      <if condition="get_auth('manage_comment', 0, $vo['comment_id'])">
+  			      <div class="am-fr am-vertical-align">
+  			      	<button class="am-text-sm am-vertical-align-middle am-badge" onclick="delComment({$vo.comment_id});" style="margin-right: 1rem;">删除该条 <i class="am-icon-times"></i></button>
+  			      </div>
+  			      </if>
+  			    </header>
 
-			    <div class="am-comment-bd">{$vo.detail}</div>
-			  </div>
-				<br />
-			</article>
-			</volist>
+  			    <div class="am-comment-bd">{$vo.detail}</div>
+  			  </div>
+  				<br />
+  			</article>
+  			</volist>
 
-			<form class="am-form form" data-am-validator>
-				<fieldset>
-				<div class="am-form-group">
-		      <label for="doc-ipt-comment" class="title">我要吐槽 <span class="am-text-sm am-text-warning">请合理吐槽</span></label>
-		      <textarea id="doc-ipt-comment" required minlength="2" maxlength="255" rows="3" placeholder="请不要超过255字"></textarea>
-					<input type="hidden" value="{$data.share_id}" name="share_id"></input>
-		    </div>
-				<input type="submit" class="am-btn am-btn-primary" value="吐" onclick="return submitComment()"></input>
-				</fieldset>
-			</form>
+  			<form class="am-form form" data-am-validator>
+  				<fieldset>
+  				<div class="am-form-group">
+  		      <label for="doc-ipt-comment" class="title">我要吐槽 <span class="am-text-sm am-text-warning">请合理吐槽</span></label>
+  		      <textarea id="doc-ipt-comment" required minlength="2" maxlength="255" rows="3" placeholder="请不要超过255字"></textarea>
+  					<input type="hidden" value="{$data.share_id}" name="share_id"></input>
+  		    </div>
+  				<input type="submit" class="am-btn am-btn-primary" value="吐" onclick="return submitComment()"></input>
+  				</fieldset>
+  			</form>
 
+      </div>
+      <if condition="get_tag($data['tag_id']) neq ''">
+      <div class="am-u-md-4 am-hide-sm-only">
+      	<wb:livestream skin="silver" appkey="3551039231" member="n" titlebar="n"
+        topic="{$data.tag_id|get_tag='%23%20%23'}|{$data.tag_id|get_tag='one'}"
+        width="auto" uid="2054131470" height="500"></wb:livestream>
+      </div>
+      </if>
     </div>
 </div>
 
@@ -171,8 +239,12 @@
 </block>
 
 <block name='js'>
-<script type="text/javascript" src="__PUBLIC__/js/jquery.imgbox.js"></script>
+<!-- 新浪微博分享 api-->
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3551039231" type="text/javascript" charset="utf-8"></script>
+<script src="http://mat1.gtimg.com/app/openjs/openjs.js#autoboot=no&debug=no"></script>
 
+<script type="text/javascript" src="__PUBLIC__/js/jquery.imgbox.js"></script>
 <script type="text/javascript">
 (function($) {
 	$("#imgbox").attr('detail', $("#imgbox-info").html() );

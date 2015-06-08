@@ -129,19 +129,16 @@ function get_auth($method, $user_id = 0, $id = 0) {
 /**
  * 输出tag列表 string形式
  */
-function get_tag($string) {
+function get_tag($string,$trim = ",") {
 	$tag = M('tag');
-	$tag_list = $tag -> field('tag_id,tag_name') -> select();
+	$tag_list = $tag -> getField('tag_id,tag_name');
 	$array = json_decode($string);
+  if($trim == 'one') return $tag_list[$array[0]];
 	$result = '';
 	foreach ($array as $tag_id) {
-		foreach ($tag_list as $tag_value) {
-			if($tag_value['tag_id'] == $tag_id) {
-				$result .= $tag_value['tag_name'].',';
-			}
-		}
+	  if(!empty($tag_list[$tag_id])) $result .= $tag_list[$tag_id].$trim;
 	}
-	$result = trim($result,',');
+	$result = trim($result,$trim);
 	return $result;
 }
 
