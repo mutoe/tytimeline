@@ -164,19 +164,21 @@ class UserController extends BaseController {
 		$this -> assign('user', $data);
 		$this -> assign('user_info', $user_info_data);
 
-		// 删除已读的三个月前的信息
 		$notice = M('notice');
+ 		// 删除已读的三个月前的信息
     $foo = array();
     $bar = $notice -> where('status=0 and user_id=%d', $user_id) -> getField('notice_id,create_time');
     foreach ($bar as $key => $value) {
     	$triming = time() - $value;
       if($triming > 3600 * 24 * 90) array_push($foo, $key);
     }
-    $map['notice_id'] = array('IN', $foo);
-    $notice -> where($map) -> delete();
+    if(!empty($foo)) {
+      $map['notice_id'] = array('IN', $foo);
+      $notice -> where($map) -> delete();
+    }
 
     // 加载未读信息
-		$unread = $notice -> where('status>=0 and user_id=%d', $user_id) -> select();
+		$unread = $notice -> where('status>=0 and user_id=%d', $user_id) -> order('create_time') -> select();
 		$this -> assign('notices', $unread);
 
 		$this -> display();
