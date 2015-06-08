@@ -12,7 +12,7 @@ class SourceController extends BaseController {
 	 */
 	public function shard() {
 		$share = M('share');
-		$data = $share -> select();
+		$data = $share -> order('create_time desc') -> select();
 		$this -> assign('data', $data);
 
 		$this -> display();
@@ -141,7 +141,7 @@ class SourceController extends BaseController {
 	 */
 	public function banner() {
 		$banner = M('banner');
-		$b = $banner -> select();
+		$b = $banner -> order('status desc,sort desc,create_time desc') -> select();
 		$this -> assign('data', $b);
 
 		$this -> display();
