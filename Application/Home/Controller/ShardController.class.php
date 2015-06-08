@@ -190,21 +190,13 @@ class ShardController extends BaseController {
 	 * 图片信息修改页面
 	 */
 	public function modi($share_id = 0) {
-		$temp = M('share');
 		//检查权限
-		if(is_admin()) {
-      // 推送通知
-      $this -> setNotice(12, $data['user_id'], $share_id);
-    } else {
-      // 检查是否有删除权限
-  		if(!get_auth('modify', 0, $share_id)) $this -> error('非法操作！');
-    }
+		if(!get_auth('modify', 0, $share_id)) $this -> error('非法操作！');
 
+		$share = M('share');
+		$data = $share -> find($share_id);
 		if(!I('param.time', 0)) {	//如果不是提交请求
-
-			$share = M('share');
-			$data = $share -> find($share_id);
-			if(!$data) $this -> error('抱歉，该条数据可能已被删除');
+			if(!$data or $data['status'] == 0) $this -> error('抱歉，该条数据可能已被删除');
 			$this -> assign('data', $data);
 
 			// 获取当前时间
@@ -233,6 +225,10 @@ class ShardController extends BaseController {
 				$result = $share -> save();
 				$result = $this -> refreshTotalShare($share_id);
 				if($result !== false) {
+          // 推送通知 如果是管理员并且不是自己的分享
+      		if(is_admin() and $data['user_id'] != is_login()) {
+            $this -> setNotice(12, $data['user_id'], $share_id);
+          }
 					$this -> success('操作成功！');
 				} else {
 					$this -> error('未知原因，如有需要请求助管理员:'.$share -> getError());
@@ -252,7 +248,7 @@ class ShardController extends BaseController {
 		$data = $share -> where('share_id=%d',$share_id) -> find();
 		if(!$data) $this -> error('该条数据不存在！');
 		// 检查权限
-		if(is_admin()) {
+		if(is_admin() and $data['user_id'] != is_login()) {
 		  // 推送通知
 			$this -> setNotice(13, $data['user_id'], $share_id);
 		} else {
@@ -296,6 +292,14 @@ class ShardController extends BaseController {
 		} else {
 			// 还没喜欢，写入数据
 			array_push($like_array, $share_id);
+
+      // 推送通知
+      $share = M('share');
+      $owner = $share -> where('share_id=%d', $share_id) -> getField('user_id');
+      if($owner != is_login()) {
+        $this -> setNotice(22, $owner, $share_id);
+      }
+
 			$flag = true;
 		}
 		$like_list = json_encode($like_array);	// 封装数据
@@ -306,11 +310,6 @@ class ShardController extends BaseController {
 
 			// 数据更新
 			$this -> refreshTotalShare($share_id);
-
-      // 推送通知
-      $share = M('share');
-      $o = $share -> where('share_id=%d', $share_id) -> getField('user_id');
-      $this -> setNotice(22, $o, $share_id);
 
 			$this -> success($flag ?"1":"0");
 		} else {
@@ -339,7 +338,9 @@ class ShardController extends BaseController {
 
       // 推送通知
       $o = $share -> where('share_id=%d', $share_id) -> getField('user_id');
-      $this -> setNotice(21, $o, $share_id);
+      if($o != $data['user_id']) {
+        $this -> setNotice(21, $o, $share_id);
+      }
 
 			$this -> success('成功了！');
 		} else {
