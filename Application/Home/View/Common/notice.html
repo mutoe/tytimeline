@@ -1,4 +1,68 @@
 
+<in name="notice.type" value="12,13,14,15,16,17,21,22,23,24,25,26,31,32">
+<div class="box-notice">
+  <h3>
+  <eq name="notice.type" value="12">分享被修改</eq>
+  <eq name="notice.type" value="13">分享被删除</eq>
+  <eq name="notice.type" value="14">分享被加精</eq>
+  <eq name="notice.type" value="15">分享被置顶</eq>
+  <eq name="notice.type" value="16">分享通过审核</eq>
+  <eq name="notice.type" value="17">评论通过审核</eq>
+  <eq name="notice.type" value="21">有新评论</eq>
+  <eq name="notice.type" value="22">分享被收藏</eq>
+  <eq name="notice.type" value="23">有悄悄话</eq>
+  <eq name="notice.type" value="24">有新留言</eq>
+  <eq name="notice.type" value="25">有新回复</eq>
+  <eq name="notice.type" value="26">有新粉丝</eq>
+  <eq name="notice.type" value="31">用户组更变</eq>
+  <eq name="notice.type" value="32">升级了</eq>
+  <in name="notice.type" value="12,13,14,15,16,17,21,22"> <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></in>
+  <in name="notice.type" value="23,24,25,26"> <a href="__ROOT__/user/{$notice.operator}">#{$notice.operator}</a></in>
+  </h3>
+
+  <div class="info">
+    <eq name="notice.type" value="31">操作者:</eq>
+    <in name="notice.type" value="12,13,14,15,16,17,21,22,23,24,25,26,31">
+      <span class="am-text-warning"><span class="am-text-xs am-badge am-badge-primary">{$notice.operator|get_usergroup=0}</span> {$notice.operator|get_nickname}</span>
+    </in>
+    <eq name="notice.type" value="12">修改了你的分享</eq>
+    <eq name="notice.type" value="13">删除了你的分享</eq><eq name="notice.type" value="14">设置了精品分享</eq>
+    <eq name="notice.type" value="15">设置了精品分享并置于首页轮播</eq>
+    <eq name="notice.type" value="16">审核并通过了你的分享</eq>
+    <eq name="notice.type" value="17">审核并通过了你的评论</eq>
+    <eq name="notice.type" value="21">评论了你的分享</eq>
+    <eq name="notice.type" value="22">收藏了你的分享</eq>
+    <eq name="notice.type" value="23">对你说了悄悄话</eq>
+    <eq name="notice.type" value="24">给你留言了</eq>
+    <eq name="notice.type" value="25">回复了你的留言</eq>
+    <eq name="notice.type" value="26">关注了你</eq>
+    <eq name="notice.type" value="32"></eq>
+
+    <br />
+    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
+  </div>
+
+  <in name="notice.type" value="12,14,15,16,21,22,23,24,25,26">
+  <p>{$notice.attach}</p>
+  </in>
+  <eq name="notice.type" value="13">
+  <if condition="strlen($notice['attach']) gt 0"><p>删除原因:{$notice.attach}</p></if>
+  </eq>
+  <eq name="notice.type" value="31">
+  <p><span class="am-text-warning"><span class="am-text-xs am-badge am-badge-primary">{$notice.operator|get_usergroup=0}</span> {$notice.operator|get_nickname}</span> 将你更变为了 {$notice.attach} 用户组。</p>
+  </eq>
+  <eq name="notice.type" value="32"><p>你成功晋升为了 {$notice.attach} 。</p></eq>
+
+  <eq name="notice.status" value="1">
+  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
+  <else />
+  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
+  </eq>
+
+</div>
+
+</in>
+
 <eq name="notice.type" value="91">
 <div class="box-notice">
   <h3>留言反馈 Feedback (ID:{$notice.feedback_id})</h3>
@@ -9,231 +73,6 @@
   <p>{$notice.detail}</p>
   <eq name="notice.status" value="1">
   <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="handleFeedback({$notice.feedback_id})">我来处理</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="12">
-<div class="box-notice">
-  <h3>分享修改 <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 修改了你的分享<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="13">
-<div class="box-notice">
-  <h3>分享被删除 <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 删除了你的分享<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <if condition="strlen($notice['attach']) gt 0">
-  <p>删除原因:{$notice.attach}</p>
-  </if>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="14">
-<div class="box-notice">
-  <h3>分享被加精 <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 设置了精品分享<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="15">
-<div class="box-notice">
-  <h3>分享被置顶 <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 设置了精品分享并置于首页轮播<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="16">
-<div class="box-notice">
-  <h3>分享通过审核 <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 审核并通过了你的分享<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="17">
-<div class="box-notice">
-  <h3>评论通过审核 <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 审核并通过了你的评论<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>你在 #{$notice.share_id} 下的评论 {$notice.attach} 通过了审核！</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="21">
-<div class="box-notice">
-  <h3>有新评论 <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 评论了你的分享<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="22">
-<div class="box-notice">
-  <h3>分享被赞 <a href="__ROOT__/{$notice.share_id}">#{$notice.share_id}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 收藏了你的分享<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="23">
-<div class="box-notice">
-  <h3>有悄悄话 <a href="__ROOT__/user/{$notice.operator}">#{$notice.operator}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 对你说了悄悄话<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="24">
-<div class="box-notice">
-  <h3>有新留言 <a href="__ROOT__/user/{$notice.operator}">#{$notice.operator}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 给你留言了<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="25">
-<div class="box-notice">
-  <h3>有新回复 <a href="__ROOT__/user/{$notice.operator}">#{$notice.operator}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 回复了你的留言<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="26">
-<div class="box-notice">
-  <h3>有新粉丝 <a href="__ROOT__/user/{$notice.operator}">#{$notice.operator}</a></h3>
-  <div class="info">
-    <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 关注了你<br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>{$notice.attach}</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="31">
-<div class="box-notice">
-  <h3>用户组更变</h3>
-  <div class="info">
-    操作者: <span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span><br />
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p><span class="am-text-warning">{$notice.operator|get_usergroup=0} {$notice.operator|get_nickname}</span> 将你更变为了 {$notice.attach} 用户组。</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
-  <else />
-  <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
-  </eq>
-</div>
-</eq>
-
-<eq name="notice.type" value="31">
-<div class="box-notice">
-  <h3>升级了</h3>
-  <div class="info">
-    <span class="am-text-sm">于 {$notice.create_time|time_format} ({$notice.create_time|get_timing}前)</span>
-  </div>
-  <p>你成功晋升为了 {$notice.attach} 。</p>
-  <eq name="notice.status" value="1">
-  <button class="am-btn am-btn-primary am-btn-sm am-btn-block" onclick="readNotice({$notice.notice_id}, this)">哦</button>
   <else />
   <button class="am-btn am-btn-default am-btn-sm am-btn-block" disabled>朕已阅</button>
   </eq>

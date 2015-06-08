@@ -221,6 +221,10 @@ ul.am-dropdown-content:after {
   border-top: 1px solid #555;
   border-bottom: 1px dashed #555;
 }
+.box-notice button {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
 #page-ground-nav {
   padding-bottom: 0.4rem;
   background-color: #ffffff;
