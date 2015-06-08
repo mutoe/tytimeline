@@ -39,7 +39,7 @@
 			<div>
 				<p class="am-fl" style="padding: 8px;margin: 0;color: #555;">
 					<if condition="substr($data['time'],0,8) eq substr($data['create_time'],0,8)">上传<else />拍摄</if>于
-					{$data.time|time_format='Y 年 n 月 j 日 H:i'} ( {$data.time|get_timing}前 ) <span style="color: black;"> [ ↑ 点击上方查看大图 ↑ ] </span></p>
+					{$data.time|time_format='Y 年 n 月 j 日 H:i'} ( {$data.time|get_timing}前 ) <span style="color: black;"> <span class="am-hide-sm-only">[ ↑ 点击上方查看大图 ↑ ]</span> </span></p>
 				<div class="am-btn-group am-btn-group-sm am-fr am-padding-top-xs">
 					<span class="am-badge am-round"><i class="am-icon-heart"></i> {$data.be_like}</span>
 					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$data.click}</span>
@@ -135,7 +135,7 @@
   		</ul>
   	</div>
 
-  	<div class="box am-margin-top">
+  	<div class="box am-margin-top am-hide-sm-only">
   		<h5> [ {$data.catalog_id|get_catalog_name} ] 分类下的热门分享</h5>
   		<ul class="new-share am-avg-sm-3">
   			<volist name="cata_hot" id="vo">
@@ -156,7 +156,7 @@
   		</ul>
   	</div>
 
-  	<div class="box am-margin-top">
+  	<div class="box am-margin-top am-hide-sm-only">
   		<h5>随便看看</h5>
   		<div class="rand">
   			<a href="__ROOT__/{$rand.share_id}"><img class="rand" src="__PUBLIC__/{$rand.savepath}t_{$rand.savename}" alt="{$rand.tag_id|get_tag}" /></a>

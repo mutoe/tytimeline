@@ -29,8 +29,8 @@ class ShardController extends BaseController {
 		$user_info = $user -> where('user_id=%d', $data['user_id']) -> find();
 		$this -> assign('user_info', $user_info);
 
-		// 获取最近9条分享
-		$new_share = $share -> where('user_id=%d', $data['user_id']) -> limit(9) -> order('create_time desc') -> select();
+		// 获取最近6条分享
+		$new_share = $share -> where('user_id=%d', $data['user_id']) -> limit(6) -> order('create_time desc') -> select();
 		$this -> assign('new_share', $new_share);
 
 		// 获取该分类下的热门分享
