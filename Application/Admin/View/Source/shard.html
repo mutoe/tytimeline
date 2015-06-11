@@ -7,8 +7,8 @@
 		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">碎片管理</strong> / <small>Shard Manage</small>
 		</div>
 		<div class="am-input-group am-input-group-sm am-u-sm-4 am-fr">
-			<input type="text" class="am-form-field" id="doc-ipt-search">
-			<span class="am-input-group-btn"><button class="am-btn am-btn-default" type="button" onclick="share_search();">搜索</button></span>
+			<input type="text" class="am-form-field" id="doc-ipt-search" placeholder="请输入分享的ID">
+			<span class="am-input-group-btn"><button class="am-btn am-btn-default" type="submit" onclick="return share_search(this);">搜索</button></span>
 		</div>
 	</div>
 
@@ -54,18 +54,7 @@
 					</volist>
 					</tbody>
 				</table>
-				<div class="am-cf">
-					共 {$data|count} 条记录
-					<div class="am-fr">
-						<ul class="am-pagination">
-							<li class="am-disabled"><a href="#">«</a></li>
-							<li class="am-active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">»</a></li>
-						</ul>
-					</div>
-				</div>
+				{$page}
 			</form>
 		</div>
 
@@ -89,6 +78,11 @@
 				}
 			});
   	}
+  }
+  function share_search(el) {
+  	var content = $(el).parent('span').prev('input').val();
+  	location.href = "{:U('shard')}?share_id="+ content;
+  	return false;
   }
 </script>
 </block>

@@ -10,10 +10,17 @@ class SourceController extends BaseController {
 	/**
 	 * 分享列表管理
 	 */
-	public function shard() {
+	public function shard($share_id = 0) {
 		$share = M('share');
-		$data = $share -> order('create_time desc') -> select();
-		$this -> assign('data', $data);
+    if($share_id != 0) {
+      $map['share_id'] = $share_id;
+    } else $map = '';
+
+    $p = getpage($share, $map, 10);
+    $this -> assign('page', $p -> show() );
+
+		$list = $share -> order('create_time desc') -> where($map) -> select();
+		$this -> assign('data', $list);
 
 		$this -> display();
 	}
@@ -88,12 +95,17 @@ class SourceController extends BaseController {
 	/**
 	 * 标签列表管理
 	 */
-	public function tag($sort = 'tag_id') {
+	public function tag($tag_id = 0) {
 		$tag = M('tag');
-		$sort .= ' desc';
-    $sort = "status desc," . $sort;
-		$data = $tag -> order($sort) -> select();
-		$this -> assign('data', $data);
+    if($tag_id != 0) {
+      $map['tag_id'] = $tag_id;
+    } else $map = '';
+
+    $p = getpage($tag, $map, 15);
+    $this -> assign('page', $p -> show() );
+
+    $list = $tag -> order('status desc,total_share desc,create_time desc') -> where($map) -> select();
+    $this -> assign('data', $list);
 
 		$this -> display();
 	}

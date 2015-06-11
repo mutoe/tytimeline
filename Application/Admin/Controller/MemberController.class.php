@@ -3,21 +3,34 @@ namespace Admin\Controller;
 use Think\Controller;
 class MemberController extends BaseController {
 
-	public function user() {
+	public function user($user_id = 0) {
 		$user = M('user');
-		$data = $user -> select();
-		$this -> assign('data',$data);
+
+    if($user_id) $map['user_id'] = $user_id;
+    else $map = "";
+
+    $p = getpage($user, $map, 15);
+    $this -> assign('page', $p -> show());
+
+		$list = $user -> where($map) -> select();
+		$this -> assign('data',$list);
 
 		$this -> display();
 	}
 
-	public function admin() {
+	public function admin($user_id = 0) {
 		$user = M('user');
+    if($user_id) $map['user_id'] = $user_id;
+    else $map = "";
 		$map['group_id'] = array('IN','1,2');
-		$data = $user -> where($map) -> select();
-		$this -> assign('data',$data);
 
-		$this -> display();
+    $p = getpage($user, $map, 15);
+    $this -> assign('page', $p -> show());
+
+    $list = $user -> where($map) -> select();
+    $this -> assign('data',$list);
+
+    $this -> display();
 	}
 
 	/**
