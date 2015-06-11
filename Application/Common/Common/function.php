@@ -25,6 +25,7 @@ function get_usergroup($user_id = 0, $show_id = true) {
 	$result = $group -> where('group_id=%d', $groupid) -> getField('name');
 	return $result;
 }
+
 function devide_month($ym) {
 	$year = substr($ym, 0, 4);
 	$month = substr($ym, 4, 2);
@@ -50,8 +51,9 @@ function is_login() {
  */
 function is_admin($user_id = 0) {
 	$admin_group = array(
-		1, //超级管理员
-		2, //站点管理员
+		1, // 超级管理员
+		2, // 站点管理员
+		3, // 站点编辑
 	);
 	$user_id != 0 or $user_id = I('session.user_id');
 	$user = D('user');
@@ -86,7 +88,7 @@ function get_auth($method, $user_id = 0, $id = 0) {
 			$share = M('share');
 			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
 			if($data == $user_id) return 1;
-			return $auth[2];
+			return is_admin() ? 2 : $auth[2];
 			break;
 		case 'like':
 			return $auth[3];
@@ -98,19 +100,19 @@ function get_auth($method, $user_id = 0, $id = 0) {
 			$share = M('share');
 			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
 			if($data == $user_id) return 1;
-			return $auth[5];
+			return is_admin() ? 2 : $auth[5];
 			break;
 		case 'delete':
 			$share = M('share');
 			$data = $share -> where('share_id=%d', $id) -> getField('user_id');
 			if($data == $user_id) return 1;
-			return $auth[6];
+			return is_admin() ? 2 : $auth[6];
 			break;
 		case 'manage_comment':
 			$comment = M('comment');
 			$data = $comment -> where('comment_id=%d', $id) -> getField('user_id');
 			if($data == $user_id) return 1;
-			return $auth[7];
+			return is_admin() ? 2 : $auth[7];
 			break;
 		case 'admin_page':
 			return $auth[8];
@@ -127,19 +129,16 @@ function get_auth($method, $user_id = 0, $id = 0) {
 /**
  * 输出tag列表 string形式
  */
-function get_tag($string) {
+function get_tag($string,$trim = ",") {
 	$tag = M('tag');
-	$tag_list = $tag -> field('tag_id,tag_name') -> select();
+	$tag_list = $tag -> getField('tag_id,tag_name');
 	$array = json_decode($string);
+  if($trim == 'one') return $tag_list[$array[0]];
 	$result = '';
 	foreach ($array as $tag_id) {
-		foreach ($tag_list as $tag_value) {
-			if($tag_value['tag_id'] == $tag_id) {
-				$result .= $tag_value['tag_name'].',';
-			}
-		}
+	  if(!empty($tag_list[$tag_id])) $result .= $tag_list[$tag_id].$trim;
 	}
-	$result = trim($result,',');
+	$result = trim($result,$trim);
 	return $result;
 }
 
@@ -164,7 +163,7 @@ function str2json($string) {
 /**
  * 输出tag列表 前端badge形式
  */
-function show_tag($json, $color = true, $css = false) {
+function show_tag($json, $opacity = 0.6, $css = false) {
 	if(S('tag')) {
 		$tag_list = S('tag');
 	} else {
@@ -173,9 +172,7 @@ function show_tag($json, $color = true, $css = false) {
 		S('tag', $tag_list);
 	}
 	$array = json_decode($json);
-	if($color) {
-		$color_list = array('','am-badge-primary','am-badge-danger','am-badge-warning','am-badge-success','am-badge-secondary');
-	} else $color_list = array('');
+	$color_list = array('am-badge-primary','am-badge-danger','am-badge-warning','am-badge-success','am-badge-secondary');
 	$result = '';
 	foreach ($array as $tag_id) {
 		foreach ($tag_list as $tag_value) {
@@ -184,10 +181,10 @@ function show_tag($json, $color = true, $css = false) {
 				if($css) {
 					$result .= '<button alt="点击添加到标签" data-tag-id="'.$tag_value['tag_name'].'" class="tag-badge am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</button>&nbsp;';
 				} else {
-					if( C("URL_MODEL" == 1) ) {
-						$result .= '<a href="'.__ROOT__.'/index.php/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
+					if( C("URL_MODEL") == 1 ) {
+						$result .= '<a href="'.__ROOT__.'/index.php/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'" style="opacity:'. $opacity .';">'.$tag_value['tag_name'].'</span></a>&nbsp;';
 					} else {
-						$result .= '<a href="'.__ROOT__.'/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'">'.$tag_value['tag_name'].'</span></a>&nbsp;';
+						$result .= '<a href="'.__ROOT__.'/tag/'.$tag_id.'"><span class="am-badge '. $color_list[$c] .'" style="opacity:'. $opacity .';">'.$tag_value['tag_name'].'</span></a>&nbsp;';
 					}
 				}
 			}
@@ -223,7 +220,7 @@ function get_like_status($share_id = 0, $user_id = 0) {
 
 	$user = M('user_info');
 	$like_str = $user -> where('user_id=%d', $user_id) -> getField('like_share');
-	$like_arr = explode(',', $like_str);
+	$like_arr = json_decode($like_str);
 	return in_array($share_id, $like_arr);
 }
 
@@ -268,3 +265,28 @@ function substring($str , $len = 20){
 	if( strlen($str) > strlen($result) ) $result .= '...';
 	return $result;
 }
+
+/**
+ * 基础分页的相同代码封装，使前台的代码更少
+ * @param $m 模型，引用传递
+ * @param $where 查询条件
+ * @param int $pagesize 每页查询条数
+ * @return \Think\Page
+ */
+  function getpage(&$m, $where = "", $pagesize = 20){
+    $m1 = clone $m; // 浅复制一个模型
+    $count = $m -> where($where) -> count();  // 连惯操作后会对join等操作进行重置
+    $m = $m1; // 为保持在为定的连惯操作，浅复制一个模型
+    $p = new Think\Page($count,$pagesize);
+    $p -> lastSuffix = false;
+    $p -> setConfig('header','<li class="rows">共 <b>%TOTAL_ROW%</b> 条记录&nbsp;&nbsp;每页 <b>'.$pagesize.'</b> 条&nbsp;&nbsp;第 <b>%NOW_PAGE%</b> / <b>%TOTAL_PAGE%</b> 页</li>');
+    $p -> setConfig('prev','上一页');
+    $p -> setConfig('next','下一页');
+    $p -> setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+
+    $p -> parameter = I('get.');
+
+    $m -> limit($p -> firstRow,$p -> listRows);
+
+    return $p;
+  }

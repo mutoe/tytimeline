@@ -1,20 +1,23 @@
 <extend name="Common:base" />
 
 <block name="main">
-<div class="am-g am-g-fixed">
+<div class="am-g am-g-fixed am-margin-top-xl">
 	<ul id="wookmark" class="am-center" style="padding: 0;">
 		<li class="wookmark-box">
-			<include file="Common/user" head="个人中心" btn="1" />
+			<include file="Common/user" head="" btn="0" />
 		</li>
-		<volist name="notices" id="notice">
-		<li class="wookmark-box">
-		  <include file="Common/notice" />
-		</li>
-		</volist>
-		<volist name="share" id="vo">
+		<eq name="no_data" value="1">
+    <li class="wookmark-box">
+      <div class="share">
+        <div class="detail am-show-sm-only" style="max-width: 162px;">该用户还没有收藏任何分享。。。</div>
+        <div class="detail am-show-md-up" style="max-width: 243px;">该用户还没有收藏任何分享。。。</div>
+      </div>
+    </li>
+		</eq>
+		<volist name="list" id="vo">
 		<li class="wookmark-box">
 			<div class="share">
-				<div class="author am-show-md-up">发表于 {$vo.create_time|get_timing}前</div>
+				<div class="author am-show-md-up"><a href="__ROOT__/user/{$vo.user_id}">@{$vo.user_id|get_nickname}</a> 发表于 {$vo.create_time|get_timing}前</div>
 				<div class="author am-show-sm-only"> {$vo.create_time|get_timing}前</div>
 				<div class="media am-g">
 					<div class="am-u-sm-12">
@@ -30,7 +33,13 @@
 				</div>
 				<div class="tool-bar">
 					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$vo.click}</span>
-					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$vo.total_comments}</span>
+					<button class="am-badge am-round am-badge-danger like-btn" onclick="like({$vo.share_id},this);">
+						<if condition="get_like_status($vo['share_id'])">
+							<i class="am-icon-heart"></i>
+						<else />
+							<i class="am-icon-heart-o"></i>
+						</if>
+					</button>
 				</div>
 				<div class="detail am-show-sm-only" style="max-width: 162px;">{$vo.detail|substring='50'}</div>
 				<div class="detail am-show-md-up" style="max-width: 243px;">{$vo.detail|substring='80'}</div>

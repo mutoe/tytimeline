@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" xmlns:wb="http://open.weibo.com/wb">
 <head>
 	{// 跳转到webapp模块}
 	<script type="text/javascript">
@@ -23,11 +23,12 @@
   </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="天佑时光轴 - 天佑app">
-  <meta name="keywords" content="tianyou ty 天佑 时光轴">
+  <meta name="description" content="天佑时光轴是一款由天佑工作室独立开发制作的图片式社交分享平台，在这里，你可以将自己生活的点滴、不经意间的感动、课堂上的创作、实验中的困惑以及属于自己的原创摄影分享给交大学子，也可以时光轴的形式展示出来，回顾过往。">
+  <meta name="keywords" content="天佑时光轴 天佑工作室 重庆交通大学">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta property="wb:webmaster" content="a3b063be406e8a1c" />
   <block name="meta"></block>
-  <title>{$page['title']|default="天佑时光轴 - 天佑app"}</title>
+  <title>{$page['title']|default="天佑时光轴 - 印象交大分享平台"}</title>
 
   <link rel="icon" type="image/png" href="__PUBLIC__/i/favicon.png" />
   <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/amazeui.css" />
@@ -51,14 +52,14 @@
 
 <header id="head-topbar" class="am-topbar am-topbar-inverse" <block name='top-fixed'>data-am-sticky</block> >
   <h1 class="am-topbar-brand am-hide-md-only" style="color: white;">
-  	<a href="__ROOT__" class="am-text-ir">天佑时光轴</a>
+  	<a href="__ROOT__/" class="am-text-ir">天佑时光轴</a>
   </h1>
 
   <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}">
   	<span class="am-sr-only">导航切换</span>
 		<span class="am-icon-bars"></span>
   </button>
-  <if condition="!session('?user_id')">
+  <if condition="!is_login()">
 		<a class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-primary am-show-sm-only" href="{:U('Login/index')}"><span class="am-icon-user" style="color: white;"></span></a>
   <else />
 		<a class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-danger am-show-sm-only" href="{:U('Shard/add')}"><span class="am-icon-camera" style="color: white;"></span></a>
@@ -66,18 +67,20 @@
 
   <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
     <ul class="am-nav am-nav-pills am-topbar-nav">
-      <li class="header-Index am-hide-lg-only"><a href="__ROOT__"><i class="am-icon-home"></i> 天佑时光轴</a></li>
-      <li class="header-Index am-show-lg-only"><a href="__ROOT__"><i class="am-icon-home"></i> 首页</a></li>
+      <li class="header-Index am-hide-lg-only"><a href="__ROOT__/"><i class="am-icon-home"></i> 天佑时光轴</a></li>
+      <li class="header-Index am-show-lg-only"><a href="__ROOT__/"><i class="am-icon-home"></i> 首页</a></li>
       <li class="header-Ground"><a href="__ROOT__/new"><i class="am-icon-leaf"></i> 广场</a></li>
       <li class="header-Tag"><a href="__ROOT__/tag"><i class="am-icon-tags"></i> 标签</a></li>
       <li class="header-Time"><a href="{:U('Time/index')}"><i class="am-icon-clock-o"></i> 时光</a></li>
     </ul>
-
-    <form class="am-topbar-form am-topbar-right am-form-inline am-show-lg-only" role="search" >
-      <div class="am-form-group">
-        <input type="text" class="am-form-field am-input-sm" placeholder="搜索" style="height: 36px;">
+		<block name="search-box">
+    <form class="am-topbar-form am-topbar-right am-form-inline am-show-lg-only" role="search">
+      <div id="search-box" class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索" style="height: 36px;width: 6em;">
+        <button type="submit" class="am-btn am-btn-xs am-btn-primary" style="display: none;" onclick="return search()">搜索</button>
       </div>
     </form>
+		</block>
 
     <div class="am-topbar-right am-form-inline">
       <div class="am-dropdown am-hide-sm-only" data-am-dropdown="{boundary: '.am-topbar'}">
@@ -86,27 +89,30 @@
         </button>
         <ul class="am-dropdown-content">
         	<li><a href="__ROOT__/rand"><i class="am-icon-cube"></i> 试试手气</a></li>
-        <if condition="!session('?user_id')">
-        	<li><a href="javascript: modalSign();"><i class="am-icon-terminal"></i> 注册</a></li>
+        <if condition="!is_login()">
+        	<li><a href="javascript: void(0);" onclick="modalSign()"><i class="am-icon-terminal"></i> 注册</a></li>
         <else />
-        <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
-          <li><a href="{:U('Admin/index')}"><i class="am-icon-external-link-square"></i> 进入后台</a></li>
-        </if>
-          <li><a href="__ROOT__/user"><i class="am-icon-user"></i> 个人中心</a></li>
+          <li><a href="{:U('user/notice')}"><i class="am-icon-user"></i> 通知中心</a></li>
           <li><a href="javascript: void(0);" onclick="checkLogout()"><i class="am-icon-sign-out"></i> 安全退出</a></li>
         </if>
-          <li><a href="http://ty.cqjtu.edu.cn/story/"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>
+          <li><a href="http://ty.cqjtu.edu.cn"><i class="am-icon-external-link-square"></i> 天佑年华</a></li>
         </ul>
       </div>
     </div>
     <div class="am-topbar-right am-hide-sm-only" >
+    <if condition="get_usergroup() eq 1 or get_usergroup() eq 2">
+  		<a class="am-topbar-btn am-btn-sm am-btn" href="{:U('Admin/index')}" target="_blank"><i class="am-icon-external-link-square"></i> 进入后台</a>
+    </if>
     <if condition="is_login()">
     	<a class="am-topbar-btn am-btn-sm am-btn" href="__ROOT__/user" style="color: white;">
-				<span style="color: #0D86C4;">{:get_usergroup(0,0)}</span> {:get_nickname()}
+    	  <if condition="!empty($unread_notice)">
+    	  <span class="" id="unreadNotice"><i class="am-icon-bullhorn"></i> ({$unread_notice})</span>
+        </if>
+				<span class="am-text-warning">{:get_usergroup(0,0)}</span> {:get_nickname()}
     	</a>
   	</if>
   	<if condition="!is_login()">
-    	<a href="javascript: modalLogin();" class="am-btn am-btn-danger am-topbar-btn am-btn-sm" style="color: white;"><i class="am-icon-sign-in"></i> 登录</a>
+    	<a href="javascript: void(0);" onclick="modalLogin()" class="am-btn am-btn-danger am-topbar-btn am-btn-sm" style="color: white;"><i class="am-icon-sign-in"></i> 登录</a>
   	<else />
   		<a href="{:U('Shard/add')}" class="am-btn am-btn-danger am-topbar-btn am-btn-sm" style="color: white;"><i class="am-icon-camera"></i> 时光</a>
   	</if>
@@ -120,10 +126,23 @@
 <a id="returnTop">回到顶部</a>
 
 <block name="footer">
-<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer style="margin-top: 3rem;">
-  <div class="am-footer-miscs">
-    <p class="footer-text">CopyRight©2015 <a class="footer-link" href="http://ty.cqjtu.edu.cn/story/" title="天佑工作室" target="_blank" class="">TianYou Network Studio</a>.</p>
-    <!--<p>京ICP备13033158</p>-->
+<footer class="footer">
+  <div class="am-g am-g-fixed">
+    <div class="am-u-md-12 am-u-lg-8">
+      <h2 class="amz-fd"><a>天佑时光轴</a></h2>
+      <ul class="amz-links">
+        <a href="{:U('About/feedback')}" class="am-icon-envelope-o">&nbsp;留言反馈</a> |
+        <a href="{:U('About/disclaimer')}">用户须知</a> |
+        <a href="http://ty.cqjtu.edu.cn">天佑年华</a>
+      </ul>
+      <p class="amz-cp">
+        © 2015 TianYou Network Studio. <br />
+        本站图片均来自网友共享，如无意侵权请联系我们，我们将在第一时间进行处理，谢谢！
+      </p>
+    </div>
+    <div class="am-u-lg-4 am-hide-md-only">
+      <span class="footer-img">交大人的分享平台！</span>
+    </div>
   </div>
 </footer>
 </block>
@@ -150,6 +169,14 @@ var ROOT = "__ROOT__";
 
 <script src="__PUBLIC__/js/common.js" type="text/javascript" charset="utf-8"></script>
 <script src="__PUBLIC__/js/app.js" type="text/javascript" charset="utf-8"></script>
+
+<if condition="!empty($unread_notice)">
+<script type="text/javascript">
+	setInterval(function(){
+    $("#unreadNotice").fadeOut(300).fadeIn(300);
+	},1500);
+</script>
+</if>
 
 <block name="js"></block>
 

@@ -5,10 +5,10 @@ return array(
 	'MODULE_ALLOW_LIST'	=> array('Home', 'Admin', 'M'),
 	'DEFAULT_MODULE'		=> 'Home',
 
-	'URL_MODEL'					=> '1', // URL模式
+	'URL_MODEL'					=> '2', // URL模式
 
 	'TMPL_PARSE_STRING'	=> array(
-     '__ROOT__' => '/timeline/index.php',
+     '__ROOT__' => 'http://pic.cqjtu.edu.cn',
 	),
 
 	// 数据库配置信息
@@ -37,6 +37,7 @@ return array(
 
 		// 公共控制器
 	  'FuckIE'				=> array('Base/FuckIE'),
+	  'search/:content'	=> array('Search/search'),
 
 		// 广场
 	  'hot'						=> array('Ground/index', 'content=hot'),
@@ -50,7 +51,8 @@ return array(
 		'tag/:tag_id\d'	=> array('Tag/detail'),
 
 		// 用户
-		'user/:user_id\d'		=> array('User/index'),
+		'user/:user_id\d'				=> array('User/index'),
+		'user/like/:user_id\d'	=> array('User/like'),
 
 		// 分享
 		':share_id\d'		=> array('Shard/detail'),

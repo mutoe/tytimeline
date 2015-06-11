@@ -7,7 +7,7 @@
 		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">用户列表</strong> / <small>Users List</small>	</div>
 		<div class="am-input-group am-input-group-sm am-u-sm-4 am-fr">
 			<input type="text" class="am-form-field">
-			<span class="am-input-group-btn"><button class="am-btn am-btn-default" type="button">搜索</button></span>
+			<span class="am-input-group-btn"><button class="am-btn am-btn-default" type="submit" onclick="return search(this);">搜索</button></span>
 		</div>
 	</div>
 
@@ -48,7 +48,7 @@
 					</volist>
 					</tbody>
 				</table>
-				<div class="am-cf">共 {$data|count} 条记录</div>
+				{$page}
 			</form>
 		</div>
 
@@ -73,5 +73,10 @@
 			});
 		}
 	}
+	function search(el) {
+    var content = $(el).parent('span').prev('input').val();
+    location.href = "{:U('user')}?user_id="+ content;
+    return false;
+  }
 </script>
 </block>

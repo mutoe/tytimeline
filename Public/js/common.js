@@ -26,14 +26,16 @@ function modalPopup(info,status,title) {
 	});
 }
 
-function modalConfirm(fun,info,title) {
+function modalConfirm(fun,info,title,fun2,yes,no) {
 	$.ajax({
 		url: ROOT + "/Base/syncHtml",
 		type: "POST",
 		data: {
 			modal: 'confirm',
 			info: info,
-			title: title
+			title: title,
+			yes: yes,
+			no: no
 		},
 		success: function(data) {
 			if (data.status) {
@@ -46,7 +48,14 @@ function modalConfirm(fun,info,title) {
 						} else {
 							location.href = fun;
 						}
-	        }
+          },
+          onCancel: function(options) {
+            if (typeof fun2 === 'function') {
+              fun2();
+            } else {
+              location.href = fun2;
+            }
+          }
 	      });
 			} else {
 				modalPopup(data.info, false);
@@ -74,21 +83,34 @@ function checkLogout() {
 	return false;
 }
 
-function deleteShare(share_id) {
-	modalConfirm(function() {
-		$.ajax({
-			url: ROOT + '/Shard/deleteShare',
-			type: "POST",
-			data: {share_id: share_id},
-			success: function(data) {
-				if (data.status) {
-					modalPopup(data.info);
-					location.reload(true);
-				} else {
-					modalPopup(data.info, false);
-				}
-			}
-		});
-	},"你确实要删除这条纪录吗?");
-	return false;
+function handleFeedback(feedbackId) {
+  modalConfirm(function() {
+    $.ajax({
+    	type:"post",
+    	url: ROOT + "/Base/handleFeedbackResult",
+    	data: {result: true,feedback_id: feedbackId},
+    	success: function(data) {
+    	  if(data.status) {
+    	    modalPopup("已经成功处理！");
+    	    setTimeout(function() {
+      	    location.reload();
+    	    }, 1000);
+    	  } else console.log(data.info);
+    	}
+    });
+  },"这个问题处理成功了吗？<br><span class='am-text-sm am-text-danger'>* 关闭问题: 如果回复无意义或无法解决，请点击关闭问题。</span>", "处理结果", function() {
+    $.ajax({
+      type:"post",
+      url: ROOT + "/Base/handleFeedbackResult",
+      data: {result: false,feedback_id: feedbackId},
+      success: function(data) {
+        if(data.status) {
+          modalPopup("已关闭该反馈，交由后台处理");
+    	    setTimeout(function() {
+            location.reload();
+          }, 1000);
+        } else console.log(data.info);
+      }
+    });
+  },"<span class='am-text-success'>已解决</span>","<span class='am-text-warning'>关闭问题</span>");
 }

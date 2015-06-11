@@ -10,10 +10,17 @@ class SourceController extends BaseController {
 	/**
 	 * 分享列表管理
 	 */
-	public function shard() {
+	public function shard($share_id = 0) {
 		$share = M('share');
-		$data = $share -> select();
-		$this -> assign('data', $data);
+    if($share_id != 0) {
+      $map['share_id'] = $share_id;
+    } else $map = '';
+
+    $p = getpage($share, $map, 10);
+    $this -> assign('page', $p -> show() );
+
+		$list = $share -> order('create_time desc') -> where($map) -> select();
+		$this -> assign('data', $list);
 
 		$this -> display();
 	}
@@ -88,14 +95,44 @@ class SourceController extends BaseController {
 	/**
 	 * 标签列表管理
 	 */
-	public function tag($sort = 'tag_id') {
+	public function tag($tag_id = 0) {
 		$tag = M('tag');
-		$sort .= ' desc';
-		$data = $tag -> order($sort) -> select();
-		$this -> assign('data', $data);
+    if($tag_id != 0) {
+      $map['tag_id'] = $tag_id;
+    } else $map = '';
+
+    $p = getpage($tag, $map, 15);
+    $this -> assign('page', $p -> show() );
+
+    $list = $tag -> order('status desc,total_share desc,create_time desc') -> where($map) -> select();
+    $this -> assign('data', $list);
 
 		$this -> display();
 	}
+
+  /**
+   * 修改标签操作
+   */
+  public function modiTag($tag_id = 0) {
+    $tag = M('tag');
+    $data = $tag -> find($tag_id);
+    $this -> assign('data', $data);
+
+    $this -> display();
+  }
+
+  public function submitModiTag() {
+    if(!IS_AJAX) $this -> error("非法请求！");
+  	$data = I('post.');
+    $tag = M('tag');
+    $result = $tag -> save($data);
+    if($result) {
+      $this -> success();
+    } else {
+      $info = $tag -> getError();
+      $this -> error($info);
+    }
+  }
 
 	/**
 	 * 删除标签操作
@@ -116,7 +153,7 @@ class SourceController extends BaseController {
 	 */
 	public function banner() {
 		$banner = M('banner');
-		$b = $banner -> select();
+		$b = $banner -> order('status desc,sort desc,create_time desc') -> select();
 		$this -> assign('data', $b);
 
 		$this -> display();
@@ -172,11 +209,10 @@ class SourceController extends BaseController {
 		} else {
 			// 写入数据库
 			$banner = M('banner');
-			$user_id = is_login();
 			$data = array(
-				'source' => $user_id,
 				'savename' => $info['savename'],
 				'create_time' => time(),
+				'create_user' => is_login(),
 				'status' => '-1',
 			);
 			$result = $banner -> add( $data );//return $banner_id
@@ -193,6 +229,8 @@ class SourceController extends BaseController {
 		$banner = M('banner');
 		$data = $banner -> find($banner_id);
 		if(I('post.w') > 0) {
+			$user_id = I('post.source', 0) ? I('post.source') : is_login();
+
 			$image = new \Think\Image();
 			$image -> open('./public/img/banner/'. $data['savename']);
 
@@ -226,6 +264,7 @@ class SourceController extends BaseController {
 			$image -> save('./public/img/banner/t_'. $data['savename'] );
 
 			//更改轮播图状态
+			$banner -> where('banner_id=%d', $banner_id) -> setField('source', $user_id);
 			$banner -> where('banner_id=%d', $banner_id) -> setField('status', 1);
 
 			$this -> success('成功了', U('banner'));
@@ -238,4 +277,22 @@ class SourceController extends BaseController {
 		}
 	}
 
+	public function bannerModi($banner_id = 0) {
+		if(!$banner_id) $this -> error('参数错误！');
+		$banner = M('banner');
+		$data = $banner -> find($banner_id);
+		$this -> assign('data', $data);
+
+		$this -> display();
+	}
+
+	public function bannerModiSubmit($banner_id = 0) {
+		if(!$banner_id) $this -> error('参数错误！');
+		$banner = M('banner');
+		$data = I('post.');
+		$data['banner_id'] = $banner_id;
+		$result = $banner -> save($data);
+		if($result !== false) $this -> success("修改成功");
+		else $this -> error( $banner -> getError() );
+	}
 }

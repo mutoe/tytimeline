@@ -1,0 +1,51 @@
+<extend name="Common:base" />
+
+<block name="main">
+<div class="am-g am-g-fixed">
+
+<div class="am-u-md-8 am-u-sm-10 am-u-sm-centered">
+  <h2 class="am-padding-top">留言反馈</h2>
+  <hr />
+  <form method="post" class="am-form" data-am-validator>
+  	<fieldset>
+	    <label>
+	      联系方式: <span class="am-text-sm">( 邮箱 / 电话 / QQ ) </span>
+  	    <input type="text" name="contact" id="contact" required placeholder="如果希望回复可填" />
+	    </label>
+	    <label class="am-margin-top-sm">
+	      * 留言内容
+	      <textarea id="detail" name="detail" rows="5" cols="50" minlength="5" placeholder="请输入5-255字"></textarea>
+	    </label>
+	    <div class="am-padding-top">
+	      <input type="submit" value="提交" class="am-btn am-btn-primary" onclick="return register();">
+	    </div>
+    </fieldset>
+  </form>
+</div>
+
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+	function register() {
+    if ($("#detail").val().length < 5 || $("#detail").val().length > 255) {
+      modalPopup("内容字数不符合要求！", false);return false;
+    }
+		$.ajax({
+			type:"post",
+			url:"{:U('About/feedback')}",
+			data: $(".am-form").serialize(),
+			success: function(data) {
+				if(data.status) {
+					modalPopup("提交成功，感谢您的反馈！");
+				} else {
+				  console.log(data.info);
+					modalPopup("提交失败:"+ data.info, false);
+				}
+			}
+		});
+		return false;
+	}
+</script>
+</block>

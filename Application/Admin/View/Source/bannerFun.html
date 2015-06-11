@@ -28,22 +28,31 @@
 
 		<div class="am-tabs-bd">
 			<div class="am-tab-panel am-fade am-in am-active" id="tab1">
-				<div class="am-u-sm-12">
-					<h4>图片裁切</h4>
-					<p>新上传的轮播图需要进行裁切，以符合首页需求。</p>
-					<img src="__PUBLIC__/img/banner/{$data.savename}" id="cropbox" style="width: 960px;" />
+				<form class="am-form" method="post" onsubmit="return checkCoords();">
+					<div class="am-u-sm-12 am-margin-top">
+						<label>
+							<h5>引用源</h5>
+							<input type="text" name="source" id="source" />
+							<p id="source_name" class="am-margin-top-xs am-margin-bottom-xs"></p>
+							<p class="am-margin-top-sm am-text-sm">请输入引用源用户id，若没有则不填。<br /><span class="am-text-danger">因已印上水印，所以引用源一旦设定不可更改</span></p>
+						</label>
+					</div>
 
-				</div>
-				<div class="am-u-sm-3 am-u-end am-margin-top">
-					<form method="post" onsubmit="return checkCoords();">
-						<input type="hidden" id="x" name="x" />
-						<input type="hidden" id="y" name="y" />
-						<input type="hidden" id="w" name="w" />
-						<input type="hidden" id="h" name="h" />
-						<input type="hidden" id="f" name="f" />
-						<input type="submit" value="提交" class="am-btn am-btn-block am-btn-primary" />
-					</form>
-				</div>
+					<div class="am-u-sm-12 am-margin-top">
+						<h5>图片裁切</h5>
+						<p>新上传的轮播图需要进行裁切，以符合首页需求。</p>
+						<img src="__PUBLIC__/img/banner/{$data.savename}" id="cropbox" style="width: 960px;" />
+					</div>
+
+					<div class="am-u-sm-3 am-u-end am-margin-top">
+							<input type="hidden" id="x" name="x" />
+							<input type="hidden" id="y" name="y" />
+							<input type="hidden" id="w" name="w" />
+							<input type="hidden" id="h" name="h" />
+							<input type="hidden" id="f" name="f" />
+							<input type="submit" value="提交" class="am-btn am-btn-block am-btn-primary" />
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -63,6 +72,22 @@ $(function() {
     bgColor: 'white',
     bgOpacity: 0.2,
     addClass: 'jcrop-light'
+	});
+
+	$("#source").on('blur', function() {
+		var user_id = $("#source").val();
+		if (!user_id) user_id = 0;
+		$.ajax({
+			type:"get",
+			url:"{:U('Base/get_nickname')}?user_id="+ user_id,
+			success: function(data) {
+				if (data.info) {
+					$("#source_name").html("<span class='am-text-success'>id:"+ user_id +", 用户名:"+ data.info +"</span>");
+				} else {
+					$("#source_name").html("<span class='am-text-warning'>不存在此用户，将引用源设置为当前账户</span>");
+				}
+			}
+		});
 	});
 
 });

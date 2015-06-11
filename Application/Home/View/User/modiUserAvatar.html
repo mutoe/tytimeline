@@ -1,0 +1,72 @@
+<extend name="Common:base" />
+
+<block name="main">
+<div class="am-g am-g-fixed user-modi-user-info am-padding-top-xl">
+
+	<div class="am-u-sm-12 am-u-md-7 am-u-lg-8 am-padding">
+		<div class="am-u-sm-offset-2 am-padding">
+			<h4>修改头像</h4>
+			<if condition="get_usergroup(0) neq 9">
+			<p class="am-text-warning am-text-sm">注意: 此处修改头像会同步到论坛用户中心</p>
+			</if>
+		</div>
+
+			<div class="am-g am-margin-top-sm">
+				<if condition="get_usergroup(0) eq 9">
+					<p class="am-u-sm-offset-1 am-u-sm-10 am-u-end am-text-lg am-text-warning">很抱歉!<br />非在校用户暂时无法更改头像，我们的工程师正在加紧制作此功能，请谅解 o(∩_∩)o </p>
+				<else />
+				<div class="am-center am-margin-bottom" style="width: 500px;">
+					{$avatar}
+				</div>
+				</if>
+			</div>
+
+	</div>
+
+	<div class="am-u-sm-12 am-u-md-4 am-u-md-offset-1 am-u-lg-3 am-padding">
+		<h4>用户信息中心</h4>
+		<ul>
+			<li><a href="{:U('User/modiUserInfo')}">修改个人信息</a></li>
+			<li><a href="{:U('User/modiUserAvatar')}">修改头像</a></li>
+			<if condition="get_usergroup(0) eq 9">
+			<li><a href="{:U('User/modiUserPassword')}">修改密码</a></li>
+			<else />
+			<li><a title="前往论坛修改密码" href="http://bbs.cqjtu.edu.cn/memcp.php?action=profile&typeid=1" target="_blank">修改密码</a></li>
+			</if>
+		</ul>
+	</div>
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+  $(function() {
+  	el = $(".doc-js-btn-1").children('label[data-ismale="{$data.is_male}"]');
+  	el.addClass("am-active");
+  	el.children('input').attr('checked','checked');
+  });
+
+  function submitFun() {
+  	$.ajax({
+  		type:"post",
+  		url:"{:U('submitModiUserInfo')}",
+  		data: $(".am-form").serialize(),
+  		success: function(data) {
+  			if(data.status) {
+	  			modalPopup("修改成功！");
+	  			setTimeout(function() {
+	  				location.href = "__ROOT__/user";
+	  			}, 1200);
+  			} else {
+  				modalPopup("出错了:"+ data.info, false);
+  				console.log(data.info);
+  			}
+  		}
+  	});
+  	return false;
+  }
+
+  $("embed").attr("width","500");
+  $("embed").attr("height","500");
+</script>
+</block>

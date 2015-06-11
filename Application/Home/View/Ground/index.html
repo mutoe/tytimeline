@@ -7,7 +7,7 @@
 			<div id="page-ground-nav">
 				<h2 class="title">时光广场</h2>
 				<span class="loc am-text-sm">
-					<i class="am-icon-map-marker am-icon-md"></i> <a href="__ROOT__">首页</a> <i class="am-icon-angle-double-right"></i> <a href="__ROOT__/ground">广场</a> <i class="am-icon-angle-double-right"></i> {$location}
+					<i class="am-icon-map-marker am-icon-md"></i> <a href="/">首页</a> <i class="am-icon-angle-double-right"></i> <a href="/ground">广场</a> <i class="am-icon-angle-double-right"></i> {$location}
 				</span>
 				<hr />
 				<ul>
@@ -25,10 +25,12 @@
 					<div class="am-u-sm-12">
 						<div class="tag am-hide-sm-only">{$vo.tag_id|show_tag}</div>
 						<a class="am-show-sm-down" href="__ROOT__/{$vo.share_id}">
-							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="162" height="{:get_t_height($vo['width'],$vo['height'],162)}"/>
+							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
 						</a>
 						<a class="am-show-md-up" href="__ROOT__/{$vo.share_id}">
-							<img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
+							<img class="lazy"
+							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+							data-original="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" width="254" height="{:get_t_height($vo['width'],$vo['height'],254)}"/>
 						</a>
 						<div class="time am-badge am-radius">{$vo.time|time_format="m 月 d 日 H:i"}</div>
 					</div>
@@ -64,5 +66,13 @@ $("#wookmark li.wookmark-box").wookmark({
 	autoResize: true,
 	align: 'center'
 });
+</script>
+
+<script src="__PUBLIC__/js/jquery.lazyload.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$("img.lazy").show().lazyload({
+		threshold : 400,
+		effect : "fadeIn"
+	});
 </script>
 </block>

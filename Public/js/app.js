@@ -1,5 +1,10 @@
 (function($) {
 
+  // 最小高度
+  if ($(window).height() > $('body').height()) {
+    $('footer').css( "margin-top", $(window).height() - $('body').height() + 40);
+  }
+
 	/**
 	 * 返回顶部
 	 */
@@ -14,8 +19,30 @@
 		scrollTop > 660 ? $("#returnTop").css("bottom", "30px") : $("#returnTop").css("bottom", "-100px");
 	});
 
+	$("#search-box").children('input').on('focus', function() {
+		var el = $(this);
+		el.animate({width: '12em'}, 'fast');
+		el.next('button').fadeIn();
+	});
+	$("#search-box").children('input').on('blur', function() {
+		var el = $(this).next('button');
+		setTimeout(function() {
+			el.fadeOut();
+			el.prev('input').animate({width: '6em'}, 'slow');
+		}, 1000);
+	});
+
 })(jQuery);
 
+/**
+ * 搜索
+ */
+function search() {
+	var content = $("#search-box").children('input').val();
+	console.log(content);
+	location.href = ROOT + "/search/" + content;
+	return false;
+}
 
 /**
  * “喜欢”
@@ -76,4 +103,38 @@ function modalSign() {
 		}
 	});
 	return false;
+}
+
+
+function deleteShare(share_id) {
+	modalConfirm(function() {
+		$.ajax({
+			url: ROOT + '/Shard/deleteShare',
+			type: "POST",
+			data: {share_id: share_id},
+			success: function(data) {
+				if (data.status) {
+					modalPopup("删除成功，正在返回...");
+					setTimeout(function() {
+						history.go(-2);
+            location.reload();
+					},1000);
+				} else {
+					modalPopup(data.info, false);
+				}
+			}
+		});
+	},"你确实要删除这条纪录吗?");
+	return false;
+}
+
+function readNotice(noticeID, el) {
+	$.ajax({
+		type:"post",
+		url: ROOT + "/user/readNotice",
+		data: {notice_id: noticeID},
+		success: function(data) {
+		  $(el).removeClass('am-btn-primary').addClass('am-btn-default').text('朕已阅').attr('disabled', 'disabled');
+		}
+	});
 }

@@ -1,7 +1,7 @@
 <?php
 return array(
 
-	'URL_MODEL'          => '1', //URL模式
+	'URL_MODEL'          => '2', //URL模式
 
 	//数据库配置信息
 	'DB_TYPE' => 'mysql', // 数据库类型
@@ -15,7 +15,7 @@ return array(
 	'DB_DEBUG' => TRUE, // 数据库调试模式 开启后可以记录SQL日志 3.2.3新增
 
 	'TMPL_PARSE_STRING'  =>array(
-     '__ROOT__' => '/tytimeline/index.php', // 更改默认的/Public 替换规则
+     '__ROOT__' => '/tytimeline', // 更改默认的/Public 替换规则
 	),
 
 );

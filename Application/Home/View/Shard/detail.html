@@ -13,7 +13,11 @@
 <div class="content">
   <div class="am-u-md-9 share">
 		<div class="am-g page-title">
-			<h2 class="am-fl">时光碎片 {$data.share_id} : <span class="am-text-lg am-margin-left">{$data.tag_id|show_tag}</span></h2>
+			<h2 class="am-fl">
+				<span class="am-icon-fire am-text-danger am-margin-right"> {$data.heat} ℃</span>
+				时光碎片 {$data.share_id}
+				<span class="am-text-lg am-margin-left">{$data.tag_id|show_tag="1"}</span>
+			</h2>
 	  	<if condition="get_auth('delete', 0, $data['share_id'])">
 	    <div class="am-btn-group am-btn-group-xs am-fr">
 			  <a href="{:U('Shard/modi','share_id='.$data['share_id'])}" class="am-btn am-radius am-btn-secondary">修改</a>
@@ -32,9 +36,23 @@
 			<a id="imgbox" href="__PUBLIC__/{$data.savepath}{$data.savename}" title="{$data.tag_id|get_tag}">
 				<img class="am-img-responsive" style="padding: 10px;background-color: white;" alt="{$data.tag_id|str2json|get_tag}" src="__PUBLIC__/{$data.savepath}{$data.savename}" />
 			</a>
-			<p style="padding: 8px;margin: 0;color: #555;">
-				<if condition="substr($data['time'],0,8) eq substr($data['create_time'],0,8)">上传<else />拍摄</if>于
-				{$data.time|time_format='Y 年 n 月 j 日 H:i'} ( {$data.time|get_timing}前 ) <span style="color: black;"> [ ↑ 点击上方查看大图 ↑ ] </span></p>
+			<div>
+				<p class="am-fl" style="padding: 8px;margin: 0;color: #555;">
+					<if condition="substr($data['time'],0,8) eq substr($data['create_time'],0,8)">上传<else />拍摄</if>于
+					{$data.time|time_format='Y 年 n 月 j 日 H:i'} ( {$data.time|get_timing}前 ) <span style="color: black;"> <span class="am-hide-sm-only">[ ↑ 点击上方查看大图 ↑ ]</span> </span></p>
+				<div class="am-btn-group am-btn-group-sm am-fr am-padding-top-xs">
+					<span class="am-badge am-round"><i class="am-icon-heart"></i> {$data.be_like}</span>
+					<span class="am-badge am-round"><i class="am-icon-eye"></i> {$data.click}</span>
+					<span class="am-badge am-round"><i class="am-icon-comments-o"></i> {$data.total_comments}</span>
+					<button class="am-badge am-round am-badge-danger like-btn" onclick="like({$data.share_id},this);">
+						<if condition="get_like_status($data['share_id'])">
+							已收藏 <i class="am-icon-heart"></i>
+						<else />
+							喜欢 <i class="am-icon-heart-o"></i>
+						</if>
+					</button>
+				</div>
+			</div>
   	</div>
   	<if condition="strlen($data['detail']) gt 0">
 		<div class="am-g">
@@ -42,67 +60,130 @@
 		</div>
   	</if>
 
+    <div class="share-api-button am-cf">
+      <div class="share-btn-qq am-fl" style="margin-top: 4px;">
+        <script type="text/javascript">
+          (function(){
+          var p = {
+            url:location.href, /*获取URL，可加上来自分享到QQ标识，方便统计*/
+            desc:"<if condition="get_tag($data['tag_id']) neq ''">#{$data.tag_id|get_tag='# #'}#</if> ",/*默认分享理由(可选)*/
+            summary:'来自 @{$data.user_id|get_nickname} 的分享\n{$data.detail}',/*分享摘要(可选)*/
+            title:'天佑时光轴 - 印象交大分享平台',/*分享标题(可选)*/
+            site:'天佑时光轴 pic.cqjtu.edu.cn',/*分享来源 如：腾讯网(可选)*/
+            pics:'__ROOT__/Public/{$data.savepath}{$data.savename}', /*分享图片的路径(可选)*/
+            style:'102',
+            width:63,
+            height:24
+          };
+          var s = [];
+          for(var i in p){
+          s.push(i + '=' + encodeURIComponent(p[i]||''));
+          }
+          document.write(['<a class="qcShareQQDiv" href="http://connect.qq.com/widget/shareqq/index.html?',s.join('&'),'" target="_blank">分享到QQ</a>'].join(''));
+          })();
+          </script>
+          <script src="http://connect.qq.com/widget/loader/loader.js" widget="shareqq" charset="utf-8"></script>
+      </div>
+      <div class="share-btn-qzone am-fl" style="margin-top: 4px;margin-left: 3px;width: 67px;overflow: hidden;">
+        <script type="text/javascript">
+          (function(){
+          var p = {
+            url:location.href,
+            showcount:'0',/*是否显示分享总数,显示：'1'，不显示：'0' */
+            desc:"<if condition="get_tag($data['tag_id']) neq ''">#{$data.tag_id|get_tag='# #'}#</if> ",/*默认分享理由(可选)*/
+            summary:'来自 @{$data.user_id|get_nickname} 的分享\n{$data.detail}',/*分享摘要(可选)*/
+            title:'天佑时光轴 - 印象交大分享平台',/*分享标题(可选)*/
+            site:'天佑时光轴 pic.cqjtu.edu.cn',/*分享来源 如：腾讯网(可选)*/
+            pics:'__ROOT__/Public/{$data.savepath}{$data.savename}', /*分享图片的路径(可选)*/
+            style:'102',
+            width:88,
+            height:30
+          };var s = [];
+          for(var i in p){s.push(i + '=' + encodeURIComponent(p[i]||''));}
+          document.write(['<a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?',s.join('&'),'" target="_blank">分享</a>'].join(''));
+          })();
+          </script>
+          <script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
+      </div>
+      <div class="share-btn-t am-fl" style="margin-top: 0px;">
+        <div id="qqwb_share__" data-appkey="801567960" data-icon="1" data-counter="0" data-counter_pos="right"
+              data-content="<if condition="get_tag($data['tag_id']) neq ''">#{$data.tag_id|get_tag='# #'}#</if> {$data.detail} ——天佑时光轴 印象交大分享平台"
+              data-pic="__ROOT__/Public/{$data.savepath}{$data.savename}">
+        </div>
+      </div>
+      <div class="share-btn-sina am-fl" style="margin-top: 5px;margin-left: 3px;">
+        <wb:share-button appkey="3551039231" addition="simple" type="button"
+            default_text="<if condition="get_tag($data['tag_id']) neq ''">%23{$data.tag_id|get_tag='%23 %23'}%23</if> {$data.detail} ——天佑时光轴 印象交大分享平台"
+            pic="__ROOT__/Public/{$data.savepath}{$data.savename}">
+        </wb:share-button>
+      </div>
+
+    </div>
+
 		<div id="imgbox-info" class="am-hide">
 			<div class="am-g" style="background-color: #CECECE;">
-				<div class="tag am-fl am-margin-left-sm">{$data.tag_id|show_tag}</div>
+				<div class="tag am-fl am-margin-left-sm">{$data.tag_id|show_tag="1"}</div>
 				<div class="author am-fr am-margin-right">{$data.create_time|time_format='Y 年 m 月 d 日 H:i'} 由 @{$data.user_id|get_nickname} 发表于 {$data.create_time|get_timing}前</div>
 			</div>
 			<div class="detail am-text-default am-text-truncate" style="text-indent: 1.5em;">{$data.detail}</div>
 		</div>
 
-
-    <div class="am-g comment">
+    <div class="am-g">
     	<hr class="am-article-divider blog-hr">
+      <div class="am-u-sm-12 am-u-md-8 comment">
 
-			<volist name="comment" id="vo">
-			<article class="am-comment" data-comment-id="{$vo.comment_id}">
-			  <a href="__ROOT__/user/{$vo['user_id']}">
-			    <img class="am-comment-avatar" alt=""/> <!-- 评论者头像 -->
-			  </a>
+  			<volist name="comment" id="vo">
+  			<article class="am-comment" data-comment-id="{$vo.comment_id}">
+  			  <a href="__ROOT__/user/{$vo['user_id']}">
+  			    <img class="am-comment-avatar" alt="" src="{:U('Base/avatar','user_id='.$vo['user_id'])}"/> <!-- 评论者头像 -->
+  			  </a>
 
-			  <div class="am-comment-main">
-			    <header class="am-comment-hd">
-			      <div class="am-comment-meta am-fl">
-			        <a href="__ROOT__/user/{$vo['user_id']}" class="am-comment-author"><span class="am-text-warning">@{$vo.user_id|get_nickname}</span></a>
-			        评论于 {$vo.create_time|get_timing}前
-			      </div>
-			      <if condition="get_auth('manage_comment', 0, $vo['comment_id'])">
-			      <div class="am-fr am-vertical-align">
-			      	<button class="am-text-sm am-vertical-align-middle am-badge" onclick="delComment({$vo.comment_id});" style="margin-right: 1rem;">删除该条 <i class="am-icon-times"></i></button>
-			      </div>
-			      </if>
-			    </header>
+  			  <div class="am-comment-main">
+  			    <header class="am-comment-hd">
+  			      <div class="am-comment-meta am-fl">
+  			        <a href="__ROOT__/user/{$vo['user_id']}" class="am-comment-author"><span class="am-text-warning">@{$vo.user_id|get_nickname}</span></a>
+  			        评论于 {$vo.create_time|get_timing}前
+  			      </div>
+  			      <if condition="get_auth('manage_comment', 0, $vo['comment_id'])">
+  			      <div class="am-fr am-vertical-align">
+  			      	<button class="am-text-sm am-vertical-align-middle am-badge" onclick="delComment({$vo.comment_id});" style="margin-right: 1rem;">删除该条 <i class="am-icon-times"></i></button>
+  			      </div>
+  			      </if>
+  			    </header>
 
-			    <div class="am-comment-bd">{$vo.detail}</div>
-			  </div>
-				<br />
-			</article>
-			</volist>
+  			    <div class="am-comment-bd">{$vo.detail}</div>
+  			  </div>
+  				<br />
+  			</article>
+  			</volist>
 
-			<form class="am-form form" data-am-validator>
-				<fieldset>
-				<div class="am-form-group">
-		      <label for="doc-ipt-comment" class="title">我要吐槽 <span class="am-text-sm am-text-warning">请合理吐槽</span></label>
-		      <textarea id="doc-ipt-comment" required minlength="2" maxlength="255" rows="3" placeholder="请不要超过255字"></textarea>
-					<input type="hidden" value="{$data.share_id}" name="share_id"></input>
-		    </div>
-				<input type="submit" class="am-btn am-btn-primary" value="吐" onclick="return submitComment()"></input>
-				</fieldset>
-			</form>
+  			<form class="am-form form" data-am-validator>
+  				<fieldset>
+  				<div class="am-form-group">
+  		      <label for="doc-ipt-comment" class="title">我要吐槽 <span class="am-text-sm am-text-warning">请合理吐槽</span></label>
+  		      <textarea id="doc-ipt-comment" required minlength="2" maxlength="255" rows="3" placeholder="请不要超过255字"></textarea>
+  					<input type="hidden" value="{$data.share_id}" name="share_id"></input>
+  		    </div>
+  				<input type="submit" class="am-btn am-btn-primary" value="吐" onclick="return submitComment()"></input>
+  				</fieldset>
+  			</form>
 
+      </div>
+      <if condition="get_tag($data['tag_id']) neq ''">
+      <div class="am-u-md-4 am-hide-sm-only">
+      	<wb:livestream skin="silver" appkey="3551039231" member="n" titlebar="n"
+        topic="{$data.tag_id|get_tag='%23%20%23'}|{$data.tag_id|get_tag='one'}"
+        width="auto" uid="2054131470" height="500"></wb:livestream>
+      </div>
+      </if>
     </div>
-  </div>
+</div>
 
   <div class="am-u-md-3 blog-sidebar other-info">
-  	<div class="box">
-    	<span class="am-badge-primary am-badge">{$data.user_id|get_usergroup=0}</span> <a href="__ROOT__/user/{$data['user_id']}">@{$data.user_id|get_nickname}</a><br />
-    	<span class="am-text-sm">关注：{$user.like|default='0'} 粉丝：{$user.fans} 分享：{$user.total_share}</span>
-    	<hr />
-      <p class="detail">{$user.detail|default="碎片主人很懒，什么也没有留下。"}</p>
-  	</div>
+		<include file="Common/user" head="" btn="0" />
 
   	<div class="box am-margin-top">
-  		<h5>{$user.user_id|get_nickname} 的近期分享</h5>
+  		<h5>{$user_info.user_id|get_nickname} 的近期分享</h5>
   		<ul class="new-share am-avg-sm-3">
   			<volist name="new_share" id="vo">
   				<gt name="vo.width" value="$vo.height">
@@ -122,7 +203,7 @@
   		</ul>
   	</div>
 
-  	<div class="box am-margin-top">
+  	<div class="box am-margin-top am-hide-sm-only">
   		<h5> [ {$data.catalog_id|get_catalog_name} ] 分类下的热门分享</h5>
   		<ul class="new-share am-avg-sm-3">
   			<volist name="cata_hot" id="vo">
@@ -143,7 +224,7 @@
   		</ul>
   	</div>
 
-  	<div class="box am-margin-top">
+  	<div class="box am-margin-top am-hide-sm-only">
   		<h5>随便看看</h5>
   		<div class="rand">
   			<a href="__ROOT__/{$rand.share_id}"><img class="rand" src="__PUBLIC__/{$rand.savepath}t_{$rand.savename}" alt="{$rand.tag_id|get_tag}" /></a>
@@ -158,8 +239,12 @@
 </block>
 
 <block name='js'>
-<script type="text/javascript" src="__PUBLIC__/js/jquery.imgbox.js"></script>
+<!-- 新浪微博分享 api-->
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3551039231" type="text/javascript" charset="utf-8"></script>
+<script src="http://mat1.gtimg.com/app/openjs/openjs.js#autoboot=no&debug=no"></script>
 
+<script type="text/javascript" src="__PUBLIC__/js/jquery.imgbox.js"></script>
 <script type="text/javascript">
 (function($) {
 	$("#imgbox").attr('detail', $("#imgbox-info").html() );

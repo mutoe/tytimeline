@@ -31,7 +31,7 @@ class TimeController extends BaseController {
 
 		//按照月份查询数据
 		foreach ($temp as $key => $value) {
-			$data[$key] = $share -> where('user_id=%d and month=%d', $uid, $value['month']) -> order('time desc') -> select();
+			$data[$key] = $share -> where('user_id=%d and month=%d', $uid, $value['month']) -> order('time desc') -> limit(5) -> select();
 		}
 		$this -> assign('data',$data);
 

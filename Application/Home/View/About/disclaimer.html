@@ -1,0 +1,20 @@
+<extend name='Common:base' />
+
+<block name="main">
+<div class="am-g am-g-fixed">
+  <div class="page-disclaimer">
+
+  <h1>天佑时光轴 免责声明</h1>
+
+  <p style="text-indent: 2em;">{$head}</p>
+
+  <hr />
+
+  <volist name="data" id="vo">
+  <h3>{$key}</h3>
+  <p style="text-indent: 2em;">{$vo}</p>
+  </volist>
+
+  </div>
+</div>
+</block>

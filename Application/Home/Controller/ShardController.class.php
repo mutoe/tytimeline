@@ -7,9 +7,13 @@ class ShardController extends BaseController {
 	 */
 	public function detail($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
-		$share = M('share');
+
+		// 刷新分享数据
+		$this -> get_heat($share_id);					// 刷新热度
+		$this -> refreshShareData($share_id);	// 刷新分享数据
 
 		// 获取分享详情
+		$share = M('share');
 		$data = $share -> find($share_id);
 		if(!$data) $this -> error('抱歉，该条数据不存在，它可能已被删除');
 		$share -> where('share_id=%d', $share_id) -> setInc('click');	// 点击量自增
@@ -23,10 +27,10 @@ class ShardController extends BaseController {
 		// 获取用户详情
 		$user = M('user_info');
 		$user_info = $user -> where('user_id=%d', $data['user_id']) -> find();
-		$this -> assign('user', $user_info);
+		$this -> assign('user_info', $user_info);
 
-		// 获取最近9条分享
-		$new_share = $share -> where('user_id=%d', $data['user_id']) -> limit(9) -> order('create_time desc') -> select();
+		// 获取最近6条分享
+		$new_share = $share -> where('user_id=%d', $data['user_id']) -> limit(6) -> order('create_time desc') -> select();
 		$this -> assign('new_share', $new_share);
 
 		// 获取该分类下的热门分享
@@ -38,6 +42,47 @@ class ShardController extends BaseController {
 		$this -> assign('rand', $rand);
 
 		$this -> display();
+	}
+
+	/**
+	 * 计算热度
+	 */
+	public function get_heat($share_id) {
+		$share = M('share');
+		$data = $share -> find($share_id);
+
+		$timing = ( time() - $data['create_time'] ) / 3600 / 24;	// 差值时间（天）
+		$click = $data['click'];																	// 点击量
+		$be_like = $data['be_like'];															// 被收藏数
+		$total_comment = $data['total_comments'];									// 被评论数
+		$new_share_fix = 100 * 7 / ( 7 + $timing );								// 新作修正系数
+		$during_fix = 90 / ( 90 + $timing );											// 旧作品修正系数
+
+		$heat = ( $click + $be_like*6 + $total_comment*4  + $new_share_fix ) * $during_fix;
+		$heat = 1 - 62 / ( 62 + $heat );
+		$heat = sprintf("%.1f", $heat * 100);
+		$result = $share -> where('share_id=%d', $share_id) -> setField('heat', $heat);
+		return $result ? $heat : false;
+	}
+
+	/**
+	 * 刷新分享数据
+	 */
+	public function refreshShareData($share_id) {
+		$share = M('share');
+		$data = $share -> find($share_id);
+
+		// 刷新评论数
+		$comment = M('comment');
+		$data['total_comments'] = $comment -> where('share_id=%d', $share_id) -> count();
+
+		// 刷新喜欢数
+		$user_info = M('user_info');
+		$map['like_share'] = array('LIKE', '%"'.$share_id.'"%');
+		$data['be_like'] = $user_info -> where($map) -> count();
+
+		$result = $share -> field('share_id,total_comments,be_like') -> save($data);
+		return $result;
 	}
 
 	/**
@@ -87,16 +132,18 @@ class ShardController extends BaseController {
 			$result = $share -> add($data);//return $share_id
 
 			if($result) {
-				// 总分享数自增
-				$user_info = M('user_info');
-				$user_info -> where('user_id=%d',$user_id) -> setInc('total_share');
+				// 各项数据刷新
+				$this -> refreshTotalShare($result);
+
 				// 初始化image类
 		    $image = new \Think\Image();
 		    $image -> open('./Public/'. $info['savepath']. $info['savename'] );
+
 				// 计算宽高
 				$size = $image -> size();
 				$data2['width'] = $size[0];
 				$data2['height'] = $size[1];
+
 				// 如果是壁纸，自动添加1号标签
 				$is_wallpaper = $this -> isWallpaper( $data2['width'] , $data2['height'] );
 				if( $is_wallpaper ) $data2['tag_id'] = '["1"]';
@@ -105,10 +152,13 @@ class ShardController extends BaseController {
 				$share -> where('share_id=%d', $result) -> save($data2);
 
 		    // 生成缩略图
-		    $image -> thumb(360, 2500) -> save('./Public/'.$info['savepath']. 't_'. $info['savename'] );
+		    $image -> thumb(480, 5000) -> save('./Public/'.$info['savepath']. 't_'. $info['savename'] );
+
+        // 保存原始图片
+        rename('./Public/'. $info['savepath']. $info['savename'] , './Public/'. $info['savepath'] . "o_" . $info['savename'] );
 
 				// 嵌入水印
-		    $image -> open('./Public/'. $info['savepath']. $info['savename'] );
+		    $image -> open('./Public/'. $info['savepath'] . "o_" . $info['savename'] );
 				$image -> text( '            '. C('WATERMARK_TEXT') ,'./Public/fonts/msyhbd.ttf', 14, '#ffffff40', 8 , -50 );
 				$image -> text( "@". get_nickname($user_id) ,'./Public/fonts/msyhbd.ttf', 20, '#ffffff40', 8 , -20 );
 				$image -> save('./Public/'. $info['savepath']. $info['savename'] );
@@ -140,14 +190,13 @@ class ShardController extends BaseController {
 	 * 图片信息修改页面
 	 */
 	public function modi($share_id = 0) {
-		$temp = M('share');
 		//检查权限
 		if(!get_auth('modify', 0, $share_id)) $this -> error('非法操作！');
-		if(!I('param.time', 0)) {	//如果不是提交请求
 
-			$share = M('share');
-			$data = $share -> find($share_id);
-			if(!$data) $this -> error('抱歉，该条数据可能已被删除');
+		$share = M('share');
+		$data = $share -> find($share_id);
+		if(!I('param.time', 0)) {	//如果不是提交请求
+			if(!$data or $data['status'] == 0) $this -> error('抱歉，该条数据可能已被删除');
 			$this -> assign('data', $data);
 
 			// 获取当前时间
@@ -176,6 +225,10 @@ class ShardController extends BaseController {
 				$result = $share -> save();
 				$result = $this -> refreshTotalShare($share_id);
 				if($result !== false) {
+          // 推送通知 如果是管理员并且不是自己的分享
+      		if(is_admin() and $data['user_id'] != is_login()) {
+            $this -> setNotice(12, $data['user_id'], $share_id);
+          }
 					$this -> success('操作成功！');
 				} else {
 					$this -> error('未知原因，如有需要请求助管理员:'.$share -> getError());
@@ -185,7 +238,9 @@ class ShardController extends BaseController {
 	}
 
 	/**
-	 * 删除分享
+	 * 删除分享 (伪)
+   * 此处删除只是标记分享status为0
+   * @author mt
 	 */
 	public function deleteShare($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
@@ -193,27 +248,22 @@ class ShardController extends BaseController {
 		$data = $share -> where('share_id=%d',$share_id) -> find();
 		if(!$data) $this -> error('该条数据不存在！');
 		// 检查权限
-		if(!get_auth('delete', 0, $share_id)) $this -> error('非法操作！');	// 如果不是自己的分享并且没有删除权限
-
-		$address = './Public/'.$data['savepath'].$data['savename'];
-		$address_t = './Public/'.$data['savepath'].'t_'.$data['savename'];
-		$result = file_exists($address) ? unlink($address) : true;
-		$result = file_exists($address_t) ? unlink($address_t) : true;
-		if($result) {
-			// 删除数据
-			$result = $share -> delete();
-
-			// 重新计算标签下分享数目
-			$this -> refreshTotalShare($share_id);
-
-			if($result) {
-				$this -> success('删除成功，正在跳转到首页...', U('Index/index'));
-			} else {
-				$this -> error('删除失败，请联系管理员.删除数据失败');
-			}
+		if(is_admin() and $data['user_id'] != is_login()) {
+		  // 推送通知
+			$this -> setNotice(13, $data['user_id'], $share_id);
 		} else {
-			$this -> error('删除失败，请联系管理员.移除资源出错');
+			// 检查是否有删除权限
+			if(!get_auth('delete', 0, $share_id)) $this -> error('非法操作！');
 		}
+
+		// 通过权限检查，标记字段为已删除
+		$share -> where('share_id=%d', $share_id) -> setField('status', 0);
+
+		// 刷新各项类目分享数据
+		$this -> refreshTotalShare($share_id);
+
+		$this -> success('删除成功，正在跳转到首页...', U('Index/index'));
+
 	}
 
 	/**
@@ -221,53 +271,50 @@ class ShardController extends BaseController {
 	 */
 	public function like($share_id = 0) {
 		if($share_id == 0) $this -> error('参数错误');
-		if(!is_login()) $this -> error('请先登录');
+		$user_id = is_login();
+		if(!$user_id) $this -> error('请先登录');
+
+
 		$user_info = M('user_info');
-		$like_list = $user_info -> where('user_id=%d', is_login()) -> getField('like_share');
-		$like_array = explode(',', $like_list);
+		$like_list = $user_info -> where('user_id=%d', $user_id) -> getField('like_share');
+    if(empty($like_list)) $like_list = "[]";
+		$like_array = json_decode($like_list);
+
 		// 取得喜欢状态
-		$flag = true;
-		foreach ($like_array as $key => $value) {
+		if( in_array($share_id, $like_array) ) {
+
 			// 如果喜欢过了，那么取消喜欢
-			if($value == $share_id) {
-				unset($like_array[$key]);	// 移出此元素
-				$like_list = implode(',', $like_array);
+			foreach ($like_array as $key=>$value) if($value == $share_id) {
+				array_splice($like_array, $key, 1);
 				$flag = false;
 				break;
 			}
-		}
-		//“喜欢”操作
-		if($flag) {
-			$like_list .= ','.$share_id;
-			$like_list = trim($like_list,',');
-		}
-		// 保存数据
-		$data['user_id'] = is_login();
-		$data['like_share'] = $like_list;
-		$result = $user_info -> save($data);
-		if($result) {
-			// 碎片表被喜欢数更新
-			$share = M('share');
-			if($flag) $result = $share -> where('share_id=%d',$share_id) -> setInc('be_like');
-			else $result = $share -> where('share_id=%d',$share_id) -> setDec('be_like');
-
-			if($result) {
-				$this -> success($flag ?"1":"0");
-			} else {
-				$this -> error('数据表更新出错,请联系管理员:'.$share -> getDbError());
-			}
 		} else {
-			$this -> error("用户数据出错了,请联系管理员:".$user_info -> getDbError());
-		}
-	}
+			// 还没喜欢，写入数据
+			array_push($like_array, $share_id);
 
-	/**
-	 * 试试手气
-	 */
-	public function random() {
-		$share = M('share');
-		$share_id = $share -> order('Rand()') -> limit(1) -> getField('share_id');
-		$this -> redirect('Shard/detail','id='.$share_id);
+      // 推送通知
+      $share = M('share');
+      $owner = $share -> where('share_id=%d', $share_id) -> getField('user_id');
+      if($owner != is_login()) {
+        $this -> setNotice(22, $owner, $share_id);
+      }
+
+			$flag = true;
+		}
+		$like_list = json_encode($like_array);	// 封装数据
+
+		// 保存数据
+		$result = $user_info -> where('user_id=%d', $user_id) -> setField('like_share', $like_list);
+		if($result) {
+
+			// 数据更新
+			$this -> refreshTotalShare($share_id);
+
+			$this -> success($flag ?"1":"0");
+		} else {
+			$this -> error("出错了:".$user_info -> getError());
+		}
 	}
 
 	/**
@@ -285,8 +332,16 @@ class ShardController extends BaseController {
 		$result = $comment -> add($data);	// return了一个comment_id
 
 		if($result) {
+		  // 数据刷新
 			$share = M('share');
 			$share -> where('share_id=%d', $share_id) -> setInc('total_comments');
+
+      // 推送通知
+      $o = $share -> where('share_id=%d', $share_id) -> getField('user_id');
+      if($o != $data['user_id']) {
+        $this -> setNotice(21, $o, $share_id);
+      }
+
 			$this -> success('成功了！');
 		} else {
 			$this -> error('数据写入失败');
@@ -324,6 +379,7 @@ class ShardController extends BaseController {
 		foreach ($tags as $value) {
 			if(!$value) return false;
 			$map['tag_id'] = array('like', '%"'. $value .'"%');
+			$map['status'] = array('gt', '0');
 			$data = $share -> where($map) -> field('share_id') -> select();
 			$count = count($data);
 			$tag = M('tag');
@@ -333,7 +389,7 @@ class ShardController extends BaseController {
 		// 刷新用户信息下的分享数目
 		$user = $share -> where('share_id=%d', $share_id) -> getField('user_id');
 		if(!$user) return false;
-		$data = $share -> where('user_id=%d', $user) -> field('share_id') -> select();
+		$data = $share -> where('user_id=%d AND status>0', $user) -> field('share_id') -> select();
 		$count = count($data);
 		$user_info = M('user_info');
 		$user_info -> where('user_id=%d', $user) -> setField('total_share', $count);

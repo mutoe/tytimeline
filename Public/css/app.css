@@ -29,6 +29,24 @@ body {
 .am-topbar-inverse {
   border-color: #fff;
 }
+#search-box {
+  position: relative;
+}
+#search-box button {
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  padding: 0.5em 0.75em;
+}
+.page-search .logo {
+  padding: 20px;
+}
+.page-search .box {
+  height: 100px;
+}
+.page-search .tag-box {
+  width: 254px;
+}
 ul.am-dropdown-content {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 100;
@@ -62,18 +80,37 @@ ul.am-dropdown-content:after {
   bottom: 60px;
   right: 100px;
 }
-footer {
-  background-color: rgba(255, 255, 255, 0.5) !important;
+.footer {
+  margin-top: 40px;
+  background: #fff none repeat scroll 0% 0%;
+  color: #999;
+  padding: 30px 0px 15px;
+  font-size: 1.4rem;
 }
-footer .footer-text {
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
-  color: black;
+.footer .amz-fd {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 10px;
 }
-footer .footer-link {
-  color: #009CDA;
+.footer .amz-fd a {
+  display: block;
+  width: 92px;
+  height: 30px;
+  text-indent: -9999px;
+  background: #F37B1D url(../img/logo-o.png) no-repeat scroll left center;
+  background-size: 92px 30px;
+}
+.footer .amz-links {
+  display: inline-block;
+}
+.footer .footer-img {
+  margin-top: 16px;
+  display: block;
+  width: 340px;
+  height: 100px;
+  text-indent: -9999px;
+  background: #5DD595 url(../img/footer.png) no-repeat 50% 50%;
+  background-size: 400px 100px;
 }
 #wookmark {
   position: relative;
@@ -174,6 +211,20 @@ footer .footer-link {
 #filters.catalog li:first-letter {
   font-size: 4.8rem;
 }
+.box-notice {
+  background-color: #fff;
+  padding: 8px 12px;
+}
+.box-notice .info {
+  padding-bottom: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #555;
+  border-bottom: 1px dashed #555;
+}
+.box-notice button {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
 #page-ground-nav {
   padding-bottom: 0.4rem;
   background-color: #ffffff;
@@ -218,7 +269,7 @@ footer .footer-link {
 .shard-detail .content .page-title {
   margin-top: 2rem;
   margin-bottom: 10px;
-  padding: 10px 2em;
+  padding: 10px 1em;
   max-width: 1040px;
   background-color: #555;
   color: #FFFFFF;
@@ -271,13 +322,13 @@ footer .footer-link {
   padding: 0;
 }
 /* 广场页面横向瀑布流 */
-.index-catalog {
+.page-index {
   background-color: #f6f6f6;
 }
-.index-catalog h2 {
+.page-index h2 {
   color: white;
 }
-.index-catalog .content .header .title {
+.page-index .header .title {
   margin-left: 2px;
   padding: 4px 8px;
   width: 8em;
@@ -287,19 +338,19 @@ footer .footer-link {
   font-size: 18px;
   color: white;
 }
-.index-catalog .content .body {
+.page-index .catalog .body {
   padding: 1px;
 }
-.index-catalog .content .body .media {
+.page-index .catalog .body .media {
   position: relative;
   float: right;
   overflow: hidden;
   margin: 1px;
 }
-.index-catalog .content .body .media img {
+.page-index .catalog .body .media img {
   max-height: 300px;
 }
-.index-catalog .content .body .media .info {
+.page-index .catalog .body .media .info {
   font-size: 12px;
   position: absolute;
   top: -300px;
@@ -313,11 +364,44 @@ footer .footer-link {
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
-.index-catalog .content .body .media .info .detail {
+.page-index .catalog .body .media .info .detail {
   font-size: 16px;
   color: black;
 }
-.index-catalog .content .body .empty {
+.page-index .catalog .body .empty {
   padding: 10px;
+}
+.page-index .active-user .content,
+.page-index .active-tag .content {
+  padding: 8px;
+  border-right: 4px solid #ddd;
+}
+.page-index .active-user .content > .box,
+.page-index .active-tag .content > .box {
+  margin: 0 4px;
+}
+.page-index .active-user .content:nth-of-type(4n),
+.page-index .active-tag .content:nth-of-type(4n) {
+  border-right: 0px solid;
+  padding-right: 12px;
+}
+.page-index .active-user .content .pic,
+.page-index .active-tag .content .pic {
+  width: 83px;
+  height: 83px;
+  margin: 0 1px 1px 0;
+  overflow: hidden;
+}
+.page-index .active-user hr,
+.page-index .active-tag hr {
+  border-width: 4px 0 0;
+}
+.user-modi-user-info > div {
+  background-color: white;
+}
+.page-disclaimer {
+  margin-top: 30px;
+  padding: 24px;
+  background-color: white;
 }
 /*# sourceMappingURL=app.css.map */

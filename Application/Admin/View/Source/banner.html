@@ -21,6 +21,7 @@
 							<th class="table-type">预览</th>
 							<th class="table-title">权重</th>
 							<th class="table-author">创建时间</th>
+							<th class="table-author">创建者</th>
 							<th class="table-set">状态</th>
 							<th class="table-set">操作</th>
 						</tr>
@@ -29,14 +30,16 @@
 					<volist name="data" id="vo">
 						<tr>
 							<td><a href="#"><span class="am-badge am-badge-primary am-text-sm am-round">{$vo.banner_id}</span></a></td>
-							<td>{$vo.source|get_nickname}</td>
-							<td><img src="__PUBLIC__/img/banner/t_{$vo.savename}" width="50em"/></td>
+							<td><a href="/user/{$vo.source}" target="_blank" title="id:{$vo.source}">{$vo.source|get_nickname}</a></td>
+							<td><a href="__PUBLIC__/img/banner/{$vo.savename}" target="_blank"><img src="__PUBLIC__/img/banner/t_{$vo.savename}" width="50em"/></a></td>
 							<td>{$vo.sort}</td>
 							<td>{$vo.create_time|time_format}</td>
+							<td><span title="id:{$vo.source}">{$vo.create_user|get_nickname}</span></td>
 							<td>{$vo.status}</td>
 							<td>
 								<div class="am-btn-toolbar">
 									<div class="am-btn-group am-btn-group-xs">
+										<button type="button" class="am-btn am-btn-secondary am-btn-xs" onclick="modi({$vo.status},{$vo.banner_id})">修改</button>
 										<button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger" onclick="del({$vo.banner_id})"><span class="am-icon-trash-o"></span> 删除</button>
 									</div>
 								</div>
@@ -79,6 +82,13 @@
   				}
   			}
   		});
+  	}
+  }
+  function modi(status,id) {
+  	if (status == '-1') {
+  		location.href = "{:U('bannerFun')}?banner_id="+ id;
+  	} else {
+  		location.href = "{:U('bannerModi')}?banner_id="+ id;
   	}
   }
 </script>

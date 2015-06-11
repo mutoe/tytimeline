@@ -34,6 +34,25 @@ body {
         border-color: #fff;
     }
 }
+
+#search-box {
+    position: relative;
+    button {
+        position: absolute;right: 5px;top: 4px;
+        padding: 0.5em 0.75em;
+    }
+}
+.page-search {
+    .logo {
+        padding: 20px;
+    }
+    .box {
+        height: 100px;
+    }
+    .tag-box {
+        width: 254px;
+    }
+}
 ul.am-dropdown-content{
     background-color: rgba(0,0,0,0.8);
     z-index: 100;
@@ -70,18 +89,29 @@ ul.am-dropdown-content{
 }
 
 // 页脚
-footer {
-    background-color: rgba(255,255,255,0.5) !important;
-    .footer-text{
-  -webkit-transition: all 0.3s ease-out;
-     -moz-transition: all 0.3s ease-out;
-       -o-transition: all 0.3s ease-out;
-          transition: all 0.3s ease-out;
-        color: black;
+.footer {
+  margin-top: 40px;
+  background: #fff none repeat scroll 0% 0%;
+  color: #999;
+  padding: 30px 0px 15px;
+  font-size: 1.4rem;
+  .amz-fd {
+    display: inline-block;
+    margin-right: 15px;margin-bottom: 10px;
+    a {
+      display: block;width: 92px;height: 30px;
+      text-indent: -9999px;
+      background: #F37B1D url(../img/logo-o.png) no-repeat scroll left center;
+      background-size: 92px 30px;
     }
-    .footer-link{
-        color: #009CDA;
-    }
+  }
+  .amz-links {display: inline-block;}
+  .footer-img {
+    margin-top: 16px;
+    display: block;width: 340px;height: 100px;
+    text-indent: -9999px;
+    background: #5DD595 url(../img/footer.png) no-repeat 50% 50%;background-size: 400px 100px;
+  }
 }
 
 // wookmark 瀑布流样式
@@ -180,6 +210,22 @@ footer {
         }
     }
 }
+
+.box-notice {
+  background-color: #fff;
+  padding: 8px 12px;
+
+  .info {
+    padding-bottom: 8px;padding-top: 8px;
+    border-top: 1px solid #555;
+    border-bottom: 1px dashed #555;
+  }
+
+  button {
+    margin-top: 16px;margin-bottom: 8px;
+  }
+}
+
 #page-ground-nav {
     padding-bottom: 0.4rem;
     background-color:  @wookmark-meta-bg;
@@ -228,7 +274,7 @@ footer {
         //color: #FFFFFF;
         .page-title {
             margin-top: 2rem;margin-bottom: 10px;
-            padding: 10px 2em;
+            padding: 10px 1em;
             max-width: 1040px;
             background-color: #555;
             color: #FFFFFF;
@@ -293,21 +339,21 @@ footer {
 }
 
 /* 广场页面横向瀑布流 */
-.index-catalog {
+.page-index {
     background-color: #f6f6f6;
     h2 {
         color: white;
     }
-    .content {
-        .header{
-            .title {
-                margin-left: 2px;
-                padding: 4px 8px;
-                width: 8em;height: 20px;line-height: 20px;
-                background: url(../img/flag-cutout.png) no-repeat scroll 100% 50% #0899D9;
-                font-size: 18px;color: white;
-            }
+    .header{
+        .title {
+            margin-left: 2px;
+            padding: 4px 8px;
+            width: 8em;height: 20px;line-height: 20px;
+            background: url(../img/flag-cutout.png) no-repeat scroll 100% 50% #0899D9;
+            font-size: 18px;color: white;
         }
+    }
+    .catalog {
         .body {
             padding: 1px;
             .media {
@@ -340,4 +386,36 @@ footer {
             }
         }
     }
+    .active-user,.active-tag {
+        .content {
+            padding: 8px;
+            border-right: 4px solid #ddd;
+            & > .box {
+                margin: 0 4px;
+            }
+            &:nth-of-type(4n) {
+                border-right: 0px solid;
+                padding-right: 12px;
+            }
+            .pic {
+                 width: 83px;height: 83px;
+                 margin: 0 1px 1px 0;
+                 overflow: hidden;
+            }
+        }
+        hr {
+            border-width: 4px 0 0;
+        }
+    }
+}
+
+.user-modi-user-info {
+    > div {
+        background-color: white;
+    }
+}
+
+.page-disclaimer {
+  margin-top: 30px;padding: 24px;
+  background-color: white;
 }
