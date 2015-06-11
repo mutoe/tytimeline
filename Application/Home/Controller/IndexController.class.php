@@ -23,11 +23,6 @@ class IndexController extends BaseController {
 		$this -> assign('share', $share_list);
 		$this -> assign('empty', '<div class="empty">没有数据</div>');
 
-		/*
-		//获取最新分享
-		$new_share = $share -> limit(0,8) -> order('create_time desc') -> select();
-		$this -> assign('new', $hot_share);*/
-
 		//获取热门标签
 		$tag = M('tag');
 		$hot_tag = $tag -> limit(0,16) -> order('total_share desc') -> select();

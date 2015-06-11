@@ -1,0 +1,40 @@
+body {
+  background-color: #F7F7F7;
+}
+.am-g-fixed {
+  max-width: 640px;
+}
+.index-catalog {
+  margin-top: 20px;
+  padding: 10px;
+}
+.index-catalog .header {
+  margin-bottom: 10px;
+}
+.index-catalog .header .title {
+  margin-left: 2px;
+  padding: 4px 8px;
+  width: 8em;
+  height: 20px;
+  line-height: 20px;
+  background: url(../img/flag-cutout.png) no-repeat scroll 100% 50% #0899D9;
+  font-size: 18px;
+  color: white;
+}
+.index-catalog ul.container {
+  overflow: hidden;
+  list-style: none;
+  padding-left: 0;
+  position: relative;
+}
+.index-catalog ul.container .imgbox {
+  overflow: hidden;
+  padding: 1px;
+}
+.index-catalog ul.container .imgbox .media {
+  width: 100%;
+  height: 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+/*# sourceMappingURL=mobile.css.map */

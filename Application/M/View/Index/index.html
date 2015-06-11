@@ -1,1 +1,44 @@
 <extend name='Common:base' />
+
+<block name="main">
+
+<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}'>
+  <ul class="am-slides">
+  	<volist name="banner" id="vo">
+  		<li><img src="__PUBLIC__/img/banner/t_{$vo.savename}" /></li>
+  	</volist>
+  </ul>
+</div>
+
+<div class="am-g index-catalog">
+  <foreach name="catalog" item="group" key="k">
+  <div class="header">
+    <a href="__ROOT__/catalog/{$group}">
+      <span class="title">{$group|get_catalog_name}&nbsp;&nbsp;</span>
+      <span class="more am-text-sm am-margin-left-sm"> 查看更多 <i class="am-icon-angle-double-right"></i></span>
+    </a>
+  </div>
+
+  <ul class="container am-avg-sm-2">
+    <volist name="share[$k]" id="vo">
+    <li class="imgbox">
+      <a href="{:U('Shard/detail')}?share_id={$vo.share_id}">
+        <div class="media" style="background-image: url(__PUBLIC__/{$vo.savepath}t_{$vo.savename});
+        background-size: <gt name="vo.width" value="$vo.height">auto 100%<else />100% auto</gt>;"></div>
+      </a>
+    </li>
+    </volist>
+  </ul>
+  <hr />
+  </foreach>
+</div>
+</block>
+
+<block name="js">
+<script type="text/javascript">
+  $(".imgbox").each(function() {
+    var el = $(this);
+    el.css('height', el.css('width'));
+  })
+</script>
+</block>
