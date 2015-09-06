@@ -1,0 +1,63 @@
+<if condition="[btn] eq 2">
+
+<ul class="am-avg-sm-3">
+	<li>
+		<a href="__ROOT__/user/{$user_info.user_id}" class="am-center am-text-center">
+			<span class="am-center am-text-center"><i class="am-icon-puzzle-piece"></i> <span class="am-hide-sm-only">分享</span></span>{$user_info.total_share}
+		</a>
+	</li>
+	<li>
+		<a href="__ROOT__/user/like/{$user_info.user_id}" class="am-center am-text-center">
+		<span class="am-center am-text-center"><i class="am-icon-eye"></i> <span class="am-hide-sm-only">收藏</span></span>{$user_info.like_share|json_decode|count}
+		</a>
+	</li>
+	<li>
+		<a class="am-center am-text-center"><span class="am-center am-text-center"><i class="am-icon-users"></i> <span class="am-hide-sm-only">粉丝</span></span>{$user_info.fans}
+		</a>
+	</li>
+</ul>
+
+<else />
+
+<section class="am-panel am-panel-default user-info-box" style="margin-bottom: 0;">
+	<if condition="strlen([head]) gt 0">
+  <div class="am-panel-bd">
+		<h3>[head]</h3>
+  </div>
+	</if>
+  <div class="am-panel-hd">
+  	<span class="am-badge-primary am-badge am-show-sm-only">{$user_info.user_id|get_usergroup=0}</span><a href="__ROOT__/user/{$user_info.user_id}" class="am-show-sm-only am-text-xs">@{$user_info.user_id|get_nickname}</a>
+  	<a href="__ROOT__/user/{$user_info.user_id}" class="am-show-md-up"><span class="am-badge-primary am-badge">{$user_info.user_id|get_usergroup=0}</span> @{$user_info.user_id|get_nickname}</a>
+  </div>
+  <div class="am-panel-bd">
+    <a href="__ROOT__/user/{$user_info.user_id}" title="天佑时光轴 @{$user_info.user_id|get_nickname}">
+    	<img class="am-center" src="{:U('Base/avatar','user_id='.$user_info['user_id'].'&size=middle')}" width="120" height="120" alt="天佑时光轴 @{$user_info.user_id|get_nickname}" />
+    </a>
+  	<if condition="!empty($user_info['detail'])">
+	    <p class="am-text-sm" style="text-indent: 1.5em;">{$user_info.detail}</p>
+  	</if>
+  	<hr />
+  	<ul class="am-avg-sm-3">
+  		<li>
+  			<a href="__ROOT__/user/{$user_info.user_id}" class="am-center am-text-center">
+  				<span class="am-center am-text-center"><i class="am-icon-puzzle-piece"></i> <span class="am-hide-sm-only">分享</span></span>{$user_info.total_share}
+  			</a>
+  		</li>
+  		<li>
+  			<a href="__ROOT__/user/like/{$user_info.user_id}" class="am-center am-text-center">
+  			<span class="am-center am-text-center"><i class="am-icon-eye"></i> <span class="am-hide-sm-only">收藏</span></span>{$user_info.like_share|json_decode|count}
+  			</a>
+  		</li>
+  		<li>
+  			<a class="am-center am-text-center"><span class="am-center am-text-center"><i class="am-icon-users"></i> <span class="am-hide-sm-only">粉丝</span></span>{$user_info.fans}
+  			</a>
+  		</li>
+  	</ul>
+
+    <if condition="$user_info['user_id'] eq is_login() and [btn] eq 1">
+    <hr /><a class="am-btn am-btn-primary am-btn-sm" href="{:U('User/modiUserInfo')}">修改个人信息</a>
+    </if>
+  </div>
+</section>
+
+</if>

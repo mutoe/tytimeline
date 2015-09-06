@@ -75,4 +75,11 @@ class CommonController extends Controller {
     return $result;
   }
 
+  /**
+   * 获取用户头像
+   */
+  public function avatar($user_id = 0, $size = 'small') {
+    $url = 'http://bbs.cqjtu.edu.cn/uc_server/avatar.php?uid='.$user_id.'&size='.$size;
+    echo file_get_contents($url);
+  }
 }
