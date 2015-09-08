@@ -295,5 +295,15 @@ function submitComment() {
 	});
 	return false;
 }
+(function () {
+    window.baiduImageTalk = {
+        'renderUrl': 'http://bcscdn.baidu.com/public03/imageplus/tuhua/v3/toggle.app.js'
+    };
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = 'http://bcscdn.baidu.com/public03/imageplus/tuhua/common_loader.js?cache=' + Math.ceil(new Date() / 3600000);
+    document.getElementsByTagName('head')[0].appendChild(s);
+})();
+</script>
 </script>
 </block>

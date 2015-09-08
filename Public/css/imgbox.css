@@ -32,7 +32,7 @@
 	background: #FFF;
 	display: none;
 	box-sizing: content-box;
-	z-index: 120;
+	z-index: 1000 !important;
 }
 
 .imgbox-img {
