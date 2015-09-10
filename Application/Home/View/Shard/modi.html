@@ -7,8 +7,8 @@
 </block>
 
 <block name="main">
-<div class="am-g">
-	<div class="am-u-sm-10 am-u-md-8 am-u-lg-6 am-u-sm-centered am-padding-top" style="background-color: rgba(255,255,255,0.4);">
+<div class="am-g page-shard-modi">
+	<div class="am-u-sm-10 am-u-md-8 am-u-lg-6 am-u-sm-centered am-padding-top container">
 		<img id="p_img" width="254" src="__PUBLIC__/{$data.savepath}t_{$data.savename}" />
 		<p><label style="color: #DD514C;">时光碎片<span id="help_inline">{$data.share_id}</span></label></p>
 		<div class="am-form-group">
@@ -20,19 +20,36 @@
 		<form class="am-form" method="post">
 			<fieldset style="padding: 0;">
 				<div class="am-form-group" id="ajax-pv">
-					<div class="am-form-group">
-						<label for="doc-cho-catalog">分类</label>
-						<select data-placeholder="选择一个分类吧" id="doc-cho-catalog" style="min-width:300px;" class="chosen-select" tabindex="7">
-						  <option value=""></option>
-							  <volist name="catalog" id="vo">
-							  	<if condition="$vo['catalog_id'] eq $data['catalog_id']">
-									  <option value="{$vo.catalog_id}" selected>{$vo.catalog_name}</option>
-							  	<else />
-									  <option value="{$vo.catalog_id}">{$vo.catalog_name}</option>
-							  	</if>
-							  </volist>
-						</select>
-					</div>
+          <div class="am-g am-g-collapse">
+  					<div class="am-form-group am-u-sm-4">
+  						<label for="doc-cho-catalog">分类</label>
+  						<select data-placeholder="选择一个分类吧" id="doc-cho-catalog" style="min-width:120px;" class="chosen-select" tabindex="7">
+  						  <volist name="catalog" id="vo">
+  						  	<if condition="$vo['catalog_id'] eq $data['catalog_id']">
+  								  <option value="{$vo.catalog_id}" selected>{$vo.catalog_name}</option>
+  						  	<else />
+  								  <option value="{$vo.catalog_id}">{$vo.catalog_name}</option>
+  						  	</if>
+  						  </volist>
+  						</select>
+  					</div>
+  					<div class="am-form-group am-u-sm-offset-1 am-u-sm-4">
+  					  <label for="doc-cho-album">图集</label>
+  					  <select data-placeholder="将该图加入某个图集" id="doc-cho-album" style="min-width:120px;" class="chosen-select" tabindex="7">
+                <volist name="album" id="vo">
+                  <if condition="$vo['album_id'] eq $data['album_id']">
+                    <option value="{$vo.album_id}" selected>{$vo.title}</option>
+                  <else />
+                    <option value="{$vo.album_id}">{$vo.title}</option>
+                  </if>
+                </volist>
+              </select>
+  					</div>
+  					<div class="am-form-group am-u-sm-3">
+  					  <label for=""></label>
+  					  <p class="new-album"><a href="javascript: new_album();"><!--新建图集--></a></p>
+  					</div>
+          </div>
 					<div class="am-form-group">
 						<label for="doc-ipt-detail">说点什么</label>
 						<textarea class="" rows="4" name="detail" id="doc-ipt-detail" placeholder="非必填，255 字以内">{$data.detail}</textarea>
@@ -50,6 +67,20 @@
 		</form>
 	</div>
 
+<div class="am-modal am-modal-prompt" tabindex="-1" id="new-album">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">新建图集</div>
+    <div class="am-modal-bd">
+      那么相册主题是？
+      <input type="text" class="am-modal-prompt-input">
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+      <span class="am-modal-btn am-btn-primary" data-am-modal-confirm style="color: #fff;">创建</span>
+    </div>
+  </div>
+</div>
+
 </div>
 </block>
 
@@ -61,6 +92,7 @@
 <script type="text/javascript">
 $(function() {
 	$('#doc-cho-catalog').chosen();
+	$('#doc-cho-album').chosen();
 	$('#datetimepicker').datetimepicker({
 		format: 'yyyy-mm-dd hh:ii',
     todayBtn: true,
@@ -79,6 +111,23 @@ $(".tag-badge").on('click', function() {
 	$('#doc-ipt-tag').tagsinput('add', data);
 });
 
+function new_album() {
+  $('#new-album').modal({
+  relatedTarget: this,
+  onConfirm: function(e) {
+    $.post("{:U('Album/create')}",{title: e.data}, function(data, status) {
+      if (data.status) {
+      	location.reload(true);
+      	modalPopup('成功了');
+      } else {
+        modalPopup('出错了:' + data.info, false);
+        console.log(data.info);
+      }
+    });
+  }
+});
+}
+
 function modi() {
 	$.ajax({
 		url: "{:U('Shard/modi')}",
@@ -88,6 +137,7 @@ function modi() {
 			tag_id: $("#doc-ipt-tag").val(),
 			detail: $("#doc-ipt-detail").val(),
 			catalog_id: $("#doc-cho-catalog").val(),
+			album_id: $("#doc-cho-album").val(),
 			time: $("#datetimepicker").val()
 		},
 		success: function(data) {
@@ -103,5 +153,6 @@ function modi() {
 	});
 	return false;//为了防止刷新
 }
+
 </script>
 </block>

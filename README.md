@@ -7,6 +7,7 @@ Update Log
 [1.2.2.150906b]
 ----
 ### add ###
+* 增加了图集功能(alpha)
 * 增加了百度图说
 
 ### change ###
@@ -307,7 +308,7 @@ Update Log
 ----
 ### add ###
 * 增加了站点版本号管理
-* 增加了配置表 `tytl_config` 
+* 增加了配置表 `tytl_config`
 
 		tytl_config:
 			config_id unsinged int(10) pk,

@@ -108,13 +108,19 @@ class LoginController extends BaseController {
 	}
 
 	/**
-	 * 初始化用户信息表
+	 * 初始化用户信息
 	 */
 	private function init_user_info($user_id) {
 			$user_info = M('user_info');
 			$user_info -> user_id = $user_id;
 			$result = $user_info -> add();
-			return $result;
+
+      $album = M('album');
+      $data['create_time'] = time();
+      $data['user_id'] = $user_id;
+      $data['title'] = "默认图集";
+      $result = $album -> add($data);
+      return $result;
 	}
 
 	/**

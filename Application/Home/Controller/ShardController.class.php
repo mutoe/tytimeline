@@ -213,6 +213,10 @@ class ShardController extends BaseController {
 			$catalog_list = $catalog -> where('status>0') -> order('sort desc') -> select();
 			$this -> assign('catalog', $catalog_list);
 
+			$album = M('album');
+			$album_list = $album -> where('user_id=%d', is_login()) -> order('create_time desc') -> select();
+      $this -> assign('album', $album_list);
+
 			$this -> display();
 		} else {
 			// 处理提交请求
@@ -222,6 +226,7 @@ class ShardController extends BaseController {
 			} else {
 				// 验证通过
 				$share -> month = date('Ym', strtotime(I('post.time')));
+				$share -> album_id = I('post.album_id');
 				$result = $share -> save();
 				$result = $this -> refreshTotalShare($share_id);
 				if($result !== false) {
