@@ -1,0 +1,84 @@
+<extend name='Common:base' />
+
+<block name='css'>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/timeline.css"/>
+<style type="text/css">
+
+</style>
+</block>
+
+<block name='main'>
+<div class="stripes top"></div>
+<div class="index">
+  <ul class="year">
+    <volist name="list" key="key" id="vo">
+      <li data-year="{$key-1}">{$key-1} 年</li>
+    </volist>
+  </ul>
+  <ul class="month">
+    <volist name="index" key="key" id="month">
+      <li data-index="{$key-1}" data-year="{$month|substr=0,4}" onclick="jumpIndexBlock({$key-1});">{$month|substr=4,2|trim='0'} 月</li>
+    </volist>
+  </ul>
+</div>
+<div class="timeline">
+  <div class="container">
+    <div class="block" style="padding: 0;margin: 0;">
+      <div class="pic future">
+        <div class="dash"></div>
+      </div>
+    </div>
+    <foreach name="data" key="idx" item="month">
+      <div class="block" data-index="{$idx}">
+        <div class="line"></div>
+        <volist name="month" id="vo">
+          <div class="pic">
+            <div class="dot"></div>
+            <div class="arrow"></div>
+            <div class="tags">{$vo.tag_id|show_tag}</div>
+            <div class="date">{$vo.time|time_format="jS l"}</div>
+            <img src="__PUBLIC__/{$vo.savepath}t_{$vo.savename}" alt="" />
+            <div class="info">
+              <div class="catalog am-text-sm">{$vo.create_time|time_format="Y年n月j日"} 发布在 <a href="__ROOT__/catalog/{$vo.catalog_id}">{$vo.catalog_id|get_catalog_name}</a></div>
+              <div class="tools"></div>
+              <div class="detail am-text-sm">{$vo.detail}</div>
+            </div>
+          </div>
+        </volist>
+      </div>
+    </foreach>
+    <div class="block" style="padding: 0;margin: 0;" data-index="{$data|sizeof}">
+      <div class="pic pass">
+        <div class="dash"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="stripes bottom"></div>
+</block>
+
+<block name="footer">
+<footer class="footer footer-timeline">
+  <div class="am-g am-g-fixed">
+    <div class="am-u-md-12 am-u-lg-8">
+      <h2 class="amz-fd"><a>天佑时光轴</a></h2>
+      <ul class="amz-links">
+        <a href="{:U('About/feedback')}" class="am-icon-envelope-o">&nbsp;留言反馈</a> |
+        <a href="{:U('About/disclaimer')}">用户须知</a> |
+        <a href="http://ty.cqjtu.edu.cn">天佑年华</a>
+      </ul>
+      <p class="amz-cp">
+        © 2015 TianYou Network Studio. <br />
+        本站图片均来自网友共享，如无意侵权请联系我们，我们将在第一时间进行处理，谢谢！
+      </p>
+    </div>
+    <div class="am-u-lg-4 am-hide-md-only">
+      <span class="footer-img">交大人的分享平台！</span>
+    </div>
+  </div>
+</footer>
+</block>
+
+<block name='js'>
+<script src="__PUBLIC__/js/timeline.js" type="text/javascript" charset="utf-8"></script>
+</block>

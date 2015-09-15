@@ -10,19 +10,19 @@ class TimeController extends BaseController {
 		$share = M('share');
 
 		//获取月份列表用于时间轴导航
-		$temp = $share -> where('user_id=%d', $uid) -> order('time desc') -> field('month') -> distinct(true) -> select();
+		$index = $share -> where('user_id=%d', $uid) -> order('time desc') -> field('month') -> distinct(true) -> select();
 
 		/**
 		 * 处理月份数据
 		 */
 		$list = array();
 		//获取年份表
-		foreach ($temp as $key => $value) {
+		foreach ($index as $key => $value) {
 			$y = substr($value['month'], 0, 4);
 			if(!in_array($y, $list[0])) $list[$y] = array();
 		}
 		//获取月份表
-		foreach ($temp as $key => $value) {
+		foreach ($index as $key => $value) {
 			$y = substr($value['month'], 0, 4);
 			$m = substr($value['month'], 4, 2);
 			if(!in_array($m, $list[$y])) $list[$y][] = $m;
@@ -30,11 +30,17 @@ class TimeController extends BaseController {
 		$this -> assign('list',$list);
 
 		//按照月份查询数据
-		foreach ($temp as $key => $value) {
+		foreach ($index as $key => $value) {
 			$data[$key] = $share -> where('user_id=%d and month=%d', $uid, $value['month']) -> order('time desc') -> limit(5) -> select();
 		}
 		$this -> assign('data',$data);
 
-		$this -> display('timeline-v2');
+    foreach ($index as $key => $value) {
+    	$index[$key] = $value['month'];
+    }
+		$this -> assign('index',$index);
+
+		$this -> display();
 	}
+
 }
