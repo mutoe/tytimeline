@@ -2,7 +2,7 @@
 
   // 最小高度
   if ($(window).height() > $('body').height()) {
-    $('footer').css( "margin-top", $(window).height() - $('body').height() + 40);
+    $('footer').css( "margin-top", $(window).height() - $('body').outerHeight() + $(".am-collapse").height());
   }
 
 	/**
