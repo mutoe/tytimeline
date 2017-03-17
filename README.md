@@ -1,5 +1,7 @@
 
-## 天佑时光轴 TianYou Timeline ##
+# 天佑时光轴 TianYou Timeline
+
+__第一版已停止维护, 新版地址 (http://github.com/mutoe/pic2)__
 
 Update Log
 ====================
